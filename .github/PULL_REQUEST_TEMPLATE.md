@@ -1,16 +1,14 @@
 ### 🤔 This is a ...
 
-- [ ] New feature
-- [ ] Bug fix
-- [ ] Documentation update
-- [ ] Style update
-- [ ] TypeScript definition update
-- [ ] Enhancement feature
-- [ ] Refactoring
-- [ ] Code style optimization
-- [ ] Test Case
-- [ ] Workflow
-- [ ] Other (about what?)
+- [ ] feat: add feature
+- [ ] fix: bug fix
+- [ ] docs: documentation
+- [ ] style: formatting, missing semi colons
+- [ ] refactor: rewrite codes
+- [ ] test:	add tests
+- [ ] chore: maintain, .gitignore or workflow
+- [ ] env: environment setup or change
+- [ ] other: about what?
 
 ### 🔗 Related issue link
 
