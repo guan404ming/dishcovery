@@ -20,8 +20,19 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo POSTGRES_URL=${{ secrets.POSTGRES_URL }} >> .env
+
       - name: Code check
         run: yarn lint
+
+      - name: Test
+        uses: cypress-io/github-action@v4
+        with:
+          start: yarn dev
+          wait-on: "http://localhost:3000"
 
       - name: Deploy to Vercel
         if: success()
