@@ -16,7 +16,7 @@ export default function Header() {
   return (
     <header className="fixed top-0 z-50 flex h-16 w-full items-center justify-between bg-white px-6 py-4 drop-shadow">
       <Link className="flex items-center" href="/">
-        <span className="font-bold text-xl">Dishcovery</span>
+        <span className="font-bold text-2xl">Dishcovery</span>
       </Link>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
