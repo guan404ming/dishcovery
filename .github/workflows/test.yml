@@ -24,4 +24,4 @@ jobs:
           start: yarn dev
           wait-on: "http://localhost:3000"
           env:
-            POSTGRES_URL: ${{ secrets.POSTGRES_URL}}
+            POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
