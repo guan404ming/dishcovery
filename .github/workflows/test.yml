@@ -22,7 +22,7 @@ jobs:
       - name: 'Create env file'
         run: |
           touch .env
-          echo API_KEY=${{ secrets.POSTGRES_URL }} >> .env
+          echo POSTGRES_URL=${{ secrets.POSTGRES_URL }} >> .env
 
       - uses: cypress-io/github-action@v4
         with:
