@@ -1,0 +1,31 @@
+name: Test
+
+on:
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: yarn test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: yarn install
+        
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo POSTGRES_URL=${{ secrets.POSTGRES_URL }} >> .env
+
+      - uses: cypress-io/github-action@v4
+        with:
+          start: yarn dev
+          wait-on: "http://localhost:3000"
+            
