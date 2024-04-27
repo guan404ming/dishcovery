@@ -11,3 +11,8 @@ export const userTable = pgTable(
     emailIndex: index("email_index").on(table.email),
   }),
 );
+
+export const bannerTable = pgTable("banners", {
+  id: serial("id").primaryKey(),
+  bannerUrl: varchar("url").notNull(),
+});

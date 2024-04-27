@@ -1,3 +1,13 @@
-export default function Home() {
-  return <main className="flex min-h-screen grow items-center"></main>;
+import { Banner } from "@/components/banner";
+import { db } from "@/db";
+import { bannerTable } from "@/db/schema";
+
+export default async function Home() {
+  const bannerList = await db.select().from(bannerTable);
+
+  return (
+    <>
+      <Banner bannerList={bannerList} />
+    </>
+  );
 }
