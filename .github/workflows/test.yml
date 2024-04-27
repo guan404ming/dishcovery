@@ -5,7 +5,7 @@ on:
     branches: ["*"]
 
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
     name: lint
     steps:
@@ -19,4 +19,9 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - run: yarn lint
+      - uses: cypress-io/github-action@v4
+        with:
+          start: yarn dev
+          wait-on: "http://localhost:3000"
+          env:
+            POSTGRES_URL: ${{ secrets.POSTGRES_URL}}
