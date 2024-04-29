@@ -5,6 +5,7 @@ import { ChevronRight } from "lucide-react";
 import { Banner } from "@/components/banner";
 import { db } from "@/db";
 import { bannerTable } from "@/db/schema";
+import { StoreScrollArea } from "@/components/store-scroll-area";
 
 export default async function Home() {
   const bannerList = await db.select().from(bannerTable);
@@ -25,6 +26,7 @@ export default async function Home() {
     <>
       <Banner bannerList={bannerList} />
       <SectionTitle title={"Popular"} url="store" />
+      <StoreScrollArea />
       <SectionTitle title={"Post"} url="post" />
     </>
   );
