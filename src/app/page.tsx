@@ -3,9 +3,9 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
 import { Banner } from "@/components/banner";
+import { StoreScrollArea } from "@/components/store-scroll-area";
 import { db } from "@/db";
 import { bannerTable } from "@/db/schema";
-import { StoreScrollArea } from "@/components/store-scroll-area";
 
 export default async function Home() {
   const bannerList = await db.select().from(bannerTable);
