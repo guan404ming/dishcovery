@@ -21,9 +21,9 @@ export default async function Info() {
           </div>
         </div>
       </div>
-      
+
       <Separator />
-      
+
       <Tabs defaultValue="purchase" className="w-full">
         <TabsList>
           <TabsTrigger value="purchase" className="pl-0">

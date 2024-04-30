@@ -5,7 +5,7 @@
 - [ ] docs: documentation
 - [ ] style: formatting, missing semi colons
 - [ ] refactor: rewrite codes
-- [ ] test:	add tests
+- [ ] test: add tests
 - [ ] chore: maintain, .gitignore or workflow
 - [ ] env: environment setup or change
 - [ ] other: about what?
@@ -27,5 +27,5 @@
 
 ### ☑️ Self-Check before Merge
 
-- [ ] ```yarn lint```
-- [ ] ```yarn test```
+- [ ] `yarn lint`
+- [ ] `yarn test`

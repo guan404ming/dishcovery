@@ -15,6 +15,8 @@ import type { SelectBanner } from "@/lib/type";
 
 import { AspectRatio } from "./ui/aspect-ratio";
 
+/* eslint-disable @next/next/no-img-element */
+
 type BannerProps = {
   bannerList: SelectBanner[];
 };
@@ -49,7 +51,3 @@ export function Banner({ bannerList }: BannerProps) {
     </Carousel>
   );
 }
-
-
-
-
