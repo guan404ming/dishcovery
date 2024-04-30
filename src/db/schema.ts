@@ -14,5 +14,5 @@ export const userTable = pgTable(
 
 export const bannerTable = pgTable("banners", {
   id: serial("id").primaryKey(),
-  bannerUrl: varchar("url").notNull(),
+  url: varchar("url").notNull(),
 });

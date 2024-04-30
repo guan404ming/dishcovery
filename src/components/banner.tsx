@@ -36,7 +36,7 @@ export function Banner({ bannerList }: BannerProps) {
                 <Image
                   width={"600"}
                   height={"600"}
-                  src={bannerList[index].bannerUrl}
+                  src={bannerList[index].url}
                   alt="banner"
                   className="w-full rounded object-cover"
                 />
