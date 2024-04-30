@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import Image from "next/image";
@@ -14,8 +13,6 @@ import {
 import type { SelectBanner } from "@/lib/type";
 
 import { AspectRatio } from "./ui/aspect-ratio";
-
-/* eslint-disable @next/next/no-img-element */
 
 type BannerProps = {
   bannerList: SelectBanner[];
