@@ -4,6 +4,9 @@ import { ChevronRight } from "lucide-react";
 
 import { Banner } from "@/components/banner";
 import { StoreScrollArea } from "@/components/store-scroll-area";
+import { PostListing } from "@/components/post-listing";
+import Map from "@/components/map";
+
 import { db } from "@/db";
 import { bannerTable } from "@/db/schema";
 
@@ -25,9 +28,12 @@ export default async function Home() {
   return (
     <>
       <Banner bannerList={bannerList} />
+      <SectionTitle title={"What are you looking for?"} url="" />
+      <Map />
       <SectionTitle title={"Popular"} url="store" />
       <StoreScrollArea />
       <SectionTitle title={"Post"} url="post" />
+      <PostListing />
     </>
   );
 }
