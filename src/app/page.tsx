@@ -3,10 +3,9 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
 import { Banner } from "@/components/banner";
-import { StoreScrollArea } from "@/components/store-scroll-area";
-import { PostListing } from "@/components/post-listing";
 import Map from "@/components/map";
-
+import { PostListing } from "@/components/post-listing";
+import { StoreScrollArea } from "@/components/store-scroll-area";
 import { db } from "@/db";
 import { bannerTable } from "@/db/schema";
 
