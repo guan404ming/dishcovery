@@ -2,7 +2,7 @@
 import { ChevronLeft } from "lucide-react";
 import { AvatarFallback, Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button"
-import DialogMessage from "@/components/dialog"  
+import DialogMessage from "@/components/DialogMessage";  
 import { useState } from "react";
 
 const post = {
@@ -65,11 +65,12 @@ export default function Post() {
           <p className="text-slate-600 font-medium text-sm md:text-xl lg:text-2xl md:leading-10 lg:leading-loose">Remaining : {post.remainAmount}</p>
           <text className="text-slate-600 text-sm md:text-xl lg:text-2xl line-clamp-3 md-leading-8 lg-leading-10">{post.comment}</text>
           <div className="flex w-[60%] md:w-[40%] gap-4 mt-4">
-            <Button variant="outline" className="h-8 md:h-12 font-bold text-lg bg-gray-300" onClick={() => setSave(true)}>Save</Button>
+            <Button variant="outline" className="h-8 md:h-12 font-bold text-lg bg-gray-300" onClick={() => setSave(true)}>Cart</Button>
             <Button variant="outline" className="h-8 md:h-12 font-bold text-lg bg-gray-300" onClick={() => setReserve(true)}>Reserve</Button>
           </div>  
-          <DialogMessage open={save} setOpen={setSave} />
-          <DialogMessage open={reserve} setOpen={setReserve} />
+
+          <DialogMessage type={"Add to Cart"} open={save} setOpen={setSave} />
+          <DialogMessage type={"Reserve"} open={reserve} setOpen={setReserve} />
         
         </div>  
 
