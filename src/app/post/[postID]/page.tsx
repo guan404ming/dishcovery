@@ -89,9 +89,11 @@ export default function Post() {
           </div>
         </div>
         <div className="flex w-[60%] md:w-[40%] gap-4 ml-4">
-          <Button variant="outline" className="h-8 md:h-12 bg-gray-300">Save</Button>
-          <Button variant="outline" className="h-8 md:h-12 bg-gray-300">Reserve</Button>
+          <Button variant="outline" className="h-8 md:h-12 bg-gray-300" onClick={() => setSave(true)}>Cart</Button>
+          <Button variant="outline" className="h-8 md:h-12 bg-gray-300" onClick={() => setReserve(true)}>Reserve</Button>
         </div>      
+        <DialogMessage type={"Add to Cart"} open={save} setOpen={setSave} />
+        <DialogMessage type={"Reserve"} open={reserve} setOpen={setReserve} />
       </div>
 
       <div className="">
