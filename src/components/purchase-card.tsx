@@ -25,7 +25,7 @@ export function PurchaseCard({ id, storeName, price, state, photo }: PurchaseCar
                 <div>
                     <div className="flex items-center gap-x-8">
                         <p className="text-lg lg:text-2xl font-bold">{storeName}</p>
-                        <p className="text-md lg:text-lg">{price}</p>
+                        <p className="text-md lg:text-lg">$ {price}</p>
                     </div>
                     <div className="text-md lg:text-lg font-normal text-muted-foreground pt-4">
                         {state}
