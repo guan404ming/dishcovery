@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { User, ShoppingCart, LogOut } from "lucide-react";
+import { User, ShoppingCart, Bookmark, LogOut } from "lucide-react";
 
 import { AvatarFallback, Avatar } from "@/components/ui/avatar";
 import {
@@ -39,6 +39,12 @@ export default function Header() {
             <ShoppingCart className="mr-2 h-4 w-4" />
             <Link href="/cart">Cart</Link>
             <DropdownMenuShortcut>⌘C</DropdownMenuShortcut>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem>
+            <Bookmark className="mr-2 h-4 w-4" />
+            <Link href="/collections">Collection</Link>
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
 
           <DropdownMenuItem>
