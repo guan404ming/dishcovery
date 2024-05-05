@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import { Card } from "./ui/card";
 
@@ -9,10 +12,15 @@ export interface Post {
 }
 
 export function Post({ post }: { post: Post }) {
+  const router = useRouter();
+
   return (
     <Card
       key={post.title}
-      className="flex h-fit max-h-24 w-full flex-row text-ellipsis text-center md:max-h-24 lg:max-h-56"
+      className="flex h-fit max-h-24 w-full cursor-pointer flex-row text-ellipsis text-center md:max-h-24 lg:max-h-56"
+      onClick={() => {
+        router.push("post/123");
+      }}
     >
       <Image
         src={"/1.jpeg"}

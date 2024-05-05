@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
@@ -50,13 +51,18 @@ export const works: Store[] = [
 ];
 
 export function StoreScrollArea() {
+  const router = useRouter();
+
   return (
     <ScrollArea className="w-full overflow-hidden rounded-md">
       <div className="flex w-max space-x-2 md:space-x-4">
         {works.map((store) => (
           <Card
             key={store.name}
-            className="flex w-[125px] flex-col overflow-hidden text-center md:w-[200px]"
+            className="flex w-[125px] cursor-pointer flex-col overflow-hidden text-center md:w-[200px]"
+            onClick={() => {
+              router.push("store/123");
+            }}
           >
             <div className="rounded-md">
               <Image
