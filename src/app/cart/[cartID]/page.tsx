@@ -1,14 +1,15 @@
-"use client"
-import { ChevronLeft, SeparatorVertical } from "lucide-react";
-import { BellPlus } from "lucide-react";
+"use client";
+
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button"
+
 import Item from "./_component/Item";
 
-const products = [ 
+const products = [
   {
     id: "1",
-    image: "https://images.chinatimes.com/newsphoto/2023-06-13/1024/20230613002377.jpg",
+    image:
+      "https://images.chinatimes.com/newsphoto/2023-06-13/1024/20230613002377.jpg",
     productName: "Pizza",
     cost: "1000",
     time: "9:30",
@@ -24,7 +25,8 @@ const products = [
   },
   {
     id: "3",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8EBFM8hvxZZCu8gc0k7Cm-gDVokueuBa-41Hpqzz3fQ&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8EBFM8hvxZZCu8gc0k7Cm-gDVokueuBa-41Hpqzz3fQ&s",
     productName: "Pizza",
     cost: "1000",
     time: "9:30",
@@ -33,14 +35,14 @@ const products = [
 ];
 
 export default function Sell() {
-    const totalCost = products.reduce((acc, product) => {
-        // Convert product.cost from string to number using parseInt or parseFloat
-        const cost = parseFloat(product.cost);
-        return acc + cost*product.amount;
-      }, 0);
+  const totalCost = products.reduce((acc, product) => {
+    // Convert product.cost from string to number using parseInt or parseFloat
+    const cost = parseFloat(product.cost);
+    return acc + cost * product.amount;
+  }, 0);
   return (
     <>
-      <p className="font-bold text-2xl md:text-4xl">Cart</p>
+      <p className="text-2xl font-bold md:text-4xl">Cart</p>
 
       <div className="flex flex-col gap-4">
         {products.map((product) => (
@@ -55,9 +57,11 @@ export default function Sell() {
         ))}
       </div>
       <div className="flex items-center">
-        <p className="font-bold text-slate-600 text-xl md:text-4xl ">Total{"  "}${totalCost}</p>
+        <p className="text-xl font-bold text-slate-600 md:text-4xl ">
+          Total{"  "}${totalCost}
+        </p>
         <div className="ml-auto">
-          <Button className="md:text-2xl md:h-[200%]">Confirm</Button>
+          <Button className="md:h-[200%] md:text-2xl">Confirm</Button>
         </div>
       </div>
       <Separator />

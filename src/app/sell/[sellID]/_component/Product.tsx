@@ -1,79 +1,136 @@
-"use client"
-import { Button } from "@/components/ui/button"
-import DialogMessage from "@/components/DialogMessage";  
+"use client";
+
 import { useState } from "react";
+import DialogMessage from "@/components/DialogMessage";
+import { Button } from "@/components/ui/button";
 
 type postProps = {
-    image: string;
-    image1: string;
-    image2: string;
-    productName: string;
-    cost: string;
-    remainAmount: number;
-    comment: string;
-  };
+  image: string;
+  image1: string;
+  image2: string;
+  productName: string;
+  cost: string;
+  remainAmount: number;
+  comment: string;
+};
 
-export default function Product({image, image1, image2, productName, cost, remainAmount, comment}:postProps) {
-  const [save, setSave] = useState(false)
-  const [reserve, setReserve] = useState(false)
+export default function Product({
+  image,
+  image1,
+  image2,
+  productName,
+  cost,
+  remainAmount,
+  comment,
+}: postProps) {
+  const [save, setSave] = useState(false);
+  const [reserve, setReserve] = useState(false);
   return (
     <>
       <div className="flex gap-4">
         <div className="w-[40%] md:w-[40%]">
           <div className="h-full md:h-[230px] lg:h-[275px]">
-            <img src={image} className="w-full h-full object-cover rounded-xl md:rounded-2xl lg:rounded-3xl"></img>
+            <img
+              src={image}
+              className="h-full w-full rounded-xl object-cover md:rounded-2xl lg:rounded-3xl"
+            ></img>
           </div>
         </div>
-        <div className="hidden md:block w-[20%] ">
+        <div className="hidden w-[20%] md:block ">
           <div className="flex flex-col gap-4">
-            <img src={image1} className="h-[108px] lg:h-[130px] object-cover rounded-lg md:rounded-xl lg:rounded-2xl"></img>
-            <img src={image2} className="h-[108px] lg:h-[130px] object-cover rounded-lg md:rounded-xl lg:rounded-2xl"></img>
+            <img
+              src={image1}
+              className="h-[108px] rounded-lg object-cover md:rounded-xl lg:h-[130px] lg:rounded-2xl"
+            ></img>
+            <img
+              src={image2}
+              className="h-[108px] rounded-lg object-cover md:rounded-xl lg:h-[130px] lg:rounded-2xl"
+            ></img>
           </div>
         </div>
-        <div className="hidden md:block w-[30%] ml-2">
-          <div className="flex justify-between items-center">
-            <p className="font-bold text-xl md:text-3xl lg:text-5xl">{productName}</p>
+        <div className="ml-2 hidden w-[30%] md:block">
+          <div className="flex items-center justify-between">
+            <p className="text-xl font-bold md:text-3xl lg:text-5xl">
+              {productName}
+            </p>
             <p className="text-lg md:text-xl lg:text-2xl">${cost}</p>
           </div>
-          <p className="text-slate-600 font-medium text-sm md:text-xl lg:text-2xl md:leading-10 lg:leading-loose">Remaining : {remainAmount}</p>
-          <text className="text-slate-600 text-sm md:text-xl lg:text-2xl line-clamp-3 md-leading-8 lg-leading-10">{comment}</text>
-          <div className="flex w-[60%] md:w-[40%] gap-4 mt-2">
-            <Button variant="outline" className="h-8 md:h-12 font-bold text-lg bg-gray-300" onClick={() => setSave(true)}>Cart</Button>
-            <Button variant="outline" className="h-8 md:h-12 font-bold text-lg bg-gray-300" onClick={() => setReserve(true)}>Reserve</Button>
-          </div>  
+          <p className="text-sm font-medium text-slate-600 md:text-xl md:leading-10 lg:text-2xl lg:leading-loose">
+            Remaining : {remainAmount}
+          </p>
+          <text className="md-leading-8 lg-leading-10 line-clamp-3 text-sm text-slate-600 md:text-xl lg:text-2xl">
+            {comment}
+          </text>
+          <div className="mt-2 flex w-[60%] gap-4 md:w-[40%]">
+            <Button
+              variant="outline"
+              className="h-8 bg-gray-300 text-lg font-bold md:h-12"
+              onClick={() => setSave(true)}
+            >
+              Cart
+            </Button>
+            <Button
+              variant="outline"
+              className="h-8 bg-gray-300 text-lg font-bold md:h-12"
+              onClick={() => setReserve(true)}
+            >
+              Reserve
+            </Button>
+          </div>
 
           <DialogMessage type={"Add to Cart"} open={save} setOpen={setSave} />
           <DialogMessage type={"Reserve"} open={reserve} setOpen={setReserve} />
-        
-        </div>  
+        </div>
 
-        <div className="md:hidden w-[60%] md:w-[40%]">
-          <div className="flex justify-between items-center">
-            <p className="font-bold text-xl md:text-3xl lg:text-5xl">{productName}</p>
+        <div className="w-[60%] md:hidden md:w-[40%]">
+          <div className="flex items-center justify-between">
+            <p className="text-xl font-bold md:text-3xl lg:text-5xl">
+              {productName}
+            </p>
             <p className="text-lg md:text-xl lg:text-2xl">${cost}</p>
           </div>
-          <p className="text-slate-600 font-medium text-sm md:text-xl lg:text-2xl md:leading-10 lg:leading-loose">Remaining : {remainAmount}</p>
-          <text className="text-slate-600 text-sm md:text-xl lg:text-2xl line-clamp-3 md-leading-8 lg-leading-10">{comment}</text>
-        </div>      
+          <p className="text-sm font-medium text-slate-600 md:text-xl md:leading-10 lg:text-2xl lg:leading-loose">
+            Remaining : {remainAmount}
+          </p>
+          <text className="md-leading-8 lg-leading-10 line-clamp-3 text-sm text-slate-600 md:text-xl lg:text-2xl">
+            {comment}
+          </text>
+        </div>
       </div>
 
       <div className="flex md:hidden ">
         <div className="w-[40%] md:w-[60%]">
-          <div className="flex mt-[-10px] md:mt-0 gap-2 md:gap-4">
-            <img src={image1} className="w-[43%] h-[40px] mt-2 rounded-lg md:rounded-xl lg:rounded-2xl"></img>
-            <img src={image2} className="w-[43%] h-[40px] mt-2 rounded-lg md:rounded-xl lg:rounded-2xl"></img>
+          <div className="mt-[-10px] flex gap-2 md:mt-0 md:gap-4">
+            <img
+              src={image1}
+              className="mt-2 h-[40px] w-[43%] rounded-lg md:rounded-xl lg:rounded-2xl"
+            ></img>
+            <img
+              src={image2}
+              className="mt-2 h-[40px] w-[43%] rounded-lg md:rounded-xl lg:rounded-2xl"
+            ></img>
           </div>
         </div>
-        <div className="flex w-[60%] md:w-[40%] gap-4 ml-4">
-          <Button variant="outline" className="h-8 md:h-12 bg-gray-300" onClick={() => setSave(true)}>Cart</Button>
-          <Button variant="outline" className="h-8 md:h-12 bg-gray-300" onClick={() => setReserve(true)}>Reserve</Button>
-        </div> 
+        <div className="ml-4 flex w-[60%] gap-4 md:w-[40%]">
+          <Button
+            variant="outline"
+            className="h-8 bg-gray-300 md:h-12"
+            onClick={() => setSave(true)}
+          >
+            Cart
+          </Button>
+          <Button
+            variant="outline"
+            className="h-8 bg-gray-300 md:h-12"
+            onClick={() => setReserve(true)}
+          >
+            Reserve
+          </Button>
+        </div>
 
         <DialogMessage type={"Add to Cart"} open={save} setOpen={setSave} />
-        <DialogMessage type={"Reserve"} open={reserve} setOpen={setReserve} />     
+        <DialogMessage type={"Reserve"} open={reserve} setOpen={setReserve} />
       </div>
-
-       
     </>
   );
 }

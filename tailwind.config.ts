@@ -73,8 +73,8 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       clamp: {
-        3: '3',
-      }
+        3: "3",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
