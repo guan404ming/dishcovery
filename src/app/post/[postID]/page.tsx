@@ -48,7 +48,7 @@ export default async function Post() {
       <Banner bannerList={bannerList} />
 
       <div className="flex items-center justify-center">
-        <ChevronLeft className="absolute left-[20px] h-12 w-12 cursor-pointer p-2 hover:rounded-full hover:bg-gray-100/50" />
+        <ChevronLeft className="absolute left-5 h-4 w-4 cursor-pointer hover:rounded-full hover:bg-gray-100/50" />
         <p className="text-lg font-bold md:text-2xl lg:text-4xl">
           {post.title}
         </p>
@@ -74,7 +74,7 @@ export default async function Post() {
       <Dish dish={dish} />
 
       <div>
-        <text className="line-clamp-3 text-slate-600 text-sm">
+        <text className="line-clamp-3 text-sm text-slate-600">
           {post.comment}
         </text>
       </div>

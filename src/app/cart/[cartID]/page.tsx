@@ -2,8 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-
-import Item from "./_component/Item";
+import UnitCounter from "@/components/unit-counter";
 
 const products = [
   {
@@ -36,17 +35,16 @@ const products = [
 
 export default function Sell() {
   const totalCost = products.reduce((acc, product) => {
-    // Convert product.cost from string to number using parseInt or parseFloat
     const cost = parseFloat(product.cost);
     return acc + cost * product.amount;
   }, 0);
   return (
     <>
-      <p className="text-2xl font-bold md:text-4xl">Cart</p>
+      <p className="text-xl font-bold">Cart</p>
 
       <div className="flex flex-col gap-4">
         {products.map((product) => (
-          <Item
+          <UnitCounter
             key={product.id}
             image={product.image}
             productName={product.productName}
@@ -56,14 +54,14 @@ export default function Sell() {
           />
         ))}
       </div>
-      <div className="flex items-center">
-        <p className="text-xl font-bold text-slate-600 md:text-4xl ">
+
+      <div className="flex items-center justify-between">
+        <p className="text-xl font-semibold text-slate-600">
           Total{"  "}${totalCost}
         </p>
-        <div className="ml-auto">
-          <Button className="md:h-[200%] md:text-2xl">Confirm</Button>
-        </div>
+        <Button>Confirm</Button>
       </div>
+
       <Separator />
     </>
   );

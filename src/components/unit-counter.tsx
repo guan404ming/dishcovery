@@ -12,7 +12,7 @@ type postProps = {
   amount: number;
 };
 
-export default function Product({
+export default function UnitCounter({
   image,
   productName,
   time,
@@ -35,7 +35,7 @@ export default function Product({
           <img
             src={image}
             className="h-full w-full rounded-l-lg object-cover"
-          ></img>
+          />
         </div>
         <div className="flex w-[40%] flex-col justify-center gap-2 md:w-[50%] lg:w-[60%]">
           <p className="text-lg font-bold md:text-2xl lg:text-4xl">
