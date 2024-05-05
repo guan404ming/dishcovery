@@ -28,11 +28,14 @@ jobs:
       - name: Code check
         run: yarn lint
 
-      - name: Test
+      - name: Run E2E tests
         uses: cypress-io/github-action@v4
         with:
           start: yarn dev
           wait-on: "http://localhost:3000"
+
+      - name: Run unit tests
+        run: yarn test
 
       - name: Deploy to Vercel
         if: success()
