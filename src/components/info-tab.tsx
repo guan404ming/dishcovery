@@ -176,7 +176,7 @@ export default function InfoTab() {
       </TabsContent>
       <TabsContent value="store">
         {mockItem.map((item, index) => (
-          <ItemCard key={index} {...item} />
+          <Link href={`reservation/${item.id}`}><ItemCard key={index} {...item} /></Link>
         ))}
       </TabsContent>
     </Tabs>

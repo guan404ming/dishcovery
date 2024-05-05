@@ -83,7 +83,7 @@ export default async function Post({params: { id }}: PostPageProps) {
                 <div className="h-36"></div>
                 <div className="flex flex-row gap-x-8">
                     <Button className="mt-2 text-xs lg:text-md w-36">Edit</Button>
-                    <Button className="mt-2 text-xs lg:text-md w-36">Reservation</Button>
+                    <Link href={`/reservation/${id}`} ><Button className="mt-2 text-xs lg:text-md w-36">Reservation</Button></Link>
                 </div>
             </div>
         </div>
