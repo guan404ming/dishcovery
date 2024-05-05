@@ -24,7 +24,7 @@ jobs:
           touch .env
           echo POSTGRES_URL=${{ secrets.POSTGRES_URL }} >> .env
 
-      - uses: cypress-io/github-action@v4
+      - uses: cypress-io/github-action@v6
         with:
           start: yarn dev
           wait-on: "http://localhost:3000"
