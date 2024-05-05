@@ -18,7 +18,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { storeId, dishId, quantity } = data as z.infer<typeof createCommentRequestSchema>;
+  const { storeId, dishId, quantity } = data as z.infer<
+    typeof createCommentRequestSchema
+  >;
 
   try {
     console.log("Creating comment", storeId, dishId, quantity);
