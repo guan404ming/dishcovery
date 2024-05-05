@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
 
+import { useEffect,  useState } from "react";
+
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,17 +12,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import dayjs, { Dayjs } from 'dayjs';
-
 type DialogProps = {
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-  };
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+};
 
-export default function ReservationDialog({
-    open,
-    onOpenChange
-}: DialogProps) {
+export default function ReservationDialog({ open, onOpenChange }: DialogProps) {
   const [dialogOpen, setDialogOpen] = useState(open);
 
   useEffect(() => {
@@ -46,36 +42,37 @@ export default function ReservationDialog({
     }
   };
 
-  const [time, setTime] = useState<Dayjs | null>(dayjs('2022-04-17T15:30'));
-  
   return (
     <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="m-2 w-80 sm:w-screen">
         <DialogHeader>
-          <DialogTitle className="flex justify-start text-lg lg:text-xl">Reservation</DialogTitle>
-          <DialogDescription className="flex justify-start text-md lg:text-md">
+          <DialogTitle className="flex justify-start text-lg lg:text-xl">
+            Reservation
+          </DialogTitle>
+          <DialogDescription className="text-md lg:text-md flex justify-start">
             請選擇領取時間與商品數量
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-y-4">
-          <div className="flex flex-row items-center gap-x-4 text-sm lg:text-md">
+          <div className="lg:text-md flex flex-row items-center gap-x-4 text-sm">
             領取時間
-            <input 
-              type="time" 
-              className="w-1/2 p-2 border border-gray-300 rounded-md" 
-              required />
+            <input
+              type="time"
+              className="w-1/2 rounded-md border border-gray-300 p-2"
+              required
+            />
           </div>
-          <div className="flex flex-row items-center gap-x-4 text-sm lg:text-md">
+          <div className="lg:text-md flex flex-row items-center gap-x-4 text-sm">
             預定數量
-            <input 
+            <input
               placeholder="number"
               type="number"
-              className="w-1/2 p-2 border border-gray-300 rounded-md"
+              className="w-1/2 rounded-md border border-gray-300 p-2"
               required
             />
           </div>
         </div>
-        <div className="flex flex-row items-center gap-x-4 justify-center">
+        <div className="flex flex-row items-center justify-center gap-x-4">
           <DialogFooter>
             <Button onClick={handleCancel}>cancel</Button>
           </DialogFooter>

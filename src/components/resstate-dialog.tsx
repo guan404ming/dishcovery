@@ -1,26 +1,25 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
 
+import { useEffect, useState } from "react";
+
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
-  DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 
 type ResStateDialogProps = {
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    type: string;
-  };
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  type: string;
+};
 
 export default function ResStateDialog({
-    open,
-    onOpenChange,
-    type
+  open,
+  onOpenChange,
+  type,
 }: ResStateDialogProps) {
   const [dialogOpen, setDialogOpen] = useState(open);
 
@@ -44,19 +43,21 @@ export default function ResStateDialog({
       setDialogOpen(false);
     }
   };
-  
+
   return (
     <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="m-2 w-80 sm:w-screen flex flex-col items-center">
+      <DialogContent className="m-2 flex w-80 flex-col items-center sm:w-screen">
         {type === "cancel" && (
-          <div className="flex flex-col gap-y-4 items-center">
-            <DialogTitle className="text-lg lg:text-xl">Cancel Reservation?</DialogTitle>
-            <div className="flex flex-row items-center justify-center gap-x-4 text-sm lg:text-md">
+          <div className="flex flex-col items-center gap-y-4">
+            <DialogTitle className="text-lg lg:text-xl">
+              Cancel Reservation?
+            </DialogTitle>
+            <div className="lg:text-md flex flex-row items-center justify-center gap-x-4 text-sm">
               數量
-              <input 
+              <input
                 placeholder="number"
                 type="number"
-                className="w-1/2 p-2 border border-gray-300 rounded-md"
+                className="w-1/2 rounded-md border border-gray-300 p-2"
                 required
               />
             </div>
@@ -64,7 +65,9 @@ export default function ResStateDialog({
         )}
         {type === "finish" && (
           <div>
-            <DialogTitle className="text-center text-lg lg:text-xl">Finish reservation?</DialogTitle>
+            <DialogTitle className="text-center text-lg lg:text-xl">
+              Finish reservation?
+            </DialogTitle>
           </div>
         )}
 
