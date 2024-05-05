@@ -1,3 +1,4 @@
+"use client";
 import { PlusCircle } from "lucide-react";
 
 import Link from "next/link";
@@ -7,6 +8,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PurchaseCard } from "./purchase-card";
 import { PostCard } from "./post-card";
 import { ItemCard } from "./item-card";
+import  ReservationDialog  from "./reservation-dialog";
+
+import { useState, useEffect } from 'react';
 
 export default function InfoTab() {
   const mockPurchase = [
@@ -83,6 +87,15 @@ export default function InfoTab() {
       photo: "1.jpeg"
     }
   ]
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleCardClick = () => {
+    setDialogOpen(true);
+  };
+
+  useEffect(() => {
+    console.log(dialogOpen);
+  }, [dialogOpen]);
   return (
     <Tabs defaultValue="purchase" className="w-full">
       <div className="flex w-full items-center justify-between">
@@ -107,8 +120,16 @@ export default function InfoTab() {
 
       <TabsContent value="purchase">
         {mockPurchase.map((purchase, index) => (
-          <PurchaseCard key={index} {...purchase} />
+          <div key={index} onClick={handleCardClick}>
+            <PurchaseCard {...purchase} />
+          </div>
         ))}
+        {dialogOpen && (
+          <ReservationDialog
+            open={dialogOpen}
+            onOpenChange={setDialogOpen}
+          />
+        )}
       </TabsContent>
       <TabsContent value="post">
         {mockPost.map((post, index) => (
