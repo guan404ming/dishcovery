@@ -18,9 +18,9 @@ const products = [
   },
   {
     id: "2",
-    image: "https://images.chinatimes.com/newsphoto/2023-06-13/1024/20230613002377.jpg",
-    image1: "https://letsplay.tw/wp-content/uploads/20190630221316_45.jpg",
-    image2: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8EBFM8hvxZZCu8gc0k7Cm-gDVokueuBa-41Hpqzz3fQ&s",
+    image: "https://letsplay.tw/wp-content/uploads/20190630221316_45.jpg",
+    image1: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8EBFM8hvxZZCu8gc0k7Cm-gDVokueuBa-41Hpqzz3fQ&s",
+    image2: "https://images.chinatimes.com/newsphoto/2023-06-13/1024/20230613002377.jpg",
     productName: "Icecream",
     cost: "1000",
     remainAmount: 2,
@@ -40,7 +40,7 @@ export default function Sell() {
 
       <Separator />
 
-      <div className="">
+      <div className="flex flex-col gap-4 md:gap-8 mb-4">
         {products.map((product) => (
           <Product
             key={product.id}
