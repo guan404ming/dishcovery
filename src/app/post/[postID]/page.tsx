@@ -1,12 +1,10 @@
-"use client";
-
-import { useState } from "react";
-
 import { ChevronLeft } from "lucide-react";
 
-import DialogMessage from "@/components/dialog-message";
+import { Banner } from "@/components/banner";
+import Dish from "@/components/dish";
 import { AvatarFallback, Avatar } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { db } from "@/db";
+import { bannerTable } from "@/db/schema";
 
 const post = {
   id: "1",
@@ -27,17 +25,27 @@ const post = {
     "緊急通知，我們還有少量便當剩餘，現在下單立享折扣 ! 這些美味的便當是用新鮮食材製作的...",
 };
 
-export default function Post() {
-  const [save, setSave] = useState(false);
-  const [reserve, setReserve] = useState(false);
+const dish = {
+  id: "1",
+  images: [
+    "https://images.chinatimes.com/newsphoto/2023-06-13/1024/20230613002377.jpg",
+    "https://letsplay.tw/wp-content/uploads/20190630221316_45.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8EBFM8hvxZZCu8gc0k7Cm-gDVokueuBa-41Hpqzz3fQ&s",
+  ],
+
+  name: "Pizza",
+  price: 1000,
+  quantity: 2,
+  description:
+    "緊急通知，我們還有少量便當剩餘，現在下單立享折扣 ! 這些美味的便當是用新鮮食材製作的...",
+};
+
+export default async function Post() {
+  const bannerList = await db.select().from(bannerTable);
+
   return (
     <>
-      <div className="w-full">
-        <img
-          src={post.banner}
-          className="h-auto max-h-[150px] w-full rounded-2xl object-cover md:max-h-[250px] lg:max-h-[350px]"
-        ></img>
-      </div>
+      <Banner bannerList={bannerList} />
 
       <div className="flex items-center justify-center">
         <ChevronLeft className="absolute left-[20px] h-12 w-12 cursor-pointer p-2 hover:rounded-full hover:bg-gray-100/50" />
@@ -55,10 +63,7 @@ export default function Post() {
             {post.user}
           </p>
           <span className="text-sm text-slate-400 md:text-base lg:text-lg">
-            {post.time}
-          </span>
-          <span className="text-sm text-slate-400 md:text-base lg:text-lg">
-            {" "}
+            {post.time}{" "}
           </span>
           <span className="text-sm text-slate-400 md:text-base lg:text-lg">
             {post.place}
@@ -66,106 +71,10 @@ export default function Post() {
         </div>
       </div>
 
-      <div className="flex gap-4">
-        <div className="w-[40%] items-stretch md:w-[40%]">
-          <div className="w-full md:h-[230px] lg:h-[350px]">
-            <img
-              src={post.image1}
-              className="h-full w-full rounded-xl object-cover md:rounded-2xl lg:rounded-3xl"
-            ></img>
-          </div>
-        </div>
-        <div className="hidden w-[20%] md:block">
-          <div className="flex flex-col gap-4">
-            <img
-              src={post.image2}
-              className="h-[108px] rounded-lg object-cover md:rounded-xl lg:h-[166px] lg:rounded-2xl"
-            ></img>
-            <img
-              src={post.image3}
-              className="h-[108px] rounded-lg object-cover  md:rounded-xl lg:h-[166px] lg:rounded-2xl"
-            ></img>
-          </div>
-        </div>
-        <div className="ml-2 hidden w-[30%] md:block">
-          <p className="text-xl font-bold md:text-3xl lg:text-5xl">
-            {post.productName}
-          </p>
-          <p className="text-sm font-medium text-slate-600 md:text-xl md:leading-10 lg:text-2xl lg:leading-loose">
-            Remaining : {post.remainAmount}
-          </p>
-          <text className="md-leading-8 lg-leading-10 line-clamp-3 text-sm text-slate-600 md:text-xl lg:text-2xl">
-            {post.comment}
-          </text>
-          <div className="mt-4 flex w-[60%] gap-4 md:w-[40%]">
-            <Button
-              variant="outline"
-              className="h-8 bg-gray-300 text-lg font-bold md:h-12"
-              onClick={() => setSave(true)}
-            >
-              Cart
-            </Button>
-            <Button
-              variant="outline"
-              className="h-8 bg-gray-300 text-lg font-bold md:h-12"
-              onClick={() => setReserve(true)}
-            >
-              Reserve
-            </Button>
-          </div>
+      <Dish dish={dish} />
 
-          <DialogMessage type={"Add to Cart"} open={save} setOpen={setSave} />
-          <DialogMessage type={"Reserve"} open={reserve} setOpen={setReserve} />
-        </div>
-
-        <div className="w-[60%] md:hidden md:w-[40%]">
-          <p className="text-xl font-bold md:text-3xl lg:text-5xl">
-            {post.productName}
-          </p>
-          <p className="text-sm font-medium text-slate-600 md:text-xl md:leading-10 lg:text-2xl lg:leading-loose">
-            Remaining : {post.remainAmount}
-          </p>
-          <text className="md-leading-8 lg-leading-10 line-clamp-3 text-sm text-slate-600 md:text-xl lg:text-2xl">
-            {post.comment}
-          </text>
-        </div>
-      </div>
-
-      <div className="flex md:hidden">
-        <div className="w-[40%] md:w-[60%]">
-          <div className="mt-[-10px] flex gap-2 md:mt-0 md:gap-4">
-            <img
-              src={post.image2}
-              className="w-[43%] rounded-lg md:rounded-xl lg:rounded-2xl"
-            ></img>
-            <img
-              src={post.image3}
-              className="w-[43%] rounded-lg md:rounded-xl lg:rounded-2xl"
-            ></img>
-          </div>
-        </div>
-        <div className="ml-4 flex w-[60%] gap-4 md:w-[40%]">
-          <Button
-            variant="outline"
-            className="h-8 bg-gray-300 md:h-12"
-            onClick={() => setSave(true)}
-          >
-            Cart
-          </Button>
-          <Button
-            variant="outline"
-            className="h-8 bg-gray-300 md:h-12"
-            onClick={() => setReserve(true)}
-          >
-            Reserve
-          </Button>
-        </div>
-        <DialogMessage type={"Add to Cart"} open={save} setOpen={setSave} />
-        <DialogMessage type={"Reserve"} open={reserve} setOpen={setReserve} />
-      </div>
-
-      <div className="">
-        <text className="md-leading-8 lg-leading-10 line-clamp-3 text-sm text-slate-600 md:text-xl lg:text-2xl">
+      <div>
+        <text className="line-clamp-3 text-slate-600 text-sm">
           {post.comment}
         </text>
       </div>

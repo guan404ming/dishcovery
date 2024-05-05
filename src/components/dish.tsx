@@ -53,7 +53,7 @@ export default function Dish({ dish }: postProps) {
             <div className="text-xs font-light text-muted-foreground">
               Remaining: {quantity}
             </div>
-            <p className="mt-2 h-12 truncate text-xs text-muted-foreground">
+            <p className="mt-2 h-12 truncate text-wrap text-xs text-muted-foreground">
               {description}
             </p>
           </div>
