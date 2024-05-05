@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { ChevronLeft } from "lucide-react";
 
-import DialogMessage from "@/components/DialogMessage";
+import DialogMessage from "@/components/dialog-message";
 import { AvatarFallback, Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 

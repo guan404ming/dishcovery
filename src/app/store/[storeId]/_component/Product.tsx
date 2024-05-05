@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import DialogMessage from "@/components/DialogMessage";
+import DialogMessage from "@/components/dialog-message";
 import { Button } from "@/components/ui/button";
 
 type postProps = {
