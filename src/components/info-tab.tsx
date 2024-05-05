@@ -8,9 +8,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PurchaseCard } from "./purchase-card";
 import { PostCard } from "./post-card";
 import { ItemCard } from "./item-card";
-import  ReservationDialog  from "./reservation-dialog";
+import ReservationDialog  from "./reservation-dialog";
+import AddDialog from "./add-dialog";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function InfoTab() {
   const mockPurchase = [
@@ -87,15 +88,16 @@ export default function InfoTab() {
       photo: "1.jpeg"
     }
   ]
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [reserveDialogOpen, setReserveDialogOpen] = useState(false);
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
 
-  const handleCardClick = () => {
-    setDialogOpen(true);
+  const handleReserveClick = () => {
+    setReserveDialogOpen(true);
+  };
+  const handleAddClick = () => {
+    setAddDialogOpen(true);
   };
 
-  useEffect(() => {
-    console.log(dialogOpen);
-  }, [dialogOpen]);
   return (
     <Tabs defaultValue="purchase" className="w-full">
       <div className="flex w-full items-center justify-between">
@@ -109,25 +111,61 @@ export default function InfoTab() {
           <TabsTrigger value="store">Store</TabsTrigger>
         </TabsList>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="flex flex-col items-center justify-center"
-        >
-          <PlusCircle size={18} strokeWidth={1.5} />
-        </Button>
+        <TabsContent value="purchase">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="flex flex-col items-center justify-center"
+          >
+            <PlusCircle size={18} strokeWidth={1.5} />
+          </Button>
+        </TabsContent>
+        <TabsContent value="post">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="flex flex-col items-center justify-center"
+            onClick={handleAddClick}
+          >
+            <PlusCircle size={18} strokeWidth={1.5} />
+          </Button>
+          {addDialogOpen && (
+            <AddDialog
+              open={addDialogOpen}
+              onOpenChange={setAddDialogOpen}
+              type="post"
+            />
+          )}
+        </TabsContent>
+        <TabsContent value="store">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="flex flex-col items-center justify-center"
+            onClick={handleAddClick}
+          >
+            <PlusCircle size={18} strokeWidth={1.5} />
+          </Button>
+          {addDialogOpen && (
+            <AddDialog
+              open={addDialogOpen}
+              onOpenChange={setAddDialogOpen}
+              type="item"
+            />
+          )}
+        </TabsContent>
       </div>
 
       <TabsContent value="purchase">
         {mockPurchase.map((purchase, index) => (
-          <div key={index} onClick={handleCardClick}>
+          <div key={index} onClick={handleReserveClick}>
             <PurchaseCard {...purchase} />
           </div>
         ))}
-        {dialogOpen && (
+        {reserveDialogOpen && (
           <ReservationDialog
-            open={dialogOpen}
-            onOpenChange={setDialogOpen}
+            open={reserveDialogOpen}
+            onOpenChange={setReserveDialogOpen}
           />
         )}
       </TabsContent>

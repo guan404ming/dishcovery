@@ -11,16 +11,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import dayjs, { Dayjs } from 'dayjs';
-
 type DialogProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
+    type: string;
   };
 
-export default function ReservationDialog({
+export default function AddDialog({
     open,
-    onOpenChange
+    onOpenChange,
+    type
 }: DialogProps) {
   const [dialogOpen, setDialogOpen] = useState(open);
 
@@ -33,11 +33,6 @@ export default function ReservationDialog({
     return true;
   };
 
-  const handleCancel = async () => {
-    setDialogOpen(false);
-    return true;
-  };
-
   const handleOpenChange = (open: boolean) => {
     if (open) {
       setDialogOpen(true);
@@ -45,28 +40,35 @@ export default function ReservationDialog({
       setDialogOpen(false);
     }
   };
-
-  const [time, setTime] = useState<Dayjs | null>(dayjs('2022-04-17T15:30'));
   
   return (
     <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="m-2 w-80 sm:w-screen">
         <DialogHeader>
-          <DialogTitle className="flex justify-start text-lg lg:text-xl">Reservation</DialogTitle>
+          <DialogTitle className="flex justify-start text-lg lg:text-xl">Add {type}</DialogTitle>
           <DialogDescription className="flex justify-start text-md lg:text-md">
-            請選擇領取時間與商品數量
+            請填寫 {type} 資訊
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-y-4">
           <div className="flex flex-row items-center gap-x-4 text-sm lg:text-md">
-            領取時間
+            餐點名稱
             <input 
-              type="time" 
+              placeholder="dish"
+              type="text" 
               className="w-1/2 p-2 border border-gray-300 rounded-md" 
               required />
           </div>
           <div className="flex flex-row items-center gap-x-4 text-sm lg:text-md">
-            預定數量
+            領取地點
+            <input 
+              placeholder="location"
+              type="text" 
+              className="w-1/2 p-2 border border-gray-300 rounded-md" 
+              required />
+          </div>
+          <div className="flex flex-row items-center gap-x-4 text-sm lg:text-md">
+            剩餘數量
             <input 
               placeholder="number"
               type="number"
@@ -74,11 +76,15 @@ export default function ReservationDialog({
               required
             />
           </div>
+          <div className="flex flex-row items-center gap-x-4 text-sm lg:text-md">
+            <textarea 
+              placeholder="Write some description"
+              className="w-2/3 p-2 border border-gray-300 rounded-md"
+              required
+            />
+          </div>
         </div>
-        <div className="flex flex-row items-center gap-x-4 justify-center">
-          <DialogFooter>
-            <Button onClick={handleCancel}>cancel</Button>
-          </DialogFooter>
+        <div className="flex items-center justify-center">
           <DialogFooter>
             <Button onClick={handleSave}>confirm</Button>
           </DialogFooter>
