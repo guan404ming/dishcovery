@@ -6,12 +6,15 @@ import Image from "next/image";
 
 import type { PutBlobResult } from "@vercel/blob";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 export default function AvatarUploadPage() {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [blob, setBlob] = useState<PutBlobResult | null>(null);
   return (
     <>
-      <h1>Upload Your Avatar</h1>
+      <span className="text-center text-xl font-semibold">Upload Banner</span>
 
       <form
         onSubmit={async (event) => {
@@ -29,21 +32,26 @@ export default function AvatarUploadPage() {
           });
 
           const newBlob = (await response.json()) as PutBlobResult;
-          console.log(newBlob);
-
           setBlob(newBlob);
         }}
+        className="grid gap-2"
       >
-        <input name="file" ref={inputFileRef} type="file" required />
-        <button type="submit">Upload</button>
+        <Input id="picture" type="file" ref={inputFileRef} required />
+        <Button
+          type="submit"
+          className="w-full"
+        >
+          Upload
+        </Button>
       </form>
+
       {blob && (
         <Image
           src={blob.url}
           alt={""}
           width={100}
           height={100}
-          className=" object-cover"
+          className="aspect-auto w-full border object-cover"
         />
       )}
     </>
