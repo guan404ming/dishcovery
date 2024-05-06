@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
@@ -22,7 +23,38 @@ export async function POST(request: NextRequest) {
   const { userId, url } = data as z.infer<typeof createBannerRequestSchema>;
 
   try {
-    await db.insert(bannerTable).values({ userId, url }).execute();
+    const [banner] = await db
+      .insert(bannerTable)
+      .values({ userId, url })
+      .returning()
+      .execute();
+    return NextResponse.json(banner, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { error: "Internal Sever Error" },
+      { status: 500 },
+    );
+  }
+}
+
+const deleteBannerRequestSchema = z.object({
+  id: z.number(),
+});
+
+export async function DELETE(request: NextRequest) {
+  const data = await request.json();
+
+  try {
+    deleteBannerRequestSchema.parse(data);
+  } catch (error) {
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
+
+  const { id } = data as z.infer<typeof deleteBannerRequestSchema>;
+
+  try {
+    await db.delete(bannerTable).where(eq(bannerTable.id, id)).execute();
   } catch (error) {
     console.log(error);
     return NextResponse.json(
