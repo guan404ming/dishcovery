@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect,  useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,41 +11,19 @@ import {
 } from "@/components/ui/dialog";
 
 type DialogProps = {
+  title: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-export default function ReservationDialog({ open, onOpenChange }: DialogProps) {
-  const [dialogOpen, setDialogOpen] = useState(open);
-
-  useEffect(() => {
-    onOpenChange(dialogOpen);
-  }, [dialogOpen, onOpenChange]);
-
-  const handleSave = async () => {
-    setDialogOpen(false);
-    return true;
-  };
-
-  const handleCancel = async () => {
-    setDialogOpen(false);
-    return true;
-  };
-
-  const handleOpenChange = (open: boolean) => {
-    if (open) {
-      setDialogOpen(true);
-    } else {
-      setDialogOpen(false);
-    }
-  };
+export default function ReservationDialog({ title, open, onOpenChange }: DialogProps) {
 
   return (
-    <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="m-2 w-80 sm:w-screen">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="m-2 w-80 sm:w-screen rounded">
         <DialogHeader>
           <DialogTitle className="flex justify-start text-lg lg:text-xl">
-            Reservation
+            {title}
           </DialogTitle>
           <DialogDescription className="text-md lg:text-md flex justify-start">
             請選擇領取時間與商品數量
@@ -74,10 +50,10 @@ export default function ReservationDialog({ open, onOpenChange }: DialogProps) {
         </div>
         <div className="flex flex-row items-center justify-center gap-x-4">
           <DialogFooter>
-            <Button onClick={handleCancel}>cancel</Button>
+            <Button onClick={() => onOpenChange(!open)}>cancel</Button>
           </DialogFooter>
           <DialogFooter>
-            <Button onClick={handleSave}>confirm</Button>
+            <Button onClick={() => onOpenChange(!open)}>confirm</Button>
           </DialogFooter>
         </div>
       </DialogContent>

@@ -172,6 +172,7 @@ export default function InfoTab() {
         ))}
         {reserveDialogOpen && (
           <ReservationDialog
+            title="Reservation"
             open={reserveDialogOpen}
             onOpenChange={setReserveDialogOpen}
           />
