@@ -37,7 +37,7 @@ export const userTable = pgTable(
   }),
 );
 
-export const cart = pgTable("carts", {
+export const cartTable = pgTable("carts", {
   id: serial("id").primaryKey(),
   userId: serial("user_id")
     .notNull()
@@ -79,6 +79,13 @@ export const bannerTable = pgTable("banners", {
     .references(() => userTable.id, { onDelete: "cascade" }),
   url: varchar("url").notNull(),
   createTime: timestamp("create_time").defaultNow().notNull(),
+});
+
+export const categoryCollectionTable = pgTable("post_collections", {
+  userId: serial("user_id")
+    .notNull()
+    .references(() => userTable.id, { onDelete: "cascade" }),
+  category: categoryEnum("category").notNull(),
 });
 
 // store
@@ -166,11 +173,4 @@ export const postReservation = pgTable("post_reservations", {
     .references(() => dishTable.id, { onDelete: "cascade" }),
   quantity: integer("quantity").notNull().default(1),
   status: statusEnum("status").notNull().default("waiting"),
-});
-
-export const postCollectionTable = pgTable("post_collections", {
-  userId: serial("user_id")
-    .notNull()
-    .references(() => userTable.id, { onDelete: "cascade" }),
-  category: categoryEnum("category").notNull(),
 });
