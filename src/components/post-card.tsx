@@ -59,7 +59,7 @@ export function PostCard({
           {post.content}
         </span>
       </div>
-      
+
       {isCounter && (
         <div className="mx-2 flex items-center space-x-1">
           <MinusCircle

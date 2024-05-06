@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 
-import { PlusCircle, MinusCircle } from "lucide-react"
+import { PlusCircle, MinusCircle } from "lucide-react";
 
 import { ReservationCard } from "@/components/reservation-card";
 import ResStateDialog from "@/components/resstate-dialog";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
@@ -132,11 +133,9 @@ export default function Reservation({ params: { id } }: ReservationPageProps) {
     <>
       <div className="flex flex-row items-center justify-between gap-x-4 pl-2 lg:p-4">
         <div className="flex flex-row items-center gap-x-4">
-          <img
-            src={`/${post?.photo}`}
-            alt={post?.dish}
-            className="h-12 w-12 rounded-full border-2"
-          />
+          <Avatar className="h-12 w-12">
+            <AvatarFallback>W</AvatarFallback>
+          </Avatar>
           <div className="flex flex-col">
             <p className="text-md font-bold lg:text-lg">{post?.dish}</p>
             <p className="text-md text-muted-foreground">$ {post?.price}</p>
@@ -175,9 +174,9 @@ export default function Reservation({ params: { id } }: ReservationPageProps) {
           />
         )}
       </div>
-      <div className="flex flex-col gap-y-4 pl-4">
+      <div className="flex flex-col space-y-2">
         {users.map((user, index) => (
-          <div key={index} onClick={handleFinishClick}>
+          <div key={index} onClick={handleFinishClick} className="w-full">
             <ReservationCard {...user} />
           </div>
         ))}

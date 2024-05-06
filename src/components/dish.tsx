@@ -81,7 +81,11 @@ export default function Dish({ dish }: postProps) {
       </div>
       <Separator className="md:hidden" />
       <ReservationDialog title="Cart" open={save} onOpenChange={setSave} />
-      <ReservationDialog title="Reservation" open={reserve} onOpenChange={setReserve} />
+      <ReservationDialog
+        title="Reservation"
+        open={reserve}
+        onOpenChange={setReserve}
+      />
     </>
   );
 }

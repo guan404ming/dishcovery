@@ -12,12 +12,7 @@ type PurchaseCard = {
   photo: string;
 };
 
-export function PurchaseCard({
-  storeName,
-  price,
-  state,
-  photo,
-}: PurchaseCard) {
+export function PurchaseCard({ storeName, price, state, photo }: PurchaseCard) {
   return (
     <Card className="m-2 p-2 lg:m-4 lg:p-4">
       <div className="flex gap-x-4">

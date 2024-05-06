@@ -16,11 +16,14 @@ type DialogProps = {
   onOpenChange: (open: boolean) => void;
 };
 
-export default function ReservationDialog({ title, open, onOpenChange }: DialogProps) {
-
+export default function ReservationDialog({
+  title,
+  open,
+  onOpenChange,
+}: DialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="m-2 w-80 sm:w-screen rounded">
+      <DialogContent className="m-2 w-80 rounded sm:w-screen">
         <DialogHeader>
           <DialogTitle className="flex justify-start text-lg lg:text-xl">
             {title}
