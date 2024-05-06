@@ -1,6 +1,6 @@
 "use client";
 
-import { Post } from "./post";
+import { PostCard } from "./post-card";
 
 export interface PostType {
   title: string;
@@ -64,7 +64,7 @@ export function PostListing() {
   return (
     <div className="flex w-full flex-col max-md:space-y-2 md:grid md:grid-cols-2 md:gap-4">
       {works.map((post, index) => (
-        <Post post={post} key={index} />
+        <PostCard post={post} key={index} />
       ))}
     </div>
   );

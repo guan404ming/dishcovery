@@ -28,4 +28,5 @@
 ### ☑️ Self-Check before Merge
 
 - [ ] `yarn lint`
+- [ ] `yarn e2e`
 - [ ] `yarn test`

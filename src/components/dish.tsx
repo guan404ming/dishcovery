@@ -4,10 +4,11 @@ import { useState } from "react";
 
 import Image from "next/image";
 
-import DialogMessage from "@/components/dialog-message";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+
+import ReservationDialog from "./reservation-dialog";
 
 type postProps = {
   dish: {
@@ -79,8 +80,12 @@ export default function Dish({ dish }: postProps) {
         </div>
       </div>
       <Separator className="md:hidden" />
-      <DialogMessage type={"Add to Cart"} open={save} setOpen={setSave} />
-      <DialogMessage type={"Reserve"} open={reserve} setOpen={setReserve} />
+      <ReservationDialog title="Cart" open={save} onOpenChange={setSave} />
+      <ReservationDialog
+        title="Reservation"
+        open={reserve}
+        onOpenChange={setReserve}
+      />
     </>
   );
 }

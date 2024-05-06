@@ -19,7 +19,7 @@ export function ReservationCard({
   time,
 }: ReservationCard) {
   return (
-    <Card className="m-2 p-2 lg:m-4 lg:p-4">
+    <Card className="w-full p-4">
       <div className="flex flex-col gap-x-4">
         <div className="flex flex-row items-center justify-between">
           <div className="flex items-center gap-x-2 lg:gap-x-8">
