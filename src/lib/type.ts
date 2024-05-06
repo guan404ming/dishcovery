@@ -1,16 +1,16 @@
-import type { 
-    userTable, 
-    bannerTable, 
-    cartTable, 
-    commentTable, 
-    categoryCollectionTable, 
-    storeTable, 
-    dishTable,
-    storeReservationTable,
-    storeCollectionTable,
-    postTable,
-    postDishTable,
-    postReservationTable
+import type {
+  userTable,
+  bannerTable,
+  cartTable,
+  commentTable,
+  categoryCollectionTable,
+  storeTable,
+  dishTable,
+  storeReservationTable,
+  storeCollectionTable,
+  postTable,
+  postDishTable,
+  postReservationTable,
 } from "@/db/schema";
 
 export type SelectUser = typeof userTable.$inferSelect;
@@ -21,7 +21,8 @@ export type SelectComment = typeof commentTable.$inferSelect;
 
 export type SelectBanner = typeof bannerTable.$inferSelect;
 
-export type SelectCategoryCollection = typeof categoryCollectionTable.$inferSelect;
+export type SelectCategoryCollection =
+  typeof categoryCollectionTable.$inferSelect;
 
 export type SelectStore = typeof storeTable.$inferSelect;
 

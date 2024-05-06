@@ -11,6 +11,9 @@ const createJestConfig = nextJest({
 const config: Config = {
   coverageProvider: "v8",
   testEnvironment: "node",
+  collectCoverage: true,
+  collectCoverageFrom: ["src/app/api/**/*.{ts,tsx}"],
+  detectOpenHandles: true,
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
