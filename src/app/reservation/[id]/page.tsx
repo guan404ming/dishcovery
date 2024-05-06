@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { AiOutlineMinusCircle } from "react-icons/ai";
-import { AiOutlinePlusCircle } from "react-icons/ai";
+
+import { PlusCircle, MinusCircle } from "lucide-react"
 
 import { ReservationCard } from "@/components/reservation-card";
 import ResStateDialog from "@/components/resstate-dialog";
@@ -144,11 +144,11 @@ export default function Reservation({ params: { id } }: ReservationPageProps) {
         </div>
         <div className="flex flex-row items-center gap-x-2">
           <p className="text-xs lg:text-lg">
-            <AiOutlineMinusCircle />
+            <MinusCircle />
           </p>
           <p className="text-xs lg:text-lg">{post?.remaining}</p>
           <p className="text-xs lg:text-lg">
-            <AiOutlinePlusCircle />
+            <PlusCircle />
           </p>
         </div>
       </div>
@@ -164,7 +164,7 @@ export default function Reservation({ params: { id } }: ReservationPageProps) {
           onClick={handleCancelClick}
         >
           <p className="text-lg lg:text-2xl">
-            <AiOutlineMinusCircle />
+            <MinusCircle />
           </p>
         </Button>
         {cancelDialogOpen && (

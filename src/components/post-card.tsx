@@ -1,9 +1,8 @@
 "use client";
 
-import { AiOutlineMinusCircle } from "react-icons/ai";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-
 import Image from "next/image";
+
+import { PlusCircle, MinusCircle } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 
@@ -29,11 +28,11 @@ export function PostCard({ title, context, remaining, photo }: PostCard) {
         </div>
         <div className="flex flex-row items-center gap-x-2">
           <p className="text-xs lg:text-lg">
-            <AiOutlineMinusCircle />
+            <MinusCircle />
           </p>
           <p className="text-xs lg:text-lg">{remaining}</p>
           <p className="text-xs lg:text-lg">
-            <AiOutlinePlusCircle />
+            <PlusCircle />
           </p>
         </div>
       </div>
