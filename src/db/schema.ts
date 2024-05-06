@@ -111,7 +111,7 @@ export const dishTable = pgTable("dishes", {
   description: varchar("description", { length: 100 }).notNull(),
 });
 
-export const storeReservation = pgTable("store_reservations", {
+export const storeReservationTable = pgTable("store_reservations", {
   id: serial("id").primaryKey(),
   userId: serial("user_id")
     .notNull()
@@ -159,7 +159,7 @@ export const postDishTable = pgTable("post_dishes", {
   dishName: varchar("dishName", { length: 100 }).notNull(),
 });
 
-export const postReservation = pgTable("post_reservations", {
+export const postReservationTable = pgTable("post_reservations", {
   id: serial("id").primaryKey(),
   userId: serial("user_id")
     .notNull()
