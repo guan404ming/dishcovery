@@ -1,30 +1,35 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 
-import { uploadFile } from "../utils";
+import { z } from "zod";
 
 import { db } from "@/db";
 import { bannerTable } from "@/db/schema";
 
-export async function POST(request: Request): Promise<NextResponse> {
-  const { searchParams } = new URL(request.url);
-  const filename = searchParams.get("filename");
+const createBannerRequestSchema = z.object({
+  userId: z.number(),
+  url: z.string(),
+});
 
-  if (filename == null)
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
-  const blob = await uploadFile(`banner/${filename}`, await request.blob());
+export async function POST(request: NextRequest) {
+  const data = await request.json();
 
   try {
-    const [banner] = await db
-      .insert(bannerTable)
-      .values({
-        userId: 1,
-        url: blob.url,
-      })
-      .returning()
-      .execute();
-    return NextResponse.json(banner);
+    createBannerRequestSchema.parse(data);
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "Failed to create banner" }, { status: 500 });
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
+
+  const { userId, url } = data as z.infer<typeof createBannerRequestSchema>;
+
+  try {
+    await db.insert(bannerTable).values({ userId, url }).execute();
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { error: "Internal Sever Error" },
+      { status: 500 },
+    );
+  }
+
+  return new NextResponse("OK", { status: 200 });
 }
