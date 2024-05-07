@@ -6,8 +6,6 @@ import { db } from "@/db";
 
 import { POST } from "./route";
 
-
-
 describe("POST /api/store-reservations", () => {
   it("should return 400 if request is invalid", async () => {
     const requestObj = {
@@ -45,7 +43,7 @@ describe("POST /api/store-reservations", () => {
 
   it("should return 500 if there is an internal server error", async () => {
     const requestObj = {
-      json: async () => ({ 
+      json: async () => ({
         userId: 1,
         storeId: 1,
         dishId: 1,

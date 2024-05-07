@@ -10,9 +10,10 @@ const createPostRequestSchema = z.object({
   description: z.string(),
   location: z.string(),
   userId: z.number(),
-	dishName: z.string(),
-	quantity: z.number(),
-	category: z.enum(["taiwanese",
+  dishName: z.string(),
+  quantity: z.number(),
+  category: z.enum([
+    "taiwanese",
     "japanese",
     "american",
     "healthy meal",
@@ -30,7 +31,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { title, description, location, userId, dishName, quantity, category } = data as z.infer<typeof createPostRequestSchema>;
+  const { title, description, location, userId, dishName, quantity, category } =
+    data as z.infer<typeof createPostRequestSchema>;
 
   try {
     const [post] = await db

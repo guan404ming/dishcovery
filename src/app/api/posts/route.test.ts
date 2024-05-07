@@ -6,7 +6,6 @@ import { db } from "@/db";
 
 import { POST } from "./route";
 
-
 describe("POST /api/posts", () => {
   it("should return 400 if request is invalid", async () => {
     const requestObj = {
@@ -38,7 +37,9 @@ describe("POST /api/posts", () => {
 
     expect(response.status).toBe(200);
     expect(body.post.title).toBe("Free desserts");
-    expect(body.post.description).toBe("Free desserts from Information Management Dept.");
+    expect(body.post.description).toBe(
+      "Free desserts from Information Management Dept.",
+    );
     expect(body.post.location).toBe("Management Building 1");
     expect(body.post.userId).toBe(1);
     expect(body.postDish.dishName).toBe("Cake");
@@ -48,7 +49,7 @@ describe("POST /api/posts", () => {
 
   it("should return 500 if there is an internal server error", async () => {
     const requestObj = {
-      json: async () => ({ 
+      json: async () => ({
         title: "Free desserts",
         description: "Free desserts from Information Management Dept.",
         location: "Management Building 1",

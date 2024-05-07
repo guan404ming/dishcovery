@@ -3,9 +3,9 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-
 import { Card } from "../../components/ui/card";
+
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export interface Store {
   name: string;

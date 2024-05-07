@@ -6,16 +6,11 @@ import { db } from "@/db";
 import { postReservationTable } from "@/db/schema";
 
 const createPostReservationRequestSchema = z.object({
-	userId: z.number(),
-	postId: z.number(),
-	dishId: z.number(),
-	quantity: z.number(),
-	status: z.enum([
-    "waiting",
-    "confirmed",
-    "finished",
-    "cancelled",
-  ]),
+  userId: z.number(),
+  postId: z.number(),
+  dishId: z.number(),
+  quantity: z.number(),
+  status: z.enum(["waiting", "confirmed", "finished", "cancelled"]),
 });
 
 export async function POST(request: NextRequest) {
@@ -27,7 +22,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { userId, postId, dishId, quantity, status } = data as z.infer<typeof createPostReservationRequestSchema>;
+  const { userId, postId, dishId, quantity, status } = data as z.infer<
+    typeof createPostReservationRequestSchema
+  >;
 
   try {
     const [postReservation] = await db
