@@ -6,8 +6,6 @@ import { db } from "@/db";
 
 import { POST } from "./route";
 
-let id = 0;
-
 describe("POST /api/stores", () => {
   it("should return 400 if request is invalid", async () => {
     const requestObj = {
@@ -39,12 +37,11 @@ describe("POST /api/stores", () => {
     expect(body.phone).toBe("0912345678");
     expect(body.name).toBe("Happy");
     expect(body.address).toBe("123 Main St");
-    id = body.id;
   });
 
   it("should return 500 if there is an internal server error", async () => {
     const requestObj = {
-      json: async () => ({ 
+      json: async () => ({
         phone: "0912345678",
         userId: 1,
         address: "123 Main St",

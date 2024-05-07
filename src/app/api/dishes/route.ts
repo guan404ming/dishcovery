@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
@@ -8,7 +7,8 @@ import { dishTable } from "@/db/schema";
 
 const createDishRequestSchema = z.object({
   quantity: z.number(),
-  category: z.enum(["taiwanese",
+  category: z.enum([
+    "taiwanese",
     "japanese",
     "american",
     "healthy meal",
@@ -30,7 +30,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { quantity, category, storeId, name, price, description } = data as z.infer<typeof createDishRequestSchema>;
+  const { quantity, category, storeId, name, price, description } =
+    data as z.infer<typeof createDishRequestSchema>;
 
   try {
     const [dish] = await db

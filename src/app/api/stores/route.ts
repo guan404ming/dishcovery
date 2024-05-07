@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
@@ -22,7 +21,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { userId, name, address, phone } = data as z.infer<typeof createStoreRequestSchema>;
+  const { userId, name, address, phone } = data as z.infer<
+    typeof createStoreRequestSchema
+  >;
 
   try {
     const [store] = await db

@@ -20,11 +20,11 @@ describe("POST /api/users", () => {
   });
 
   it("should return 200 with added data if request is valid", async () => {
-    const email = `${Math.random().toString(36).substring(7)}@gmail.com`
+    const email = `${Math.random().toString(36).substring(7)}@gmail.com`;
     const requestObj = {
       json: async () => ({
         // random email
-        email, 
+        email,
         name: "Prof.Lu",
         role: "Admin",
       }),
@@ -41,8 +41,8 @@ describe("POST /api/users", () => {
 
   it("should return 500 if there is an internal server error", async () => {
     const requestObj = {
-      json: async () => ({ 
-        email: "123@gmail.com", 
+      json: async () => ({
+        email: "123@gmail.com",
         name: "Prof.Lu",
         role: "Admin",
       }),
