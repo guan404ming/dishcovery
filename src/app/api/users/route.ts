@@ -3,10 +3,9 @@ import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 
 const createCommentRequestSchema = z.object({
-  store_id: z.number(),
-  dish_id: z.number(),
-  quantity: z.number(),
-  status: z.string(),
+  email: z.string(),
+  password: z.string(),
+  username: z.string(),
 });
 
 export async function POST(request: NextRequest) {
@@ -18,12 +17,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { store_id, dish_id, quantity, status } = data as z.infer<
+  const { email, password, username } = data as z.infer<
     typeof createCommentRequestSchema
   >;
 
   try {
-    console.log("Creating comment", store_id, dish_id, quantity, status);
+    console.log("Creating comment", email, password, username);
   } catch (error) {
     console.log(error);
     return NextResponse.json(
@@ -34,5 +33,4 @@ export async function POST(request: NextRequest) {
 
   return new NextResponse(JSON.stringify({ data }), { status: 201 });
   // return new NextResponse(JSON.stringify({ data, message: "OK" }), { status: 201 });
-
 }
