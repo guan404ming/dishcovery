@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 
+import { PostCard } from "../../../components/post-card";
+import ReservationDialog from "../../../components/reservation-dialog";
 import { PlusCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import AddDialog from "./add-dialog";
-import { PostCard } from "./post-card";
 import { PurchaseCard } from "./purchase-card";
-import ReservationDialog from "./reservation-dialog";
 
 export default function InfoTab() {
   const mockPurchase = [

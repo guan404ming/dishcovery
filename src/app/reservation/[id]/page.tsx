@@ -4,8 +4,8 @@ import { useState } from "react";
 
 import { PlusCircle, MinusCircle } from "lucide-react";
 
-import { ReservationCard } from "@/components/reservation-card";
-import ResStateDialog from "@/components/resstate-dialog";
+import { ReservationCard } from "@/app/reservation/_components/reservation-card";
+import ResStateDialog from "@/app/reservation/_components/resstate-dialog";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
