@@ -1,6 +1,6 @@
 "use client";
 
-import { PostCard } from "./post-card";
+import { PostCard } from "../../components/post-card";
 
 export interface PostType {
   title: string;

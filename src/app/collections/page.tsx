@@ -1,4 +1,4 @@
-import { PostListing } from "@/components/post-listing";
+import { PostListing } from "@/app/_components/post-listing";
 import { Separator } from "@/components/ui/separator";
 
 export default async function Info() {
