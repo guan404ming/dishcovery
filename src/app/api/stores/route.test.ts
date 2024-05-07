@@ -1,41 +1,17 @@
-import type { NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 
-import { describe, expect, it } from "@jest/globals";
+import { describe, expect, it, jest } from "@jest/globals";
+
+import { db } from "@/db";
 
 import { POST } from "./route";
 
-describe("POST /api/stores", () => {
-  it("should return added data with status 201", async () => {
-    const requestObj = {
-      json: async () => ({ 
-        telephone: "0912345678",
-        user_id: 1,
-        address: "123 Main St",
-        name: "Happy",
-      }),
-    } as NextRequest;
-
-    const response = await POST(requestObj);
-    const body = await response.json();
-
-    expect(response.status).toBe(201);
-    expect(body.data.user_id).toBe(1);
-    expect(body.data.telephone).toBe("0912345678");
-    expect(body.data.name).toBe("Happy");
-    expect(body.data.address).toBe("123 Main St");
-  });
-});
+let id = 0;
 
 describe("POST /api/stores", () => {
-  it("should return an error response with status 400 for invalid request", async () => {
-    // Provide invalid data to trigger the catch (error) block
+  it("should return 400 if request is invalid", async () => {
     const requestObj = {
-      json: async () => ({ 
-        telephone: "0912345678",
-        user_id: "invalid",
-        address: "123 Main St",
-        name: "Happy",
-      }),
+      json: async () => ({ invalidField: "Invalid value" }),
     } as NextRequest;
 
     const response = await POST(requestObj);
@@ -43,5 +19,51 @@ describe("POST /api/stores", () => {
 
     expect(response.status).toBe(400);
     expect(body.error).toBe("Invalid request");
+  });
+
+  it("should return 200 with added data if request is valid", async () => {
+    const requestObj = {
+      json: async () => ({
+        phone: "0912345678",
+        userId: 1,
+        address: "123 Main St",
+        name: "Happy",
+      }),
+    } as NextRequest;
+
+    const response = await POST(requestObj);
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.userId).toBe(1);
+    expect(body.phone).toBe("0912345678");
+    expect(body.name).toBe("Happy");
+    expect(body.address).toBe("123 Main St");
+    id = body.id;
+  });
+
+  it("should return 500 if there is an internal server error", async () => {
+    const requestObj = {
+      json: async () => ({ 
+        phone: "0912345678",
+        userId: 1,
+        address: "123 Main St",
+        name: "Happy",
+      }),
+    } as NextRequest;
+
+    // Mock the db.insert function to throw an error
+    jest.spyOn(db, "insert").mockImplementation(() => {
+      throw new Error("Internal server error");
+    });
+
+    const response = await POST(requestObj);
+    const body = await response.json();
+
+    expect(response.status).toBe(500);
+    expect(body.error).toBe("Internal Sever Error");
+
+    // Restore the original implementation of db.insert
+    jest.restoreAllMocks();
   });
 });

@@ -1,36 +1,40 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-const createCommentRequestSchema = z.object({
+import { db } from "@/db";
+import { userTable } from "@/db/schema";
+
+const createUserRequestSchema = z.object({
   email: z.string(),
-  password: z.string(),
-  username: z.string(),
+  name: z.string(),
+  role: z.enum(["Admin", "User"]),
 });
 
 export async function POST(request: NextRequest) {
   const data = await request.json();
 
   try {
-    createCommentRequestSchema.parse(data);
+    createUserRequestSchema.parse(data);
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { email, password, username } = data as z.infer<
-    typeof createCommentRequestSchema
-  >;
+  const { email, name, role } = data as z.infer<typeof createUserRequestSchema>;
 
   try {
-    console.log("Creating comment", email, password, username);
+    const [user] = await db
+      .insert(userTable)
+      .values({ email, name, role })
+      .returning()
+      .execute();
+    return NextResponse.json(user, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: "Something went wrong" },
+      { error: "Internal Sever Error" },
       { status: 500 },
     );
   }
-
-  return new NextResponse(JSON.stringify({ data }), { status: 201 });
-  // return new NextResponse(JSON.stringify({ data, message: "OK" }), { status: 201 });
 }

@@ -1,12 +1,22 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-const createCommentRequestSchema = z.object({
-  store_id: z.number(),
-  dishName: z.string(),
-  category: z.string(),
+import { db } from "@/db";
+import { dishTable } from "@/db/schema";
+
+const createDishRequestSchema = z.object({
   quantity: z.number(),
+  category: z.enum(["taiwanese",
+    "japanese",
+    "american",
+    "healthy meal",
+    "pastry",
+    "fruit",
+  ]),
+  storeId: z.number(),
+  name: z.string(),
   price: z.number(),
   description: z.string(),
 });
@@ -15,25 +25,25 @@ export async function POST(request: NextRequest) {
   const data = await request.json();
 
   try {
-    createCommentRequestSchema.parse(data);
+    createDishRequestSchema.parse(data);
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { store_id, dishName, category, quantity, price, description } = data as z.infer<
-    typeof createCommentRequestSchema
-  >;
+  const { quantity, category, storeId, name, price, description } = data as z.infer<typeof createDishRequestSchema>;
 
   try {
-    console.log("Creating comment", store_id, dishName, category, quantity, price, description);
+    const [dish] = await db
+      .insert(dishTable)
+      .values({ quantity, category, storeId, name, price, description })
+      .returning()
+      .execute();
+    return NextResponse.json(dish, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: "Something went wrong" },
+      { error: "Internal Sever Error" },
       { status: 500 },
     );
   }
-
-  return new NextResponse(JSON.stringify({ data }), { status: 201 });
-  // return new NextResponse(JSON.stringify({ data, message: "OK" }), { status: 201 });
 }
