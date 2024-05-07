@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";

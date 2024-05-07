@@ -170,7 +170,7 @@ export const postReservationTable = pgTable("post_reservations", {
     .references(() => postTable.id, { onDelete: "cascade" }),
   dishId: serial("dish_id")
     .notNull()
-    .references(() => dishTable.id, { onDelete: "cascade" }),
+    .references(() => postDishTable.id, { onDelete: "cascade" }),
   quantity: integer("quantity").notNull().default(1),
   status: statusEnum("status").notNull().default("waiting"),
 });

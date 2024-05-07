@@ -7,7 +7,7 @@ import { db } from "@/db";
 import { POST } from "./route";
 
 
-describe("POST /api/users", () => {
+describe("POST /api/posts", () => {
   it("should return 400 if request is invalid", async () => {
     const requestObj = {
       json: async () => ({ invalidField: "Invalid value" }),
@@ -23,9 +23,13 @@ describe("POST /api/users", () => {
   it("should return 200 with added data if request is valid", async () => {
     const requestObj = {
       json: async () => ({
-        email: "456@gmail.com", 
-        name: "Prof.Lu",
-        role: "Admin",
+        title: "Free desserts",
+        description: "Free desserts from Information Management Dept.",
+        location: "Management Building 1",
+        userId: 1,
+        dishName: "Cake",
+        quantity: 5,
+        category: "pastry",
       }),
     } as NextRequest;
 
@@ -33,17 +37,25 @@ describe("POST /api/users", () => {
     const body = await response.json();
 
     expect(response.status).toBe(200);
-    expect(body.email).toBe("456@gmail.com");
-    expect(body.name).toBe("Prof.Lu");
-    expect(body.role).toBe("Admin");
+    expect(body.post.title).toBe("Free desserts");
+    expect(body.post.description).toBe("Free desserts from Information Management Dept.");
+    expect(body.post.location).toBe("Management Building 1");
+    expect(body.post.userId).toBe(1);
+    expect(body.postDish.dishName).toBe("Cake");
+    expect(body.postDish.quantity).toBe(5);
+    expect(body.postDish.category).toBe("pastry");
   });
 
   it("should return 500 if there is an internal server error", async () => {
     const requestObj = {
       json: async () => ({ 
-        email: "123@gmail.com", 
-        name: "Prof.Lu",
-        role: "Admin",
+        title: "Free desserts",
+        description: "Free desserts from Information Management Dept.",
+        location: "Management Building 1",
+        userId: 1,
+        dishName: "Cake",
+        quantity: 5,
+        category: "pastry",
       }),
     } as NextRequest;
 

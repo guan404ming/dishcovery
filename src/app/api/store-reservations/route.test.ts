@@ -7,7 +7,8 @@ import { db } from "@/db";
 import { POST } from "./route";
 
 
-describe("POST /api/users", () => {
+
+describe("POST /api/store-reservations", () => {
   it("should return 400 if request is invalid", async () => {
     const requestObj = {
       json: async () => ({ invalidField: "Invalid value" }),
@@ -23,9 +24,11 @@ describe("POST /api/users", () => {
   it("should return 200 with added data if request is valid", async () => {
     const requestObj = {
       json: async () => ({
-        email: "456@gmail.com", 
-        name: "Prof.Lu",
-        role: "Admin",
+        userId: 1,
+        storeId: 1,
+        dishId: 1,
+        quantity: 2,
+        status: "waiting",
       }),
     } as NextRequest;
 
@@ -33,17 +36,21 @@ describe("POST /api/users", () => {
     const body = await response.json();
 
     expect(response.status).toBe(200);
-    expect(body.email).toBe("456@gmail.com");
-    expect(body.name).toBe("Prof.Lu");
-    expect(body.role).toBe("Admin");
+    expect(body.userId).toBe(1);
+    expect(body.storeId).toBe(1);
+    expect(body.dishId).toBe(1);
+    expect(body.quantity).toBe(2);
+    expect(body.status).toBe("waiting");
   });
 
   it("should return 500 if there is an internal server error", async () => {
     const requestObj = {
       json: async () => ({ 
-        email: "123@gmail.com", 
-        name: "Prof.Lu",
-        role: "Admin",
+        userId: 1,
+        storeId: 1,
+        dishId: 1,
+        quantity: 2,
+        status: "waiting",
       }),
     } as NextRequest;
 
