@@ -1,9 +1,9 @@
 "use client";
 
-import Dish from "../../../components/dish";
 import { ChevronLeft } from "lucide-react";
 import { BellPlus } from "lucide-react";
 
+import Dish from "@/components/dish";
 import { Separator } from "@/components/ui/separator";
 
 const shop = ["Food Store"];
