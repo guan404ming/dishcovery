@@ -55,23 +55,25 @@ export function PostCard({
             Remaining: 100{" "}
           </div>
         </div>
-        <span className="w-full overflow-hidden text-ellipsis text-wrap text-xs text-muted-foreground font-normal">
+        <span className="w-full overflow-hidden text-ellipsis text-wrap text-xs font-normal text-muted-foreground">
           {post.content}
         </span>
       </div>
 
       {isCounter && (
-        <div className="mx-2 flex items-center space-x-1">
+        <div className="w-full mr-4 flex items-center justify-between space-x-2">
           <MinusCircle
-            className="h-4 w-4 cursor-pointer"
-            onClick={() => {
+            className="h-5 w-5 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
               updateAmount("minus");
             }}
           />
-          <p>{amount}</p>
+          <p className="min-w-4">{amount}</p>
           <PlusCircle
-            className="h-4 w-4 cursor-pointer"
-            onClick={() => {
+            className="h-5 w-5 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
               updateAmount("add");
             }}
           />
