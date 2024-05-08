@@ -22,26 +22,13 @@ const createDishRequestSchema = z.object({
   description: z.string(),
 });
 
-const updateDishRequestSchema = z.object({
-  quantity: z.number(),
-  category: z.enum([
-    "taiwanese",
-    "japanese",
-    "american",
-    "healthy meal",
-    "pastry",
-    "fruit",
-  ]),
-  name: z.string(),
-  price: z.number(),
-  description: z.string(),
-});
+const updateDishRequestSchema = createDishRequestSchema.omit({ storeId: true });
 
 export async function POST(request: NextRequest) {
   const data = await request.json();
 
   try {
-    createDishRequestSchema.parse(data);
+    updateDishRequestSchema.parse(data);
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
@@ -75,12 +62,13 @@ export async function PUT(request: NextRequest) {
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
-  
+
   const { quantity, category, storeId, name, price, description } =
-  data as z.infer<typeof createDishRequestSchema>;
-  
+    data as z.infer<typeof createDishRequestSchema>;
+
   try {
-    const dishId = request.nextUrl.searchParams.get("dishId");
+    const searchParams = new URL(data.nextUrl).searchParams;
+    const dishId = Number(searchParams.get("dishId"));
     if (!dishId) {
       return NextResponse.json(
         { error: "Dish ID is required" },
@@ -91,7 +79,7 @@ export async function PUT(request: NextRequest) {
     const [updateDish] = await db
       .update(dishTable)
       .set({ quantity, category, storeId, name, price, description })
-      .where(eq(dishTable.id, parseInt(dishId))) // I am not sure about this line. I do my best to prevent any errors.
+      .where(eq(dishTable.id, dishId)) // I am not sure about this line. I do my best to prevent any errors.
       .returning()
       .execute();
     return NextResponse.json(updateDish, { status: 200 });
