@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 
 type DialogProps = {
   title: string;
@@ -23,42 +25,44 @@ export default function ReservationDialog({
 }: DialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="m-2 w-80 rounded sm:w-screen">
+      <DialogContent className="w-[80%] rounded max-w-[400px]">
         <DialogHeader>
-          <DialogTitle className="flex justify-start text-lg lg:text-xl">
+          <DialogTitle className="flex justify-start text-2xl">
             {title}
           </DialogTitle>
-          <DialogDescription className="text-md lg:text-md flex justify-start">
-            請選擇領取時間與商品數量
-          </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col gap-y-4">
-          <div className="lg:text-md flex flex-row items-center gap-x-4 text-sm">
-            領取時間
-            <input
-              type="time"
-              className="w-1/2 rounded-md border border-gray-300 p-2"
-              required
-            />
-          </div>
-          <div className="lg:text-md flex flex-row items-center gap-x-4 text-sm">
-            預定數量
-            <input
-              placeholder="number"
-              type="number"
-              className="w-1/2 rounded-md border border-gray-300 p-2"
-              required
-            />
-          </div>
+        
+        <div className="grid w-full max-w-sm items-center gap-2">
+          <Label htmlFor="time">領取時間</Label>
+          <Input
+            type="time"
+            className="rounded-md border border-gray-300 p-2"
+            required
+          />
         </div>
-        <div className="flex flex-row items-center justify-center gap-x-4">
-          <DialogFooter>
-            <Button onClick={() => onOpenChange(!open)}>cancel</Button>
-          </DialogFooter>
-          <DialogFooter>
-            <Button onClick={() => onOpenChange(!open)}>confirm</Button>
-          </DialogFooter>
+
+        <div className="grid max-w-sm items-center gap-2">
+          <Label htmlFor="number">預定數量</Label>
+          <Input
+            placeholder="number"
+            type="number"
+            className="rounded-md border border-gray-300 p-2"
+            required
+          />
         </div>
+        
+        <DialogFooter className="gap-2">
+          <Button
+            variant={"outline"}
+            className="block w-full"
+            onClick={() => onOpenChange(!open)}
+          >
+            cancel
+          </Button>
+          <Button className="block w-full" onClick={() => onOpenChange(!open)}>
+            confirm
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
