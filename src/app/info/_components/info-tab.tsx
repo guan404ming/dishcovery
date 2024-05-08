@@ -6,7 +6,6 @@ import { PostCard } from "../../../components/post-card";
 import ReservationDialog from "../../../components/reservation-dialog";
 import { PlusCircle } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import AddDialog from "./add-dialog";
@@ -92,13 +91,6 @@ export default function InfoTab() {
   const [reserveDialogOpen, setReserveDialogOpen] = useState(false);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
 
-  const handleReserveClick = () => {
-    setReserveDialogOpen(true);
-  };
-  const handleAddClick = () => {
-    setAddDialogOpen(true);
-  };
-
   return (
     <Tabs defaultValue="purchase" className="w-full">
       <div className="flex w-full items-center justify-between">
@@ -111,75 +103,49 @@ export default function InfoTab() {
           </TabsTrigger>
           <TabsTrigger value="store">Store</TabsTrigger>
         </TabsList>
-
-        <TabsContent value="purchase">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="flex flex-col items-center justify-center"
-          >
-            <PlusCircle size={18} strokeWidth={1.5} />
-          </Button>
-        </TabsContent>
-        <TabsContent value="post">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="flex flex-col items-center justify-center"
-            onClick={handleAddClick}
-          >
-            <PlusCircle size={18} strokeWidth={1.5} />
-          </Button>
-          {addDialogOpen && (
-            <AddDialog
-              open={addDialogOpen}
-              onOpenChange={setAddDialogOpen}
-              type="post"
-            />
-          )}
-        </TabsContent>
-        <TabsContent value="store">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="flex flex-col items-center justify-center"
-            onClick={handleAddClick}
-          >
-            <PlusCircle size={18} strokeWidth={1.5} />
-          </Button>
-          {addDialogOpen && (
-            <AddDialog
-              open={addDialogOpen}
-              onOpenChange={setAddDialogOpen}
-              type="item"
-            />
-          )}
-        </TabsContent>
+        <PlusCircle
+          size={18}
+          strokeWidth={1.5}
+          onClick={() => setAddDialogOpen(!addDialogOpen)}
+        />
       </div>
 
-      <TabsContent value="purchase">
+      <TabsContent value="purchase" className="space-y-2">
         {mockPurchase.map((purchase, index) => (
-          <div key={index} onClick={handleReserveClick}>
-            <PurchaseCard {...purchase} />
+          <div
+            key={index}
+            onClick={() => setReserveDialogOpen(!reserveDialogOpen)}
+          >
+            <PurchaseCard purchase={purchase} />
           </div>
         ))}
-        {reserveDialogOpen && (
-          <ReservationDialog
-            title="Reservation"
-            open={reserveDialogOpen}
-            onOpenChange={setReserveDialogOpen}
-          />
-        )}
+        <ReservationDialog
+          title="Reservation"
+          open={reserveDialogOpen}
+          onOpenChange={setReserveDialogOpen}
+        />
       </TabsContent>
+
       <TabsContent value="post" className="space-y-2">
         {mockPost.map((post, index) => (
           <PostCard post={post} key={index} isCounter={true} />
         ))}
+        <AddDialog
+          open={addDialogOpen}
+          onOpenChange={setAddDialogOpen}
+          type="post"
+        />
       </TabsContent>
+
       <TabsContent value="store" className="space-y-2">
         {mockPost.map((post, index) => (
           <PostCard post={post} key={index} isCounter={true} />
         ))}
+        <AddDialog
+          open={addDialogOpen}
+          onOpenChange={setAddDialogOpen}
+          type="item"
+        />
       </TabsContent>
     </Tabs>
   );

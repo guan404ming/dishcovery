@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,27 +17,8 @@ type DialogProps = {
 };
 
 export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
-  const [dialogOpen, setDialogOpen] = useState(open);
-
-  useEffect(() => {
-    onOpenChange(dialogOpen);
-  }, [dialogOpen, onOpenChange]);
-
-  const handleSave = async () => {
-    setDialogOpen(false);
-    return true;
-  };
-
-  const handleOpenChange = (open: boolean) => {
-    if (open) {
-      setDialogOpen(true);
-    } else {
-      setDialogOpen(false);
-    }
-  };
-
   return (
-    <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="m-2 w-80 sm:w-screen">
         <DialogHeader>
           <DialogTitle className="flex justify-start text-lg lg:text-xl">
@@ -87,7 +66,7 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
         </div>
         <div className="flex items-center justify-center">
           <DialogFooter>
-            <Button onClick={handleSave}>confirm</Button>
+            <Button onClick={() => onOpenChange(!open)}>confirm</Button>
           </DialogFooter>
         </div>
       </DialogContent>
