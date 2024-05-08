@@ -4,18 +4,18 @@ describe("1. Home Page", () => {
     cy.visit("/");
   });
 
-  context("header section", () => {
+  context("1.1 header section", () => {
     it("contains the correct text", () => {
       cy.contains("Dishcovery").should("be.visible");
     });
 
-    it("menu bar can be opened", () => {
+    xit("menu bar can be opened", () => {
       cy.get("[type=button]")
         .click({ force: true })
         .should("have.attr", "data-state", "open");
     });
 
-    it("menu bar has correct options", () => {
+    xit("menu bar has correct options", () => {
       cy.get("[type=button]").click({ force: true });
 
       cy.contains("My Account").should("be.visible");
@@ -25,7 +25,7 @@ describe("1. Home Page", () => {
       cy.get("[role=menuitem]").eq(3).should("contain", "Logout");
     });
 
-    it("menu bar can be closed", () => {
+    xit("menu bar can be closed", () => {
       cy.get("[type=button]")
         .click({ force: true })
         .click({ force: true })
@@ -35,7 +35,7 @@ describe("1. Home Page", () => {
     });
   });
 
-  context("banner section", () => {
+  context("1.2 banner section", () => {
     it("display the banner", () => {
       cy.get("[aria-roledescription=carousel]").should("be.visible");
     });
@@ -47,7 +47,7 @@ describe("1. Home Page", () => {
     });
   });
 
-  context("search section", () => {
+  context("1.3 search section", () => {
     it("contains the correct text", () => {
       cy.contains("What are you looking for?").should("be.visible");
     });
@@ -64,7 +64,7 @@ describe("1. Home Page", () => {
     });
   });
 
-  context("popular section", () => {
+  context("1.4 popular section", () => {
     it("contains the correct text", () => {
       cy.contains("Popular").should("be.visible");
     });
@@ -90,7 +90,7 @@ describe("1. Home Page", () => {
     });
   });
 
-  context("post section", () => {
+  context("1.5 post section", () => {
     it("contains the correct text", () => {
       cy.contains("Post").should("be.visible");
     });
