@@ -48,14 +48,14 @@ export function PostCard({
         width={100}
         height={100}
       />
-      <div className="flex flex-col items-start truncate px-4 py-3 text-left text-xs font-semibold text-foreground">
+      <div className="flex flex-col items-start px-4 py-3 text-left text-xs font-semibold text-foreground">
         <div className="mb-1 flex flex-col space-y-0.5">
           <div>{post.title}</div>
           <div className="text-xs font-light text-muted-foreground">
             Remaining: 100{" "}
           </div>
         </div>
-        <span className="block truncate text-wrap text-left font-normal text-muted-foreground">
+        <span className="w-full overflow-hidden text-ellipsis text-wrap text-xs text-muted-foreground font-normal">
           {post.content}
         </span>
       </div>
