@@ -4,15 +4,15 @@ import { describe, expect, it, jest } from "@jest/globals";
 
 import { db } from "@/db";
 
-import { POST, PUT } from "./route";
+import { PUT } from "./route";
 
-describe("POST /api/dishes", () => {
+describe("PUT /api/category-collection", () => {
   it("should return 400 if request is invalid", async () => {
     const requestObj = {
       json: async () => ({ invalidField: "Invalid value" }),
     } as NextRequest;
 
-    const response = await POST(requestObj);
+    const response = await PUT(requestObj);
     const body = await response.json();
 
     expect(response.status).toBe(400);
@@ -31,7 +31,7 @@ describe("POST /api/dishes", () => {
       }),
     } as NextRequest;
 
-    const response = await POST(requestObj);
+    const response = await PUT(requestObj);
     const body = await response.json();
 
     expect(response.status).toBe(200);
@@ -60,7 +60,7 @@ describe("POST /api/dishes", () => {
       throw new Error("Internal server error");
     });
 
-    const response = await POST(requestObj);
+    const response = await PUT(requestObj);
     const body = await response.json();
 
     expect(response.status).toBe(500);
@@ -71,7 +71,7 @@ describe("POST /api/dishes", () => {
   });
 });
 
-describe("PUT /api/dishes/${userid}", () => {
+describe("PUT /api/dishes/1", () => {
   it("should return 400 if request is invalid", async () => {
     const requestObj = {
       json: async () => ({ invalidField: "Invalid value" }),
