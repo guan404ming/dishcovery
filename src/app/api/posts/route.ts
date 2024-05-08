@@ -1,10 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
 import { postTable, postDishTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
 
 const createPostRequestSchema = z.object({
   title: z.string(),
@@ -72,7 +72,8 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { title, description, location, userId, dishName, quantity, category } = data as z.infer<typeof createPostRequestSchema>;
+  const { title, description, location, userId, dishName, quantity, category } =
+    data as z.infer<typeof createPostRequestSchema>;
 
   try {
     const [post] = await db

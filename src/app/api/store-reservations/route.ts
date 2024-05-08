@@ -12,11 +12,6 @@ const createStoreReservationRequestSchema = z.object({
   dishId: z.number(),
   quantity: z.number(),
   status: z.enum(["waiting", "confirmed", "finished", "cancelled"]),
-  userId: z.number(),
-  storeId: z.number(),
-  dishId: z.number(),
-  quantity: z.number(),
-  status: z.enum(["waiting", "confirmed", "finished", "cancelled"]),
 });
 
 export async function POST(request: NextRequest) {
@@ -28,9 +23,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { userId, storeId, dishId, quantity, status } = data as z.infer<
-    typeof createStoreReservationRequestSchema
-  >;
   const { userId, storeId, dishId, quantity, status } = data as z.infer<
     typeof createStoreReservationRequestSchema
   >;
@@ -57,7 +49,10 @@ export async function PUT(request: NextRequest) {
   const reservationId = request.nextUrl.searchParams.get("userId");
 
   if (!reservationId) {
-    return NextResponse.json({ error: "Reservation ID is required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Reservation ID is required" },
+      { status: 400 },
+    );
   }
   const data = await request.json();
 
@@ -67,7 +62,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { userId, storeId, dishId, quantity, status } = data as z.infer<
+  const { quantity, status } = data as z.infer<
     typeof createStoreReservationRequestSchema
   >;
 

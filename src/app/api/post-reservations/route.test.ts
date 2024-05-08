@@ -25,7 +25,6 @@ describe("POST /api/post-reservations", () => {
         userId: 1,
         postId: 1,
         dishId: 92,
-        dishId: 92,
         quantity: 2,
         status: "waiting",
       }),
@@ -44,7 +43,7 @@ describe("POST /api/post-reservations", () => {
 
   it("should return 500 if there is an internal server error", async () => {
     const requestObj = {
-      json: async () => ({ 
+      json: async () => ({
         userId: 1,
         postId: 1,
         dishId: 92,
@@ -84,22 +83,22 @@ describe("PUT /api/post-reservations/${reservationId}", () => {
 
   it("should return 400 if reservation id isn't given", async () => {
     const requestObj = {
-          json: async () => ({
-            userId: 1,
-            postId: 1,
-            dishId: 92,
-            quantity: 2,
-            status: "waiting",
-            nextUrl: "http://localhost:3000/api/post-reservations",
-          }),
-        } as NextRequest;
+      json: async () => ({
+        userId: 1,
+        postId: 1,
+        dishId: 92,
+        quantity: 2,
+        status: "waiting",
+        nextUrl: "http://localhost:3000/api/post-reservations",
+      }),
+    } as NextRequest;
 
-        const response = await PUT(requestObj);
-        const body = await response.json();
-        
-        expect(response.status).toBe(400);
-        expect(body.error).toBe("Reservation ID is required");
-      });
+    const response = await PUT(requestObj);
+    const body = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(body.error).toBe("Reservation ID is required");
+  });
 
   it("should return 200 with added data if request is valid", async () => {
     const requestObj = {
@@ -109,7 +108,7 @@ describe("PUT /api/post-reservations/${reservationId}", () => {
         dishId: 92,
         quantity: 2,
         status: "waiting",
-        nextUrl: "http://localhost:3000/api/post-reservations?reservationId=90"
+        nextUrl: "http://localhost:3000/api/post-reservations?reservationId=92",
       }),
     } as NextRequest;
 
@@ -126,7 +125,7 @@ describe("PUT /api/post-reservations/${reservationId}", () => {
 
   it("should return 500 if there is an internal server error", async () => {
     const requestObj = {
-      json: async () => ({ 
+      json: async () => ({
         userId: 1,
         postId: 1,
         dishId: 92,
