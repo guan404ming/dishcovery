@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { categoryCollectionTable, storeCollectionTable } from "@/db/schema";
+import { storeCollectionTable } from "@/db/schema";
 
 const updateStoreRequestSchema = z.object({
   id: z.number(),
@@ -27,7 +27,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { id, storeId } = data as z.infer<typeof updateStoreRequestSchema>;
+  const { storeId } = data as z.infer<typeof updateStoreRequestSchema>;
 
   try {
     const [updateStore] = await db

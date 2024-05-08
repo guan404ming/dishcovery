@@ -72,7 +72,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { title, description, location, userId, dishName, quantity, category } =
+  const { title, description, location, dishName, quantity, category } =
     data as z.infer<typeof createPostRequestSchema>;
 
   try {
