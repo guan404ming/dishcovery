@@ -24,7 +24,7 @@ describe("POST /api/post-reservations", () => {
       json: async () => ({
         userId: 1,
         postId: 1,
-        dishId: 1,
+        dishId: 92,
         quantity: 2,
         status: "waiting",
       }),
@@ -36,7 +36,7 @@ describe("POST /api/post-reservations", () => {
     expect(response.status).toBe(200);
     expect(body.userId).toBe(1);
     expect(body.postId).toBe(1);
-    expect(body.dishId).toBe(1);
+    expect(body.dishId).toBe(92);
     expect(body.quantity).toBe(2);
     expect(body.status).toBe("waiting");
   });
