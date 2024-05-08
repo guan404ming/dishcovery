@@ -1,6 +1,6 @@
 "use client";
 
-import Dish from "../../../components/dish";
+import Dish from "@/components/dish";
 import { ChevronLeft } from "lucide-react";
 import { BellPlus } from "lucide-react";
 

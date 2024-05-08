@@ -10,12 +10,13 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import type { SelectBanner } from "@/lib/type";
 
 import { AspectRatio } from "./ui/aspect-ratio";
 
 type BannerProps = {
-  bannerList: SelectBanner[];
+  bannerList: {
+    url: string;
+  }[];
 };
 
 export function Banner({ bannerList }: BannerProps) {
