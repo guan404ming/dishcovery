@@ -45,15 +45,6 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  const reservationId = request.nextUrl.searchParams.get("reservationId");
-
-  if (!reservationId) {
-    return NextResponse.json(
-      { error: "Reservation ID is required" },
-      { status: 400 },
-    );
-  }
-
   const data = await request.json();
 
   try {
@@ -67,13 +58,20 @@ export async function PUT(request: NextRequest) {
   >;
 
   try {
+    const searchParams = new URL(data.nextUrl).searchParams;
+    const reservationId = Number(searchParams.get("reservationId"));
+    if (!reservationId) {
+      return NextResponse.json(
+        { error: "Reservation ID is required" },
+        { status: 400 },
+      );
+    }
     const [postReservation] = await db
       .update(postReservationTable)
       .set({ status, quantity })
-      .where(eq(postReservationTable.id, parseInt(reservationId)))
+      .where(eq(postReservationTable.id, reservationId))
       .returning()
       .execute();
-
     return NextResponse.json(postReservation, { status: 200 });
   } catch (error) {
     console.log(error);
