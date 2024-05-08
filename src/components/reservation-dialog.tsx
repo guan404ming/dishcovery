@@ -25,13 +25,13 @@ export default function ReservationDialog({
 }: DialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[80%] rounded max-w-[400px]">
+      <DialogContent className="w-[80%] max-w-[400px] rounded">
         <DialogHeader>
           <DialogTitle className="flex justify-start text-2xl">
             {title}
           </DialogTitle>
         </DialogHeader>
-        
+
         <div className="grid w-full max-w-sm items-center gap-2">
           <Label htmlFor="time">領取時間</Label>
           <Input
@@ -50,7 +50,7 @@ export default function ReservationDialog({
             required
           />
         </div>
-        
+
         <DialogFooter className="gap-2">
           <Button
             variant={"outline"}

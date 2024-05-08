@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import useBanner from "@/hooks/useBanner";
 import { Skeleton } from "@/components/ui/skeleton";
+import useBanner from "@/hooks/useBanner";
 
 export default function BannerUploadPage() {
   const router = useRouter();

@@ -27,8 +27,8 @@ export default function Dish({ dish }: postProps) {
 
   return (
     <>
-      <div className="flex w-full justify-between">
-        <div className="grid grid-cols-3 gap-2 min-w-[120px]">
+      <div className="flex w-full justify-between md:max-w-screen-sm">
+        <div className="grid w-56 min-w-[120px] grid-cols-3 gap-2">
           {images.map((image, index) => (
             <Image
               key={index}
@@ -54,7 +54,7 @@ export default function Dish({ dish }: postProps) {
             <div className="text-xs font-light text-muted-foreground">
               Remaining: {quantity}
             </div>
-            <span className="mt-2 h-16 w-full overflow-hidden text-ellipsis text-wrap text-xs text-muted-foreground">
+            <span className="my-2 h-16 w-full overflow-hidden text-ellipsis text-wrap text-xs text-muted-foreground">
               {description}
             </span>
           </div>
