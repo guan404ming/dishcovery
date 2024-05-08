@@ -81,7 +81,7 @@ export const bannerTable = pgTable("banners", {
   createTime: timestamp("create_time").defaultNow().notNull(),
 });
 
-export const categoryCollectionTable = pgTable("post_collections", {
+export const categoryCollectionTable = pgTable("category_collections", {
   userId: serial("user_id")
     .notNull()
     .references(() => userTable.id, { onDelete: "cascade" }),
