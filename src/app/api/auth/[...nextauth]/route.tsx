@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { db } from "@/db";
 import { userTable } from "@/db/schema";
 
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   // Secret for Next-auth, without this JWT encryption/decryption won't work
   secret: process.env.NEXTAUTH_SECRET,
