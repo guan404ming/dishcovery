@@ -4,7 +4,7 @@ import { describe, expect, it, jest } from "@jest/globals";
 
 import { db } from "@/db";
 
-import { POST, PUT } from "./route"
+import { POST, PUT } from "./route";
 
 describe("POST /api/dishes", () => {
   it("should return 400 if request is invalid", async () => {

@@ -6,8 +6,6 @@ import { db } from "@/db";
 
 import { POST, PUT } from "./route";
 
-
-
 describe("POST /api/store-reservations", () => {
   it("should return 400 if request is invalid", async () => {
     const requestObj = {
@@ -45,7 +43,7 @@ describe("POST /api/store-reservations", () => {
 
   it("should return 500 if there is an internal server error", async () => {
     const requestObj = {
-      json: async () => ({ 
+      json: async () => ({
         userId: 1,
         storeId: 1,
         dishId: 1,
@@ -110,7 +108,8 @@ describe("PUT /api/store-reservations/${reservationId}", () => {
         dishId: 92,
         quantity: 2,
         status: "waiting",
-        nextUrl: "http://localhost:3000/api/store-reservations?reservationId=92",
+        nextUrl:
+          "http://localhost:3000/api/store-reservations?reservationId=92",
       }),
     } as NextRequest;
 
@@ -118,9 +117,6 @@ describe("PUT /api/store-reservations/${reservationId}", () => {
     const body = await response.json();
 
     expect(response.status).toBe(200);
-    expect(body.userId).toBe(1);
-    expect(body.postId).toBe(1);
-    expect(body.dishId).toBe(92);
     expect(body.quantity).toBe(2);
     expect(body.status).toBe("waiting");
   });
@@ -133,7 +129,8 @@ describe("PUT /api/store-reservations/${reservationId}", () => {
         dishId: 92,
         quantity: 2,
         status: "waiting",
-        nextUrl: "http://localhost:3000/api/store-reservations?reservationId=92",
+        nextUrl:
+          "http://localhost:3000/api/store-reservations?reservationId=92",
       }),
     } as NextRequest;
 

@@ -4,10 +4,9 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { categoryCollectionTable, storeCollectionTable } from "@/db/schema";
+import { categoryCollectionTable } from "@/db/schema";
 
 const updateCategoryRequestSchema = z.object({
-  id: z.number(),
   category: z.enum([
     "taiwanese",
     "japanese",
@@ -25,12 +24,11 @@ export async function PUT(request: NextRequest) {
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
-  const { id, category } = data as z.infer<typeof updateCategoryRequestSchema>;
+  const { category } = data as z.infer<typeof updateCategoryRequestSchema>;
 
   try {
     const searchParams = new URL(data.nextUrl).searchParams;
     const userId = Number(searchParams.get("userId"));
-
     if (!userId) {
       return NextResponse.json(
         { error: "User ID is required" },

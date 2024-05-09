@@ -46,23 +46,26 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   const data = await request.json();
-  
+
   try {
     createStoreReservationRequestSchema.parse(data);
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { userId, storeId, dishId, quantity, status } = data as z.infer<
-  typeof createStoreReservationRequestSchema
+  const { quantity, status } = data as z.infer<
+    typeof createStoreReservationRequestSchema
   >;
-  
+
   try {
     const searchParams = new URL(data.nextUrl).searchParams;
     const reservationId = Number(searchParams.get("reservationId"));
-  
+
     if (!reservationId) {
-      return NextResponse.json({ error: "Reservation ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Reservation ID is required" },
+        { status: 400 },
+      );
     }
     const [storeReservation] = await db
       .update(storeReservationTable)

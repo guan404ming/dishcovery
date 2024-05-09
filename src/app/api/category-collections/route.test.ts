@@ -38,9 +38,8 @@ describe("PUT /api/category-collections/${userId}", () => {
   it("should return 200 with added data if request is valid", async () => {
     const requestObj = {
       json: async () => ({
-        id: 2,
         category: "taiwanese",
-        nextUrl: "http://localhost:3000/api/category-collections?userId=2",
+        nextUrl: "http://localhost:3000/api/category-collections?userId=1",
       }),
     } as NextRequest;
 
@@ -48,21 +47,19 @@ describe("PUT /api/category-collections/${userId}", () => {
     const body = await response.json();
 
     expect(response.status).toBe(200);
-    expect(body.id).toBe("taiwanese");
-    expect(body.category).toBe(1);
+    expect(body.category).toBe("taiwanese");
   });
 
   it("should return 500 if there is an internal server error", async () => {
     const requestObj = {
       json: async () => ({
-        id: 1,
         category: "taiwanese",
-        nextUrl: "http://localhost:3000/api/category-collections?userId=2",
+        nextUrl: "http://localhost:3000/api/category-collections?userId=1",
       }),
     } as NextRequest;
 
     // Mock the db.insert function to throw an error
-    jest.spyOn(db, "insert").mockImplementation(() => {
+    jest.spyOn(db, "update").mockImplementation(() => {
       throw new Error("Internal server error");
     });
 

@@ -1,19 +1,20 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
 import { postTable, postDishTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
 
 const createPostRequestSchema = z.object({
   title: z.string(),
   description: z.string(),
   location: z.string(),
   userId: z.number(),
-	dishName: z.string(),
-	quantity: z.number(),
-	category: z.enum(["taiwanese",
+  dishName: z.string(),
+  quantity: z.number(),
+  category: z.enum([
+    "taiwanese",
     "japanese",
     "american",
     "healthy meal",
@@ -31,7 +32,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { title, description, location, userId, dishName, quantity, category } = data as z.infer<typeof createPostRequestSchema>;
+  const { title, description, location, userId, dishName, quantity, category } =
+    data as z.infer<typeof createPostRequestSchema>;
 
   try {
     const [post] = await db
@@ -58,22 +60,25 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   const data = await request.json();
-  
+
   try {
     createPostRequestSchema.parse(data);
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  
-  const { title, description, location, userId, dishName, quantity, category } = data as z.infer<typeof createPostRequestSchema>;
-  
+  const { title, description, location, dishName, quantity, category } =
+    data as z.infer<typeof createPostRequestSchema>;
+
   try {
     const searchParams = new URL(data.nextUrl).searchParams;
     const postId = Number(searchParams.get("postId"));
-  
+
     if (!postId) {
-      return NextResponse.json({ error: "Post ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Post ID is required" },
+        { status: 400 },
+      );
     }
     const [post] = await db
       .update(postTable)
