@@ -9,6 +9,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 type DialogProps = {
   open: boolean;
@@ -19,7 +22,7 @@ type DialogProps = {
 export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="m-2 w-80 sm:w-screen">
+      <DialogContent className="w-[80%] max-w-[400px] rounded">
         <DialogHeader>
           <DialogTitle className="flex justify-start text-lg lg:text-xl">
             Add {type}
@@ -28,47 +31,42 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
             請填寫 {type} 資訊
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col gap-y-4">
-          <div className="lg:text-md flex flex-row items-center gap-x-4 text-sm">
-            餐點名稱
-            <input
-              placeholder="dish"
-              type="text"
-              className="w-1/2 rounded-md border border-gray-300 p-2"
-              required
-            />
-          </div>
-          <div className="lg:text-md flex flex-row items-center gap-x-4 text-sm">
-            領取地點
-            <input
-              placeholder="location"
-              type="text"
-              className="w-1/2 rounded-md border border-gray-300 p-2"
-              required
-            />
-          </div>
-          <div className="lg:text-md flex flex-row items-center gap-x-4 text-sm">
-            剩餘數量
-            <input
-              placeholder="number"
-              type="number"
-              className="w-1/2 rounded-md border border-gray-300 p-2"
-              required
-            />
-          </div>
-          <div className="lg:text-md flex flex-row items-center gap-x-4 text-sm">
-            <textarea
-              placeholder="Write some description"
-              className="w-2/3 rounded-md border border-gray-300 p-2"
-              required
-            />
-          </div>
+
+        <div className="grid w-full max-w-sm items-center gap-2">
+          <Label htmlFor="time">領取時間</Label>
+          <Input
+            type="time"
+            className="rounded-md border border-gray-300 p-2"
+            required
+          />
         </div>
-        <div className="flex items-center justify-center">
-          <DialogFooter>
-            <Button onClick={() => onOpenChange(!open)}>confirm</Button>
-          </DialogFooter>
+
+        <div className="grid w-full max-w-sm items-center gap-2">
+          <Label htmlFor="place">領取地點</Label>
+          <Input
+            type="place"
+            className="rounded-md border border-gray-300 p-2"
+            required
+          />
         </div>
+
+        <div className="grid w-full max-w-sm items-center gap-2">
+          <Label htmlFor="number">剩餘數量</Label>
+          <Input
+            type="number"
+            className="rounded-md border border-gray-300 p-2"
+            required
+          />
+        </div>
+
+        <div className="grid w-full max-w-sm items-center gap-2">
+          <Label htmlFor="description">商品敘述</Label>
+          <Textarea placeholder="寫一些有關餐點的敘述" />
+        </div>
+
+        <DialogFooter>
+          <Button onClick={() => onOpenChange(!open)}>confirm</Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

@@ -107,6 +107,7 @@ export default function InfoTab() {
           size={18}
           strokeWidth={1.5}
           onClick={() => setAddDialogOpen(!addDialogOpen)}
+          className="cursor-pointer"
         />
       </div>
 
