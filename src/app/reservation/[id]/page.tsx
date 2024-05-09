@@ -167,7 +167,7 @@ export default function Reservation({ params: { id } }: ReservationPageProps) {
         {users.map((user, index) => (
           <div
             key={index}
-            onClick={() => setCancelDialogOpen(!finishDialogOpen)}
+            onClick={() => setFinishDialogOpen(!finishDialogOpen)}
             className="w-full"
           >
             <ReservationCard {...user} />
