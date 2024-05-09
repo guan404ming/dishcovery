@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: "Internal Sever Error" },
+      { error: "Internal Server Error" },
       { status: 500 },
     );
   }
@@ -53,7 +53,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { userId, postId, dishId, quantity, status } = data as z.infer<
+  const { quantity, status } = data as z.infer<
     typeof createPostReservationRequestSchema
   >;
 
@@ -76,7 +76,7 @@ export async function PUT(request: NextRequest) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: "Internal Sever Error" },
+      { error: "Internal Server Error" },
       { status: 500 },
     );
   }

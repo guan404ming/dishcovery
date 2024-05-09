@@ -1,76 +1,78 @@
-// import { type NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 
-// import { describe, expect, it, jest } from "@jest/globals";
+import { describe, expect, it, jest } from "@jest/globals";
 
-// import { db } from "@/db";
+import { db } from "@/db";
 
-// import { POST } from "./route";
+import { PUT } from "./route";
 
+describe("PUT /api/store-collections/${userId}", () => {
+  it("should return 400 if request is invalid", async () => {
+    const requestObj = {
+      json: async () => ({ invalidField: "Invalid value" }),
+    } as NextRequest;
 
-// describe("POST /api/posts", () => {
-//   it("should return 400 if request is invalid", async () => {
-//     const requestObj = {
-//       json: async () => ({ invalidField: "Invalid value" }),
-//     } as NextRequest;
+    const response = await PUT(requestObj);
+    const body = await response.json();
 
-//     const response = await POST(requestObj);
-//     const body = await response.json();
+    expect(response.status).toBe(400);
+    expect(body.error).toBe("Invalid request");
+  });
 
-//     expect(response.status).toBe(400);
-//     expect(body.error).toBe("Invalid request");
-//   });
+  it("should return 400 if userId isn't given", async () => {
+    const requestObj = {
+      json: async () => ({
+        id: 1,
+        storeId: 2,
+        nextUrl: "http://localhost:3000/api/store-collections",
+      }),
+    } as NextRequest;
 
-//   it("should return 200 with added data if request is valid", async () => {
-//     const requestObj = {
-//       json: async () => ({
-//         title: "Free desserts",
-//         description: "Free desserts from Information Management Dept.",
-//         location: "Management Building 1",
-//         userId: 1,
-//         dishName: "Cake",
-//         quantity: 5,
-//         category: "pastry",
-//       }),
-//     } as NextRequest;
+    const response = await PUT(requestObj);
+    const body = await response.json();
 
-//     const response = await POST(requestObj);
-//     const body = await response.json();
+    expect(response.status).toBe(400);
+    expect(body.error).toBe("User ID is required");
+  });
 
-//     expect(response.status).toBe(200);
-//     expect(body.post.title).toBe("Free desserts");
-//     expect(body.post.description).toBe("Free desserts from Information Management Dept.");
-//     expect(body.post.location).toBe("Management Building 1");
-//     expect(body.post.userId).toBe(1);
-//     expect(body.postDish.dishName).toBe("Cake");
-//     expect(body.postDish.quantity).toBe(5);
-//     expect(body.postDish.category).toBe("pastry");
-//   });
+  it("should return 200 with added data if request is valid", async () => {
+    const requestObj = {
+      json: async () => ({
+        id: 2,
+        storeId: 2,
+        nextUrl: "http://localhost:3000/api/store-collections?userId=2",
+      }),
+    } as NextRequest;
 
-//   it("should return 500 if there is an internal server error", async () => {
-//     const requestObj = {
-//       json: async () => ({ 
-//         title: "Free desserts",
-//         description: "Free desserts from Information Management Dept.",
-//         location: "Management Building 1",
-//         userId: 1,
-//         dishName: "Cake",
-//         quantity: 5,
-//         category: "pastry",
-//       }),
-//     } as NextRequest;
+    const response = await PUT(requestObj);
+    const body = await response.json();
 
-//     // Mock the db.insert function to throw an error
-//     jest.spyOn(db, "insert").mockImplementation(() => {
-//       throw new Error("Internal server error");
-//     });
+    expect(response.status).toBe(200);
+    expect(body.id).toBe(2);
+    expect(body.storeId).toBe(2);
+  });
 
-//     const response = await POST(requestObj);
-//     const body = await response.json();
+  it("should return 500 if there is an internal server error", async () => {
+    const requestObj = {
+      json: async () => ({
+        id: 1,
+        storeId: 2,
+        nextUrl: "http://localhost:3000/api/store-collections?userId=2",
+      }),
+    } as NextRequest;
 
-//     expect(response.status).toBe(500);
-//     expect(body.error).toBe("Internal Sever Error");
+    // Mock the db.insert function to throw an error
+    jest.spyOn(db, "insert").mockImplementation(() => {
+      throw new Error("Internal server error");
+    });
 
-//     // Restore the original implementation of db.insert
-//     jest.restoreAllMocks();
-//   });
-// });
+    const response = await PUT(requestObj);
+    const body = await response.json();
+
+    expect(response.status).toBe(500);
+    expect(body.error).toBe("Internal Server Error");
+
+    // Restore the original implementation of db.insert
+    jest.restoreAllMocks();
+  });
+});

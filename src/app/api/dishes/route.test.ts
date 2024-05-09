@@ -64,7 +64,7 @@ describe("POST /api/dishes", () => {
     const body = await response.json();
 
     expect(response.status).toBe(500);
-    expect(body.error).toBe("Internal Sever Error");
+    expect(body.error).toBe("Internal Server Error");
 
     // Restore the original implementation of db.insert
     jest.restoreAllMocks();
@@ -150,7 +150,7 @@ describe("PUT /api/dishes/${userid}", () => {
     const body = await response.json();
 
     expect(response.status).toBe(500);
-    expect(body.error).toBe("Internal Sever Error");
+    expect(body.error).toBe("Internal Server Error");
 
     // Restore the original implementation of db.insert
     jest.restoreAllMocks();

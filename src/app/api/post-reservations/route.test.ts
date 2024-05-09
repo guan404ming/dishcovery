@@ -61,7 +61,7 @@ describe("POST /api/post-reservations", () => {
     const body = await response.json();
 
     expect(response.status).toBe(500);
-    expect(body.error).toBe("Internal Sever Error");
+    expect(body.error).toBe("Internal Server Error");
 
     // Restore the original implementation of db.insert
     jest.restoreAllMocks();
@@ -131,11 +131,12 @@ describe("PUT /api/post-reservations/${reservationId}", () => {
         dishId: 1,
         quantity: 2,
         status: "waiting",
+        nextUrl: "http://localhost:3000/api/post-reservations?reservationId=90"
       }),
     } as NextRequest;
 
     // Mock the db.insert function to throw an error
-    jest.spyOn(db, "insert").mockImplementation(() => {
+    jest.spyOn(db, "update").mockImplementation(() => {
       throw new Error("Internal server error");
     });
 
@@ -143,7 +144,7 @@ describe("PUT /api/post-reservations/${reservationId}", () => {
     const body = await response.json();
 
     expect(response.status).toBe(500);
-    expect(body.error).toBe("Internal Sever Error");
+    expect(body.error).toBe("Internal Server Error");
 
     // Restore the original implementation of db.insert
     jest.restoreAllMocks();
