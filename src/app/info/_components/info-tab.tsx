@@ -93,7 +93,7 @@ export default function InfoTab() {
 
   return (
     <Tabs defaultValue="purchase" className="w-full">
-      <div className="flex w-full items-center justify-between">
+      <div className="mb-2 flex w-full items-center justify-between">
         <TabsList>
           <TabsTrigger value="purchase" className="pl-0">
             Purchase
@@ -110,7 +110,10 @@ export default function InfoTab() {
         />
       </div>
 
-      <TabsContent value="purchase" className="space-y-2">
+      <TabsContent
+        className="grid grid-cols-1 gap-2 md:grid-cols-2"
+        value="purchase"
+      >
         {mockPurchase.map((purchase, index) => (
           <div
             key={index}
@@ -126,7 +129,10 @@ export default function InfoTab() {
         />
       </TabsContent>
 
-      <TabsContent value="post" className="space-y-2">
+      <TabsContent
+        className="grid grid-cols-1 gap-2 md:grid-cols-2"
+        value="post"
+      >
         {mockPost.map((post, index) => (
           <PostCard post={post} key={index} isCounter={true} />
         ))}
@@ -137,7 +143,10 @@ export default function InfoTab() {
         />
       </TabsContent>
 
-      <TabsContent value="store" className="space-y-2">
+      <TabsContent
+        className="grid grid-cols-1 gap-2 md:grid-cols-2"
+        value="store"
+      >
         {mockPost.map((post, index) => (
           <PostCard post={post} key={index} isCounter={true} />
         ))}
