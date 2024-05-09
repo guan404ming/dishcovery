@@ -3,14 +3,16 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
 import Map from "@/app/_components/map";
-import { PostListing } from "@/app/_components/post-listing";
 import { StoreScrollArea } from "@/app/_components/store-scroll-area";
 import { Banner } from "@/components/banner";
+import GridContainer from "@/components/grid-container";
+import { PostCard } from "@/components/post-card";
 import { db } from "@/db";
-import { bannerTable } from "@/db/schema";
+import { bannerTable, postTable } from "@/db/schema";
 
 export default async function Home() {
   const bannerList = await db.select().from(bannerTable);
+  const postList = await db.select().from(postTable).limit(10);
 
   function SectionTitle({ title, url }: { title: string; url: string }) {
     return (
@@ -27,12 +29,19 @@ export default async function Home() {
   return (
     <>
       <Banner bannerList={bannerList} />
+
       <SectionTitle title={"What are you looking for?"} url="" />
       <Map />
+
       <SectionTitle title={"Popular"} url="store" />
       <StoreScrollArea />
+
       <SectionTitle title={"Post"} url="post" />
-      <PostListing />
+      <GridContainer>
+        {postList.map((post, index) => (
+          <PostCard post={post} key={index} />
+        ))}
+      </GridContainer>
     </>
   );
 }
