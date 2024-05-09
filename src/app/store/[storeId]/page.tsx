@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { ChevronLeft } from "lucide-react";
 import { BellPlus } from "lucide-react";
 
@@ -39,10 +41,14 @@ const products = [
 ];
 
 export default function Store() {
+  const router = useRouter();
   return (
     <>
       <div className="flex w-full items-center justify-between text-center">
-        <ChevronLeft className="h-4 w-4 cursor-pointer" />
+        <ChevronLeft
+          className="h-4 w-4 cursor-pointer"
+          onClick={() => router.back()}
+        />
         <h1 className="text-center text-xl font-semibold">{shop}</h1>
         <BellPlus className="h-4 w-4 cursor-pointer" />
       </div>
