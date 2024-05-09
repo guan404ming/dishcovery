@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
   try {
     createStoreRequestSchema.parse(data);
   } catch (error) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
   }
 
   const { userId, name, address, phone } = data as z.infer<
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: "Internal Sever Error" },
+      { error: "Internal Server Error" },
       { status: 500 },
     );
   }

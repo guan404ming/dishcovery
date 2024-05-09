@@ -16,7 +16,7 @@ describe("POST /api/dishes", () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.error).toBe("Invalid request");
+    expect(body.error).toBe("Invalid Request");
   });
 
   it("should return 200 with added data if request is valid", async () => {
@@ -43,7 +43,7 @@ describe("POST /api/dishes", () => {
     expect(body.description).toBe("Yummy");
   });
 
-  it("should return 500 if there is an internal server error", async () => {
+  it("should return 500 if there is an Internal Server Error", async () => {
     const requestObj = {
       json: async () => ({
         quantity: 100,
@@ -57,7 +57,7 @@ describe("POST /api/dishes", () => {
 
     // Mock the db.insert function to throw an error
     jest.spyOn(db, "insert").mockImplementation(() => {
-      throw new Error("Internal server error");
+      throw new Error("Internal Server Error");
     });
 
     const response = await POST(requestObj);
@@ -81,7 +81,7 @@ describe("PUT /api/dishes/${userid}", () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.error).toBe("Invalid request");
+    expect(body.error).toBe("Invalid Request");
   });
 
   it("should return 400 if user id isn't given", async () => {
@@ -129,7 +129,7 @@ describe("PUT /api/dishes/${userid}", () => {
     expect(body.description).toBe("Yummy");
   });
 
-  it("should return 500 if there is an internal server error!", async () => {
+  it("should return 500 if there is an Internal Server Error!", async () => {
     const requestObj = {
       json: async () => ({
         quantity: 100,
@@ -143,7 +143,7 @@ describe("PUT /api/dishes/${userid}", () => {
 
     // Mock the db.insert function to throw an error
     jest.spyOn(db, "insert").mockImplementation(() => {
-      throw new Error("Internal server error");
+      throw new Error("Internal Server Error");
     });
 
     const response = await PUT(requestObj);
@@ -167,7 +167,7 @@ describe("PUT /api/dishes/${userid}", () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.error).toBe("Invalid request");
+    expect(body.error).toBe("Invalid Request");
   });
 
   it("should return 400 if user id isn't given", async () => {
@@ -215,7 +215,7 @@ describe("PUT /api/dishes/${userid}", () => {
     expect(body.description).toBe("Yummy");
   });
 
-  it("should return 500 if there is an internal server error!", async () => {
+  it("should return 500 if there is an Internal Server Error!", async () => {
     const requestObj = {
       json: async () => ({
         quantity: 100,
@@ -229,14 +229,14 @@ describe("PUT /api/dishes/${userid}", () => {
 
     // Mock the db.insert function to throw an error
     jest.spyOn(db, "insert").mockImplementation(() => {
-      throw new Error("Internal server error");
+      throw new Error("Internal Server Error");
     });
 
     const response = await PUT(requestObj);
     const body = await response.json();
 
     expect(response.status).toBe(500);
-    expect(body.error).toBe("Internal Sever Error");
+    expect(body.error).toBe("Internal Server Error");
 
     // Restore the original implementation of db.insert
     jest.restoreAllMocks();

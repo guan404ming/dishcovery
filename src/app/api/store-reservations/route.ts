@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   try {
     createStoreReservationRequestSchema.parse(data);
   } catch (error) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
   }
 
   const { userId, storeId, dishId, quantity, status } = data as z.infer<
@@ -50,7 +50,7 @@ export async function PUT(request: NextRequest) {
   try {
     createStoreReservationRequestSchema.parse(data);
   } catch (error) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
   }
 
   const { quantity, status } = data as z.infer<

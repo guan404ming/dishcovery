@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
   try {
     createPostRequestSchema.parse(data);
   } catch (error) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
   }
 
   const { title, description, location, userId, dishName, quantity, category } =
@@ -64,7 +64,7 @@ export async function PUT(request: NextRequest) {
   try {
     createPostRequestSchema.parse(data);
   } catch (error) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
   }
 
   const { title, description, location, dishName, quantity, category } =

@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   try {
     createBannerRequestSchema.parse(data);
   } catch (error) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
   }
 
   const { userId, url } = data as z.infer<typeof createBannerRequestSchema>;
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: "Internal Sever Error" },
+      { error: "Internal Server Error" },
       { status: 500 },
     );
   }
@@ -48,7 +48,7 @@ export async function DELETE(request: NextRequest) {
   try {
     deleteBannerRequestSchema.parse(data);
   } catch (error) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
   }
 
   const { id } = data as z.infer<typeof deleteBannerRequestSchema>;
@@ -58,7 +58,7 @@ export async function DELETE(request: NextRequest) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: "Internal Sever Error" },
+      { error: "Internal Server Error" },
       { status: 500 },
     );
   }
