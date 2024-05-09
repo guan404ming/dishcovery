@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -21,31 +19,8 @@ export default function ResStateDialog({
   onOpenChange,
   type,
 }: ResStateDialogProps) {
-  const [dialogOpen, setDialogOpen] = useState(open);
-
-  useEffect(() => {
-    onOpenChange(dialogOpen);
-  }, [dialogOpen, onOpenChange]);
-
-  const handleSave = async () => {
-    setDialogOpen(false);
-    return true;
-  };
-  const handleCancel = async () => {
-    setDialogOpen(false);
-    return true;
-  };
-
-  const handleOpenChange = (open: boolean) => {
-    if (open) {
-      setDialogOpen(true);
-    } else {
-      setDialogOpen(false);
-    }
-  };
-
   return (
-    <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="m-2 flex w-80 flex-col items-center sm:w-screen">
         {type === "cancel" && (
           <div className="flex flex-col items-center gap-y-4">
@@ -73,10 +48,10 @@ export default function ResStateDialog({
 
         <div className="flex flex-row items-center gap-x-4">
           <DialogFooter>
-            <Button onClick={handleCancel}>cancel</Button>
+            <Button onClick={() => onOpenChange(!open)}>cancel</Button>
           </DialogFooter>
           <DialogFooter>
-            <Button onClick={handleSave}>confirm</Button>
+            <Button onClick={() => onOpenChange(!open)}>confirm</Button>
           </DialogFooter>
         </div>
       </DialogContent>
