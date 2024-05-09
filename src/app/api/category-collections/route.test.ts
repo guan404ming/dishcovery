@@ -6,6 +6,7 @@ import { db } from "@/db";
 
 import { PUT } from "./route";
 
+
 describe("PUT /api/category-collections/${userId}", () => {
   it("should return 400 if request is invalid", async () => {
     const requestObj = {
@@ -18,6 +19,7 @@ describe("PUT /api/category-collections/${userId}", () => {
     expect(response.status).toBe(400);
     expect(body.error).toBe("Invalid request");
   });
+
 
   it("should return 400 if userId isn't given", async () => {
     const requestObj = {

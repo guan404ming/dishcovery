@@ -1,6 +1,6 @@
 "use client";
 
-import { PostCard } from "./post-card";
+import { PostCard } from "../../components/post-card";
 
 export interface PostType {
   title: string;
@@ -10,9 +10,9 @@ export interface PostType {
 
 export const works: PostType[] = [
   {
-    title: "Ornella Binni",
+    title: "!Ornella Binni",
     content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur iaculis tortor nec magna malesuada condimentum sodales nec tellus. Vestibulum elementum efficitur tincidunt. Pellentesque scelerisque diam eu magna suscipit mollis. ",
+      "tetur adipiscing elit. Curabitur iaculis tortor nec magna malesuada condimentum sodales nec tellus. Vestibulum elementum efficitur tincidunt. Pellentesque scelerisque diam eu magna suscipit mollis.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur iaculis tortor nec magna  ",
     picUrl:
       "https://images.unsplash.com/photo-1465869185982-5a1a7522cbcb?auto=format&fit=crop&w=300&q=80",
   },
@@ -52,7 +52,7 @@ export const works: PostType[] = [
       "https://images.unsplash.com/photo-1494337480532-3725c85fd2ab?auto=format&fit=crop&w=300&q=80",
   },
   {
-    title: "Vladimir Malyavko Malyavko",
+    title: "Vladimir Malyavko Malyavko!",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur iaculis tortor nec magna malesuada condimentum sodales nec tellus. Vestibulum elementum efficitur tincidunt. Pellentesque scelerisque diam eu magna suscipit mollis. ",
     picUrl:

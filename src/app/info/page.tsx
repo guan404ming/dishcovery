@@ -1,4 +1,4 @@
-import InfoTab from "@/components/info-tab";
+import InfoTab from "@/app/info/_components/info-tab";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 

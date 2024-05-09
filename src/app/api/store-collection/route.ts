@@ -17,6 +17,7 @@ export async function PUT(request: NextRequest) {
   } catch (error) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
+  
   const searchParams = new URL(data.nextUrl).searchParams;
   const userId = Number(searchParams.get("userId"));
 

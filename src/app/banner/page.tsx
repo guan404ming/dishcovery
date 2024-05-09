@@ -2,16 +2,38 @@
 
 import { useState, useRef } from "react";
 
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import useBanner from "@/hooks/useBanner";
 
 export default function BannerUploadPage() {
+  const router = useRouter();
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push("/");
+    },
+  });
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [url, setUrl] = useState<string>("");
   const { createBanner } = useBanner();
+
+  if (status === "loading") {
+    return (
+      <div className="flex items-center space-x-4">
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[200px]" />
+          <Skeleton className="h-4 w-[200px]" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

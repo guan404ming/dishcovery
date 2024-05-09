@@ -2,10 +2,10 @@ import Link from "next/link";
 
 import { ChevronRight } from "lucide-react";
 
+import Map from "@/app/_components/map";
+import { PostListing } from "@/app/_components/post-listing";
+import { StoreScrollArea } from "@/app/_components/store-scroll-area";
 import { Banner } from "@/components/banner";
-import Map from "@/components/map";
-import { PostListing } from "@/components/post-listing";
-import { StoreScrollArea } from "@/components/store-scroll-area";
 import { db } from "@/db";
 import { bannerTable } from "@/db/schema";
 
