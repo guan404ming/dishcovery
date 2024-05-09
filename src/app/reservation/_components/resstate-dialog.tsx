@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,6 +7,8 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 type ResStateDialogProps = {
   open: boolean;
@@ -21,44 +21,21 @@ export default function ResStateDialog({
   onOpenChange,
   type,
 }: ResStateDialogProps) {
-  const [dialogOpen, setDialogOpen] = useState(open);
-
-  useEffect(() => {
-    onOpenChange(dialogOpen);
-  }, [dialogOpen, onOpenChange]);
-
-  const handleSave = async () => {
-    setDialogOpen(false);
-    return true;
-  };
-  const handleCancel = async () => {
-    setDialogOpen(false);
-    return true;
-  };
-
-  const handleOpenChange = (open: boolean) => {
-    if (open) {
-      setDialogOpen(true);
-    } else {
-      setDialogOpen(false);
-    }
-  };
-
   return (
-    <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="m-2 flex w-80 flex-col items-center sm:w-screen">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="w-[80%] max-w-[400px] rounded">
         {type === "cancel" && (
           <div className="flex flex-col items-center gap-y-4">
             <DialogTitle className="text-lg lg:text-xl">
               Cancel Reservation?
             </DialogTitle>
-            <div className="lg:text-md flex flex-row items-center justify-center gap-x-4 text-sm">
-              數量
-              <input
-                placeholder="number"
+            <div className="grid w-full max-w-sm items-center gap-2">
+              <Label htmlFor="number">數量</Label>
+              <Input
                 type="number"
-                className="w-1/2 rounded-md border border-gray-300 p-2"
+                className="rounded-md border border-gray-300 p-2"
                 required
+                placeholder="number"
               />
             </div>
           </div>
@@ -71,14 +48,11 @@ export default function ResStateDialog({
           </div>
         )}
 
-        <div className="flex flex-row items-center gap-x-4">
-          <DialogFooter>
-            <Button onClick={handleCancel}>cancel</Button>
-          </DialogFooter>
-          <DialogFooter>
-            <Button onClick={handleSave}>confirm</Button>
-          </DialogFooter>
-        </div>
+        <DialogFooter className="gap-2">
+          <Button className="block w-full" onClick={() => onOpenChange(!open)}>
+            confirm
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

@@ -122,13 +122,6 @@ export default function Reservation({ params: { id } }: ReservationPageProps) {
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const [finishDialogOpen, setFinishDialogOpen] = useState(false);
 
-  const handleCancelClick = () => {
-    setCancelDialogOpen(true);
-  };
-
-  const handleFinishClick = () => {
-    setFinishDialogOpen(true);
-  };
   return (
     <>
       <div className="flex flex-row items-center justify-between gap-x-4 pl-2 lg:p-4">
@@ -142,16 +135,14 @@ export default function Reservation({ params: { id } }: ReservationPageProps) {
           </div>
         </div>
         <div className="flex flex-row items-center gap-x-2">
-          <p className="text-xs lg:text-lg">
-            <MinusCircle />
-          </p>
+          <MinusCircle />
           <p className="text-xs lg:text-lg">{post?.remaining}</p>
-          <p className="text-xs lg:text-lg">
-            <PlusCircle />
-          </p>
+          <PlusCircle />
         </div>
       </div>
+
       <Separator />
+
       <div className="flex flex-row items-center justify-between">
         <p className="text-lg font-bold lg:text-2xl">
           Reservation({users.length})
@@ -160,33 +151,33 @@ export default function Reservation({ params: { id } }: ReservationPageProps) {
           variant="ghost"
           size="icon"
           className="flex flex-col items-center justify-center"
-          onClick={handleCancelClick}
+          onClick={() => setCancelDialogOpen(!cancelDialogOpen)}
         >
-          <p className="text-lg lg:text-2xl">
-            <MinusCircle />
-          </p>
+          <MinusCircle />
         </Button>
-        {cancelDialogOpen && (
-          <ResStateDialog
-            open={cancelDialogOpen}
-            onOpenChange={setCancelDialogOpen}
-            type="cancel"
-          />
-        )}
+
+        <ResStateDialog
+          open={cancelDialogOpen}
+          onOpenChange={setCancelDialogOpen}
+          type="cancel"
+        />
       </div>
+
       <div className="flex flex-col space-y-2">
         {users.map((user, index) => (
-          <div key={index} onClick={handleFinishClick} className="w-full">
+          <div
+            key={index}
+            onClick={() => setFinishDialogOpen(!finishDialogOpen)}
+            className="w-full"
+          >
             <ReservationCard {...user} />
           </div>
         ))}
-        {finishDialogOpen && (
-          <ResStateDialog
-            open={finishDialogOpen}
-            onOpenChange={setFinishDialogOpen}
-            type="finish"
-          />
-        )}
+        <ResStateDialog
+          open={finishDialogOpen}
+          onOpenChange={setFinishDialogOpen}
+          type="finish"
+        />
       </div>
     </>
   );
