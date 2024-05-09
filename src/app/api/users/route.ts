@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   try {
     createUserRequestSchema.parse(data);
   } catch (error) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
   }
 
   const { email, name, role } = data as z.infer<typeof createUserRequestSchema>;
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: "Internal Sever Error" },
+      { error: "Internal Server Error" },
       { status: 500 },
     );
   }

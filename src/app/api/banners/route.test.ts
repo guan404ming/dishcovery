@@ -18,7 +18,7 @@ describe("POST /api/banners", () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.error).toBe("Invalid request");
+    expect(body.error).toBe("Invalid Request");
   });
 
   it("should return 200 with added data if request is valid", async () => {
@@ -35,21 +35,21 @@ describe("POST /api/banners", () => {
     id = body.id;
   });
 
-  it("should return 500 if there is an internal server error", async () => {
+  it("should return 500 if there is an Internal Server Error", async () => {
     const requestObj = {
       json: async () => ({ userId: 1, url: "https://example.com/banner" }),
     } as NextRequest;
 
     // Mock the db.insert function to throw an error
     jest.spyOn(db, "insert").mockImplementation(() => {
-      throw new Error("Internal server error");
+      throw new Error("Internal Server Error");
     });
 
     const response = await POST(requestObj);
     const body = await response.json();
 
     expect(response.status).toBe(500);
-    expect(body.error).toBe("Internal Sever Error");
+    expect(body.error).toBe("Internal Server Error");
 
     // Restore the original implementation of db.insert
     jest.restoreAllMocks();
@@ -78,24 +78,24 @@ describe("DELETE /api/banners", () => {
     const body = await response.json();
 
     expect(response.status).toBe(400);
-    expect(body.error).toBe("Invalid request");
+    expect(body.error).toBe("Invalid Request");
   });
 
-  it("should return 500 if there is an internal server error", async () => {
+  it("should return 500 if there is an Internal Server Error", async () => {
     const requestObj = {
       json: async () => ({ id: 1 }),
     } as NextRequest;
 
     // Mock the db.delete function to throw an error
     jest.spyOn(db, "delete").mockImplementation(() => {
-      throw new Error("Internal server error");
+      throw new Error("Internal Server Error");
     });
 
     const response = await DELETE(requestObj);
     const body = await response.json();
 
     expect(response.status).toBe(500);
-    expect(body.error).toBe("Internal Sever Error");
+    expect(body.error).toBe("Internal Server Error");
 
     // Restore the original implementation of db.delete
     jest.restoreAllMocks();

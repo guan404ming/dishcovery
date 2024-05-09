@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   try {
     createStoreReservationRequestSchema.parse(data);
   } catch (error) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
   }
 
   const { userId, storeId, dishId, quantity, status } = data as z.infer<
@@ -38,28 +38,19 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: "Internal Sever Error" },
+      { error: "Internal Server Error" },
       { status: 500 },
     );
   }
 }
 
 export async function PUT(request: NextRequest) {
-  // extract dish id from url parameter
-  const reservationId = request.nextUrl.searchParams.get("userId");
-
-  if (!reservationId) {
-    return NextResponse.json(
-      { error: "Reservation ID is required" },
-      { status: 400 },
-    );
-  }
   const data = await request.json();
 
   try {
     createStoreReservationRequestSchema.parse(data);
   } catch (error) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
   }
 
   const { quantity, status } = data as z.infer<
@@ -67,10 +58,19 @@ export async function PUT(request: NextRequest) {
   >;
 
   try {
+    const searchParams = new URL(data.nextUrl).searchParams;
+    const reservationId = Number(searchParams.get("reservationId"));
+
+    if (!reservationId) {
+      return NextResponse.json(
+        { error: "Reservation ID is required" },
+        { status: 400 },
+      );
+    }
     const [storeReservation] = await db
       .update(storeReservationTable)
       .set({ status, quantity })
-      .where(eq(storeReservationTable.id, parseInt(reservationId)))
+      .where(eq(storeReservationTable.id, reservationId))
       .returning()
       .execute();
 
@@ -78,7 +78,7 @@ export async function PUT(request: NextRequest) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { error: "Internal Sever Error" },
+      { error: "Internal Server Error" },
       { status: 500 },
     );
   }
