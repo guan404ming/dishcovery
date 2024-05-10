@@ -1,25 +1,23 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import useBanner from "@/hooks/useBanner";
+import { UploadButton } from "@/lib/uploadthing";
 
 export default function BannerUploadPage() {
   const router = useRouter();
-  const { status } = useSession({
+  const { status, data: session } = useSession({
     required: true,
     onUnauthenticated() {
       router.push("/");
     },
   });
-  const inputFileRef = useRef<HTMLInputElement>(null);
   const [url, setUrl] = useState<string>("");
   const { createBanner } = useBanner();
 
@@ -39,30 +37,22 @@ export default function BannerUploadPage() {
     <>
       <span className="text-center text-xl font-semibold">Upload Banner</span>
 
-      <form
-        onSubmit={async (event) => {
-          event.preventDefault();
-
-          if (!inputFileRef.current?.files) {
-            throw new Error("No file selected");
-          }
-
-          const file = inputFileRef.current.files[0];
-
-          const url = await createBanner({
-            userId: 1,
-            file,
-          });
-
-          setUrl(url);
+      <UploadButton
+        className="w-full text-black"
+        endpoint="imageUploader"
+        appearance={{ button: "bg-primary w-full" }}
+        onClientUploadComplete={(res) => {
+          // Do something with the response
+          console.log("Files: ", res);
+          setUrl(res[0].url);
+          createBanner({ url: res[0].url, userId: session?.user?.id });
+          alert("Upload Completed");
         }}
-        className="grid gap-2"
-      >
-        <Input id="picture" type="file" ref={inputFileRef} required />
-        <Button type="submit" className="w-full">
-          Upload
-        </Button>
-      </form>
+        onUploadError={(error: Error) => {
+          // Do something with the error.
+          alert(`ERROR! ${error.message}`);
+        }}
+      />
 
       {url && (
         <Image
@@ -73,6 +63,7 @@ export default function BannerUploadPage() {
           className="aspect-auto w-full border object-cover"
         />
       )}
+      
     </>
   );
 }

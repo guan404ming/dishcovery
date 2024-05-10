@@ -5,6 +5,7 @@ import Header from "@/components/header";
 import NextAuthProvider from "@/components/next-auth-provider";
 
 import "./globals.css";
+import "@uploadthing/react/styles.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
