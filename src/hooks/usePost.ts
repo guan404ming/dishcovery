@@ -1,37 +1,49 @@
 import { useState } from "react";
 
-import { useRouter } from "next/navigation";
+import type {
+  InsertPost,
+  InsertPostDish,
+  InsertPostReservation,
+} from "@/lib/type";
+
+import handleFetch from "./utils";
 
 export default function usePost() {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const createPostReservation = async ({
     postDishId,
     quantity,
-  }: {
-    postDishId: number;
-    quantity: number;
-  }) => {
+  }: InsertPostReservation) => {
     setLoading(true);
 
-    const res = await fetch("/api/post-reservations", {
+    handleFetch({
+      data: { postDishId, quantity },
       method: "POST",
-      body: JSON.stringify({ postDishId, quantity }),
+      url: "/api/post-reservations",
     });
+    setLoading(false);
+  };
 
-    console.log(res);
+  const createPost = async ({
+    title,
+    description,
+    location,
+    name,
+    quantity,
+  }: InsertPost & InsertPostDish) => {
+    setLoading(true);
 
-    if (!res.ok) {
-      const body = await res.json();
-      throw new Error(body.error);
-    }
-
-    router.refresh();
+    handleFetch({
+      data: { title, description, location, name, quantity },
+      method: "POST",
+      url: "/api/posts",
+    });
     setLoading(false);
   };
 
   return {
+    createPost,
     createPostReservation,
     loading,
   };

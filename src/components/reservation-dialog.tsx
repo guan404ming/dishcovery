@@ -41,18 +41,6 @@ export default function ReservationDialog({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="grid w-full max-w-sm items-center gap-2">
-          <Label htmlFor="time">領取時間</Label>
-          <Input
-            type="time"
-            className="rounded-md border border-gray-300 p-2"
-            required
-            onChange={(e) => {
-              timeRef.current = e.target.value;
-            }}
-          />
-        </div>
-
         <div className="grid max-w-sm items-center gap-2">
           <Label htmlFor="number">預定數量</Label>
           <Input

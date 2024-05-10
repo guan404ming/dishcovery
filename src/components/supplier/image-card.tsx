@@ -12,12 +12,14 @@ export default function ImageCard({
   children,
   href,
   isCounter,
+  initAmount,
 }: {
   children: React.ReactNode;
   href?: string;
   isCounter?: boolean;
+  initAmount?: number;
 }) {
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(initAmount || 0);
   const router = useRouter();
 
   const updateAmount = (type: string) => {

@@ -21,7 +21,10 @@ export type SelectStoreReservation =
 // post
 
 export type SelectPost = typeof schema.posts.$inferSelect;
+export type InsertPost = typeof schema.posts.$inferInsert;
 
 export type SelectPostDish = typeof schema.postDishes.$inferSelect;
+export type InsertPostDish = typeof schema.postDishes.$inferInsert;
 
 export type SelectPostReservation = typeof schema.postReservations.$inferSelect;
+export type InsertPostReservation = typeof schema.postReservations.$inferInsert;

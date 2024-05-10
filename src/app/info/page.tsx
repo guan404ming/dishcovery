@@ -6,19 +6,26 @@ import InfoTab from "@/app/info/_components/info-tab";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import { postDishes, postReservations } from "@/db/schema";
+import { postDishes, postReservations, posts } from "@/db/schema";
 import { authOptions } from "@/lib/authOptions";
 
 export default async function Info() {
   const session = await getServerSession(authOptions);
-  const postList = await db.query.posts.findMany({ limit: 5 });
+  if (!session) return <div>Unauthorized</div>;
+
+  const postList = await db.query.posts.findMany({
+    limit: 5,
+    where: eq(posts.userId, session?.user.id),
+  });
+
   const reservationList = await db
     .select({
       postReservations,
       postDishes,
     })
     .from(postReservations)
-    .innerJoin(postDishes, eq(postReservations.postDishId, postDishes.id));
+    .innerJoin(postDishes, eq(postReservations.postDishId, postDishes.id))
+    .where(eq(postReservations.userId, session?.user.id));
 
   return (
     <>

@@ -1,10 +1,11 @@
 "use client";
 
+import { useRef } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -12,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import usePost from "@/hooks/usePost";
 
 type DialogProps = {
   open: boolean;
@@ -20,6 +22,13 @@ type DialogProps = {
 };
 
 export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
+  const titleRef = useRef<HTMLInputElement>(null);
+  const locationRef = useRef<HTMLInputElement>(null);
+  const dishNameRef = useRef<HTMLInputElement>(null);
+  const quantityRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
+  const { createPost } = usePost();
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[80%] max-w-[400px] rounded">
@@ -27,17 +36,15 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
           <DialogTitle className="flex justify-start text-lg lg:text-xl">
             Add {type}
           </DialogTitle>
-          <DialogDescription className="text-md lg:text-md flex justify-start">
-            請填寫 {type} 資訊
-          </DialogDescription>
         </DialogHeader>
 
         <div className="grid w-full max-w-sm items-center gap-2">
-          <Label htmlFor="time">領取時間</Label>
+          <Label htmlFor="title">標題</Label>
           <Input
-            type="time"
+            type="title"
             className="rounded-md border border-gray-300 p-2"
             required
+            ref={titleRef}
           />
         </div>
 
@@ -47,25 +54,58 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
             type="place"
             className="rounded-md border border-gray-300 p-2"
             required
+            ref={locationRef}
           />
         </div>
 
         <div className="grid w-full max-w-sm items-center gap-2">
-          <Label htmlFor="number">剩餘數量</Label>
+          <Label htmlFor="dishName">餐點名稱</Label>
           <Input
-            type="number"
+            type="dishName"
             className="rounded-md border border-gray-300 p-2"
             required
+            ref={dishNameRef}
+          />
+        </div>
+
+        <div className="grid w-full max-w-sm items-center gap-2">
+          <Label htmlFor="quantity">剩餘數量</Label>
+          <Input
+            type="quantity"
+            className="rounded-md border border-gray-300 p-2"
+            required
+            ref={quantityRef}
           />
         </div>
 
         <div className="grid w-full max-w-sm items-center gap-2">
           <Label htmlFor="description">商品敘述</Label>
-          <Textarea placeholder="寫一些有關餐點的敘述" />
+          <Textarea placeholder="寫一些有關餐點的敘述" ref={descriptionRef} />
         </div>
 
         <DialogFooter>
-          <Button onClick={() => onOpenChange(!open)}>confirm</Button>
+          <Button
+            onClick={() => {
+              onOpenChange(!open);
+              if (
+                !titleRef.current?.value ||
+                !descriptionRef.current?.value ||
+                !locationRef.current?.value ||
+                !dishNameRef.current?.value ||
+                !quantityRef.current?.value
+              )
+                return;
+              createPost({
+                title: titleRef.current?.value,
+                description: descriptionRef.current?.value,
+                location: locationRef.current?.value,
+                name: dishNameRef.current?.value,
+                quantity: Number(quantityRef.current?.value),
+              });
+            }}
+          >
+            confirm
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

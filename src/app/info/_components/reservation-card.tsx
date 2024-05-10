@@ -14,7 +14,11 @@ export function ReservationCard({
   isCounter?: boolean;
 }) {
   return (
-    <ImageCard isCounter={isCounter} href="#">
+    <ImageCard
+      isCounter={isCounter}
+      href="#"
+      initAmount={reservation.postReservations.quantity}
+    >
       <div className="mb-1 flex items-baseline space-x-3">
         <div className="text-lg font-semibold">
           {reservation.postDishes.name}
