@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { posts, postDishes } from "@/db/schema";
+import { posts } from "@/db/schema";
 
 const createPostRequestSchema = z.object({
   title: z.string(),
@@ -13,14 +13,6 @@ const createPostRequestSchema = z.object({
   userId: z.number(),
   dishName: z.string(),
   quantity: z.number(),
-  category: z.enum([
-    "taiwanese",
-    "japanese",
-    "american",
-    "healthy meal",
-    "pastry",
-    "fruit",
-  ]),
 });
 
 export async function POST(request: NextRequest) {
@@ -32,8 +24,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
   }
 
-  const { title, description, location, userId, dishName, quantity, category } =
-    data as z.infer<typeof createPostRequestSchema>;
+  const { title, description, location, userId } = data as z.infer<
+    typeof createPostRequestSchema
+  >;
 
   try {
     const [post] = await db
@@ -42,13 +35,7 @@ export async function POST(request: NextRequest) {
       .returning()
       .execute();
 
-    const [postDish] = await db
-      .insert(postDishes)
-      .values({ dishName, quantity, category })
-      .returning()
-      .execute();
-
-    return NextResponse.json({ post, postDish }, { status: 200 });
+    return NextResponse.json({ post }, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json(
@@ -67,8 +54,9 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
   }
 
-  const { title, description, location, dishName, quantity, category } =
-    data as z.infer<typeof createPostRequestSchema>;
+  const { title, description, location } = data as z.infer<
+    typeof createPostRequestSchema
+  >;
 
   try {
     const searchParams = new URL(data.nextUrl).searchParams;
@@ -87,14 +75,7 @@ export async function PUT(request: NextRequest) {
       .returning()
       .execute();
 
-    const [postDish] = await db
-      .update(postDishes)
-      .set({ dishName, quantity, category })
-      .where(eq(postDishes.postId, postId))
-      .returning()
-      .execute();
-
-    return NextResponse.json({ post, postDish }, { status: 200 });
+    return NextResponse.json({ post }, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json(

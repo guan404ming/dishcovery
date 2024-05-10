@@ -76,7 +76,12 @@ export default function Dish({
         </div>
       </div>
       <Separator className="md:hidden" />
-      <ReservationDialog title="Cart" open={save} onOpenChange={setSave} postDishId={dish.id} />
+      <ReservationDialog
+        title="Cart"
+        open={save}
+        onOpenChange={setSave}
+        postDishId={dish.id}
+      />
       <ReservationDialog
         title="Reservation"
         open={reserve}

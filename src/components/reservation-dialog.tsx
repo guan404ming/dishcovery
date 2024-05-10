@@ -10,10 +10,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import usePost from "@/hooks/usePost";
 
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import usePost from "@/hooks/usePost";
 
 type DialogProps = {
   postDishId: number;
