@@ -13,20 +13,24 @@ import {
 
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import usePost from "@/hooks/usePost";
 
 type DialogProps = {
+  postDishId: number;
   title: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
 export default function ReservationDialog({
+  postDishId,
   title,
   open,
   onOpenChange,
 }: DialogProps) {
   const numberRef = useRef<number>(0);
   const timeRef = useRef<string>();
+  const { createPostReservation } = usePost();
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -75,6 +79,10 @@ export default function ReservationDialog({
             onClick={() => {
               onOpenChange(!open);
               console.log(numberRef.current, timeRef.current);
+              createPostReservation({
+                postDishId,
+                quantity: numberRef.current,
+              });
             }}
           >
             confirm

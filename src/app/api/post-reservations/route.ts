@@ -1,46 +1,37 @@
+import { getServerSession } from "next-auth/next";
 import { NextResponse, type NextRequest } from "next/server";
 
+import validateRequest, { errorMap } from "../utils";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { postReservationTable } from "@/db/schema";
+import { postReservations } from "@/db/schema";
+import { authOptions } from "@/lib/authOptions";
 
 const createPostReservationRequestSchema = z.object({
-  userId: z.number(),
-  postId: z.number(),
-  dishId: z.number(),
+  postDishId: z.number(),
   quantity: z.number(),
-  status: z.enum(["waiting", "confirmed", "finished", "cancelled"]),
 });
 
 export async function POST(request: NextRequest) {
-  const data = await request.json();
+  const session = await getServerSession(authOptions);
 
   try {
-    createPostReservationRequestSchema.parse(data);
-  } catch (error) {
-    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
-  }
+    const { postDishId, quantity } = (await validateRequest({
+      schema: createPostReservationRequestSchema,
+      request,
+    })) as z.infer<typeof createPostReservationRequestSchema>;
 
-  const { userId, postId, dishId, quantity, status } = data as z.infer<
-    typeof createPostReservationRequestSchema
-  >;
-
-  try {
     const [postReservation] = await db
-      .insert(postReservationTable)
-      .values({ userId, postId, dishId, quantity, status })
+      .insert(postReservations)
+      .values({ userId: session?.user.id, postDishId, quantity })
       .returning()
       .execute();
-
     return NextResponse.json(postReservation, { status: 200 });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    const error_ = error as Error;
+    return errorMap[error_.message];
   }
 }
 
@@ -53,9 +44,10 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
   }
 
-  const { quantity, status } = data as z.infer<
-    typeof createPostReservationRequestSchema
-  >;
+  const k = createPostReservationRequestSchema.extend({
+    status: z.enum(["waiting", "confirmed", "finished", "cancelled"]),
+  });
+  const { quantity, status } = data as z.infer<typeof k>;
 
   try {
     const searchParams = new URL(data.nextUrl).searchParams;
@@ -67,9 +59,9 @@ export async function PUT(request: NextRequest) {
       );
     }
     const [postReservation] = await db
-      .update(postReservationTable)
+      .update(postReservations)
       .set({ status, quantity })
-      .where(eq(postReservationTable.id, reservationId))
+      .where(eq(postReservations.id, reservationId))
       .returning()
       .execute();
     return NextResponse.json(postReservation, { status: 200 });

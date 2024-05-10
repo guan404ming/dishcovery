@@ -73,9 +73,6 @@ export const stores = pgTable("stores", {
 export const storeDishes = pgTable("store_dishes", {
   id: serial("id").primaryKey(),
   quantity: integer("quantity").notNull().default(1),
-  categoryId: serial("category_id")
-    .notNull()
-    .references(() => stores.id, { onDelete: "cascade" }),
   storeId: serial("store_id")
     .notNull()
     .references(() => stores.id, { onDelete: "cascade" }),
@@ -115,14 +112,13 @@ export const posts = pgTable("posts", {
 
 export const postDishes = pgTable("post_dishes", {
   id: serial("id").primaryKey(),
-  postId: integer("post_id")
+  postId: serial("post_id")
     .notNull()
     .references(() => posts.id, { onDelete: "cascade" }),
   quantity: integer("quantity").notNull().default(1),
-  categoryId: serial("category_id")
-    .notNull()
-    .references(() => stores.id, { onDelete: "cascade" }),
   name: varchar("name", { length: 100 }).notNull(),
+  description: varchar("description", { length: 100 }).notNull(),
+  price: integer("price").default(0).notNull(),
 });
 
 export const postReservations = pgTable("post_reservations", {
@@ -131,10 +127,7 @@ export const postReservations = pgTable("post_reservations", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   createTime: timestamp("create_time").defaultNow().notNull(),
-  postId: serial("post_id")
-    .notNull()
-    .references(() => posts.id, { onDelete: "cascade" }),
-  dishId: serial("dish_id")
+  postDishId: serial("dish_id")
     .notNull()
     .references(() => postDishes.id, { onDelete: "cascade" }),
   quantity: integer("quantity").notNull().default(1),

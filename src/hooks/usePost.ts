@@ -2,24 +2,22 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-export default function useReservation() {
+export default function usePost() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const createStoreReservation = async ({
-    storeId,
-    dishId,
+  const createPostReservation = async ({
+    postDishId,
     quantity,
   }: {
-    storeId: number;
-    dishId: number;
+    postDishId: number;
     quantity: number;
   }) => {
     setLoading(true);
 
-    const res = await fetch("/api/store-reservations", {
+    const res = await fetch("/api/post-reservations", {
       method: "POST",
-      body: JSON.stringify({ storeId, dishId, quantity }),
+      body: JSON.stringify({ postDishId, quantity }),
     });
 
     console.log(res);
@@ -34,7 +32,7 @@ export default function useReservation() {
   };
 
   return {
-    createStoreReservation,
+    createPostReservation,
     loading,
   };
 }
