@@ -1,8 +1,10 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
+import { eq } from "drizzle-orm";
+
 import { db } from "@/db";
-import { userTable } from "@/db/schema";
+import { users } from "@/db/schema";
 
 const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
@@ -12,14 +14,14 @@ const authOptions: NextAuthOptions = {
   events: {
     async signIn({ user }) {
       await db
-        .insert(userTable)
+        .insert(users)
         .values({
           name: user.name as string,
           email: user.email as string,
-          role: "User",
+          role: "user",
         })
         .onConflictDoUpdate({
-          target: userTable.email,
+          target: users.email,
           set: {
             name: user.name as string,
           },
@@ -31,11 +33,11 @@ const authOptions: NextAuthOptions = {
 
   callbacks: {
     async session({ session }) {
-      const [user] = await db
-        .select({ id: userTable.id, role: userTable.role })
-        .from(userTable)
-        .execute();
+      const user = await db.query.users.findFirst({
+        where: eq(users.email, session.user.email as string),
+      });
 
+      if (!user) throw new Error("User Not Found");
       session.user.id = user.id;
       session.user.role = user.role;
 
@@ -45,7 +47,6 @@ const authOptions: NextAuthOptions = {
     },
   },
 
-  // Configure one or more authentication providers
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,

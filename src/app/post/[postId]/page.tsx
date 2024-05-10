@@ -4,7 +4,6 @@ import { Banner } from "@/components/banner";
 import Dish from "@/components/dish";
 import { AvatarFallback, Avatar } from "@/components/ui/avatar";
 import { db } from "@/db";
-import { bannerTable } from "@/db/schema";
 
 const post = {
   id: "1",
@@ -41,7 +40,7 @@ const dish = {
 };
 
 export default async function Post() {
-  const bannerList = await db.select().from(bannerTable);
+  const bannerList = await db.query.banners.findMany();
 
   return (
     <>

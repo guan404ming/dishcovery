@@ -8,11 +8,10 @@ import { Banner } from "@/components/banner";
 import GridContainer from "@/components/grid-container";
 import { Post } from "@/components/supplier/post";
 import { db } from "@/db";
-import { bannerTable, postTable } from "@/db/schema";
 
 export default async function Home() {
-  const bannerList = await db.select().from(bannerTable);
-  const postList = await db.select().from(postTable).limit(10);
+  const bannerList = await db.query.banners.findMany();
+  const postList = await db.query.posts.findMany({ limit: 10 });
 
   function SectionTitle({ title, url }: { title: string; url: string }) {
     return (
@@ -37,7 +36,7 @@ export default async function Home() {
       <StoreScrollArea />
 
       <SectionTitle title={"Post"} url="post" />
-      
+
       <GridContainer>
         {postList.map((post, index) => (
           <Post post={post} key={index} />

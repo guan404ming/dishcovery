@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { postTable, postDishTable } from "@/db/schema";
+import { posts, postDishes } from "@/db/schema";
 
 const createPostRequestSchema = z.object({
   title: z.string(),
@@ -37,13 +37,13 @@ export async function POST(request: NextRequest) {
 
   try {
     const [post] = await db
-      .insert(postTable)
+      .insert(posts)
       .values({ title, description, location, userId })
       .returning()
       .execute();
 
     const [postDish] = await db
-      .insert(postDishTable)
+      .insert(postDishes)
       .values({ dishName, quantity, category })
       .returning()
       .execute();
@@ -81,16 +81,16 @@ export async function PUT(request: NextRequest) {
       );
     }
     const [post] = await db
-      .update(postTable)
+      .update(posts)
       .set({ title, description, location })
-      .where(eq(postTable.id, postId))
+      .where(eq(posts.id, postId))
       .returning()
       .execute();
 
     const [postDish] = await db
-      .update(postDishTable)
+      .update(postDishes)
       .set({ dishName, quantity, category })
-      .where(eq(postDishTable.postId, postId))
+      .where(eq(postDishes.postId, postId))
       .returning()
       .execute();
 

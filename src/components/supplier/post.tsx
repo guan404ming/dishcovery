@@ -1,4 +1,3 @@
-
 import type { SelectPost } from "@/lib/type";
 
 import ImageCard from "./image-card";

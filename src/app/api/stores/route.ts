@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { storeTable } from "@/db/schema";
+import { stores } from "@/db/schema";
 
 const createStoreRequestSchema = z.object({
   userId: z.number(),
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const [store] = await db
-      .insert(storeTable)
+      .insert(stores)
       .values({ userId, name, address, phone })
       .returning()
       .execute();

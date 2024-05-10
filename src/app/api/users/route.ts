@@ -3,12 +3,12 @@ import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { userTable } from "@/db/schema";
+import { users } from "@/db/schema";
 
 const createUserRequestSchema = z.object({
   email: z.string(),
   name: z.string(),
-  role: z.enum(["Admin", "User"]),
+  role: z.enum(["admin", "user"]),
 });
 
 export async function POST(request: NextRequest) {
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const [user] = await db
-      .insert(userTable)
+      .insert(users)
       .values({ email, name, role })
       .returning()
       .execute();

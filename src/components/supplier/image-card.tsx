@@ -3,10 +3,10 @@
 import { useState } from "react";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import { Card } from "../ui/card";
 import { PlusCircle, MinusCircle } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 export default function ImageCard({
   children,
@@ -29,7 +29,10 @@ export default function ImageCard({
   };
 
   return (
-    <Card className="z-0 flex max-h-24 w-full cursor-pointer flex-row text-ellipsis text-center" onClick={() => router.push(`${href}`)}>
+    <Card
+      className="z-0 flex max-h-24 w-full cursor-pointer flex-row text-ellipsis text-center"
+      onClick={() => router.push(`${href}`)}
+    >
       <Image
         src={"/1.jpeg"}
         alt="image"

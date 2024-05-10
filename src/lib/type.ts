@@ -1,39 +1,27 @@
-import type {
-  userTable,
-  bannerTable,
-  cartTable,
-  commentTable,
-  categoryCollectionTable,
-  storeTable,
-  dishTable,
-  storeReservationTable,
-  storeCollectionTable,
-  postTable,
-  postDishTable,
-  postReservationTable,
-} from "@/db/schema";
+import type * as schema from "@/db/schema";
 
-export type SelectUser = typeof userTable.$inferSelect;
+export type SelectUser = typeof schema.users.$inferSelect;
 
-export type SelectCart = typeof cartTable.$inferSelect;
+export type SelectCart = typeof schema.carts.$inferSelect;
 
-export type SelectComment = typeof commentTable.$inferSelect;
-
-export type SelectBanner = typeof bannerTable.$inferSelect;
+export type SelectBanner = typeof schema.banners.$inferSelect;
 
 export type SelectCategoryCollection =
-  typeof categoryCollectionTable.$inferSelect;
+  typeof schema.categoryCollections.$inferSelect;
 
-export type SelectStore = typeof storeTable.$inferSelect;
+// store
 
-export type SelectDish = typeof dishTable.$inferSelect;
+export type SelectStore = typeof schema.stores.$inferSelect;
 
-export type SelectStoreReservation = typeof storeReservationTable.$inferSelect;
+export type SelectStoreDish = typeof schema.storeDishes.$inferSelect;
 
-export type SelectStoreCollection = typeof storeCollectionTable.$inferSelect;
+export type SelectStoreReservation =
+  typeof schema.storeReservations.$inferSelect;
 
-export type SelectPost = typeof postTable.$inferSelect;
+// post
 
-export type SelectPostDish = typeof postDishTable.$inferSelect;
+export type SelectPost = typeof schema.posts.$inferSelect;
 
-export type SelectPostReservation = typeof postReservationTable.$inferSelect;
+export type SelectPostDish = typeof schema.postDishes.$inferSelect;
+
+export type SelectPostReservation = typeof schema.postReservations.$inferSelect;

@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { bannerTable } from "@/db/schema";
+import { banners } from "@/db/schema";
 
 const createBannerRequestSchema = z.object({
   userId: z.number(),
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const [banner] = await db
-      .insert(bannerTable)
+      .insert(banners)
       .values({ userId, url })
       .returning()
       .execute();
@@ -54,7 +54,7 @@ export async function DELETE(request: NextRequest) {
   const { id } = data as z.infer<typeof deleteBannerRequestSchema>;
 
   try {
-    await db.delete(bannerTable).where(eq(bannerTable.id, id)).execute();
+    await db.delete(banners).where(eq(banners.id, id)).execute();
   } catch (error) {
     console.log(error);
     return NextResponse.json(

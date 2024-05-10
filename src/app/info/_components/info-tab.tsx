@@ -6,12 +6,12 @@ import ReservationDialog from "../../../components/reservation-dialog";
 import { PlusCircle } from "lucide-react";
 
 import GridContainer from "@/components/grid-container";
+import { Post } from "@/components/supplier/post";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { SelectPost } from "@/lib/type";
 
 import AddDialog from "./add-dialog";
 import { PurchaseCard } from "./purchase-card";
-import { Post } from "@/components/supplier/post";
 
 export default function InfoTab({ postList }: { postList: SelectPost[] }) {
   const mockPurchase = [
