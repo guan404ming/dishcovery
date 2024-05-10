@@ -6,7 +6,7 @@ import Map from "@/app/_components/map";
 import { StoreScrollArea } from "@/app/_components/store-scroll-area";
 import { Banner } from "@/components/banner";
 import GridContainer from "@/components/grid-container";
-import { PostCard } from "@/components/post-card";
+import { Post } from "@/components/supplier/post";
 import { db } from "@/db";
 import { bannerTable, postTable } from "@/db/schema";
 
@@ -37,9 +37,10 @@ export default async function Home() {
       <StoreScrollArea />
 
       <SectionTitle title={"Post"} url="post" />
+      
       <GridContainer>
         {postList.map((post, index) => (
-          <PostCard post={post} key={index} />
+          <Post post={post} key={index} />
         ))}
       </GridContainer>
     </>

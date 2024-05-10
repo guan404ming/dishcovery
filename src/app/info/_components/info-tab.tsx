@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-import { PostCard } from "../../../components/post-card";
 import ReservationDialog from "../../../components/reservation-dialog";
 import { PlusCircle } from "lucide-react";
 
@@ -12,6 +11,7 @@ import type { SelectPost } from "@/lib/type";
 
 import AddDialog from "./add-dialog";
 import { PurchaseCard } from "./purchase-card";
+import { Post } from "@/components/supplier/post";
 
 export default function InfoTab({ postList }: { postList: SelectPost[] }) {
   const mockPurchase = [
@@ -80,13 +80,13 @@ export default function InfoTab({ postList }: { postList: SelectPost[] }) {
         />
       </TabsContent>
 
-      <TabsContent
-        className="grid grid-cols-1 gap-2 md:grid-cols-2"
-        value="post"
-      >
-        {postList.map((post, index) => (
-          <PostCard post={post} key={index} isCounter={true} />
-        ))}
+      <TabsContent value="post">
+        <GridContainer>
+          {postList.map((post, index) => (
+            <Post post={post} key={index} isCounter />
+          ))}
+        </GridContainer>
+
         <AddDialog
           open={addDialogOpen}
           onOpenChange={setAddDialogOpen}
@@ -98,9 +98,6 @@ export default function InfoTab({ postList }: { postList: SelectPost[] }) {
         className="grid grid-cols-1 gap-2 md:grid-cols-2"
         value="store"
       >
-        {postList.map((post, index) => (
-          <PostCard post={post} key={index} isCounter={true} />
-        ))}
         <AddDialog
           open={addDialogOpen}
           onOpenChange={setAddDialogOpen}
