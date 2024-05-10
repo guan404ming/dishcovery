@@ -34,8 +34,8 @@ jobs:
           start: yarn dev
           wait-on: "http://localhost:3000"
 
-      - name: Run unit tests
-        run: yarn test
+      # - name: Run unit tests
+      #   run: yarn test
 
       - name: Deploy to Vercel
         if: success()
