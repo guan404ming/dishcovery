@@ -32,10 +32,11 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session }) {
       const [user] = await db
-        .select({ role: userTable.role })
+        .select({ id: userTable.id, role: userTable.role })
         .from(userTable)
         .execute();
 
+      session.user.id = user.id;
       session.user.role = user.role;
 
       return {

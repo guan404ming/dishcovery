@@ -7,19 +7,15 @@ import { useRouter } from "next/navigation";
 
 import { PlusCircle, MinusCircle } from "lucide-react";
 
-import { Card } from "./ui/card";
+import type { SelectPost } from "@/lib/type";
 
-export interface Post {
-  title: string;
-  content: string;
-  picUrl: string;
-}
+import { Card } from "./ui/card";
 
 export function PostCard({
   post,
   isCounter,
 }: {
-  post: Post;
+  post: SelectPost;
   isCounter?: boolean;
 }) {
   const router = useRouter();
@@ -56,7 +52,7 @@ export function PostCard({
           </div>
         </div>
         <span className="w-full overflow-hidden text-ellipsis text-wrap text-xs font-normal text-muted-foreground">
-          {post.content}
+          {post.description}
         </span>
       </div>
 

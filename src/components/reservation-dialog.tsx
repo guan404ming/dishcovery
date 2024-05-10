@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,6 +25,9 @@ export default function ReservationDialog({
   open,
   onOpenChange,
 }: DialogProps) {
+  const numberRef = useRef<number>(0);
+  const timeRef = useRef<string>();
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[80%] max-w-[400px] rounded">
@@ -38,6 +43,9 @@ export default function ReservationDialog({
             type="time"
             className="rounded-md border border-gray-300 p-2"
             required
+            onChange={(e) => {
+              timeRef.current = e.target.value;
+            }}
           />
         </div>
 
@@ -48,6 +56,9 @@ export default function ReservationDialog({
             type="number"
             className="rounded-md border border-gray-300 p-2"
             required
+            onChange={(e) => {
+              numberRef.current = parseInt(e.target.value);
+            }}
           />
         </div>
 
@@ -59,7 +70,13 @@ export default function ReservationDialog({
           >
             cancel
           </Button>
-          <Button className="block w-full" onClick={() => onOpenChange(!open)}>
+          <Button
+            className="block w-full"
+            onClick={() => {
+              onOpenChange(!open);
+              console.log(numberRef.current, timeRef.current);
+            }}
+          >
             confirm
           </Button>
         </DialogFooter>
