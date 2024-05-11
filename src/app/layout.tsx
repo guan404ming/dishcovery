@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
+import "@uploadthing/react/styles.css";
+
 import Header from "@/components/header";
 import NextAuthProvider from "@/components/next-auth-provider";
 

@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-
 export default function Cart() {
   // const totalCost = mockPost.reduce((acc, product) => {
   //   const cost = parseFloat(product.cost);

@@ -2,29 +2,22 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-import { upload } from "@vercel/blob/client";
-
 export default function useReservation() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const createBanner = async ({
+    url,
     userId,
-    file,
   }: {
+    url: string;
     userId: number;
-    file: File;
   }) => {
     setLoading(true);
 
-    const blob = await upload(`banners/${file.name}`, file, {
-      access: "public",
-      handleUploadUrl: "/api/upload",
-    });
-
     const res = await fetch("/api/banners", {
       method: "POST",
-      body: JSON.stringify({ userId, url: blob.url }),
+      body: JSON.stringify({ userId, url: url }),
     });
 
     if (!res.ok) {
@@ -34,7 +27,6 @@ export default function useReservation() {
 
     router.refresh();
     setLoading(false);
-    return blob.url;
   };
 
   return {

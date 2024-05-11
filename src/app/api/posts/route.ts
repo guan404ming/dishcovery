@@ -1,105 +1,92 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { handleValidateRequest, handleError } from "../utils";
 import { eq } from "drizzle-orm";
+import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { postTable, postDishTable } from "@/db/schema";
+import { postDishes, posts } from "@/db/schema";
 
-const createPostRequestSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  location: z.string(),
-  userId: z.number(),
-  dishName: z.string(),
+const insertPostSchema = createInsertSchema(posts).extend({
+  name: z.string(),
   quantity: z.number(),
-  category: z.enum([
-    "taiwanese",
-    "japanese",
-    "american",
-    "healthy meal",
-    "pastry",
-    "fruit",
-  ]),
+});
+
+const updatePostSchema = insertPostSchema.extend({ nextUrl: z.string() });
+
+const deletePostSchema = z.object({
+  id: z.number(),
 });
 
 export async function POST(request: NextRequest) {
-  const data = await request.json();
-
   try {
-    createPostRequestSchema.parse(data);
-  } catch (error) {
-    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
-  }
+    const { title, description, location, quantity, name, userId } =
+      (await handleValidateRequest({
+        schema: insertPostSchema,
+        request,
+      })) as z.infer<typeof insertPostSchema>;
 
-  const { title, description, location, userId, dishName, quantity, category } =
-    data as z.infer<typeof createPostRequestSchema>;
-
-  try {
     const [post] = await db
-      .insert(postTable)
+      .insert(posts)
       .values({ title, description, location, userId })
       .returning()
       .execute();
 
     const [postDish] = await db
-      .insert(postDishTable)
-      .values({ dishName, quantity, category })
+      .insert(postDishes)
+      .values({
+        postId: post.id,
+        quantity,
+        name,
+        description,
+        price: 0,
+      })
       .returning()
       .execute();
-
+    console.log(post, postDish);
     return NextResponse.json({ post, postDish }, { status: 200 });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return handleError({ error });
   }
 }
 
 export async function PUT(request: NextRequest) {
-  const data = await request.json();
-
   try {
-    createPostRequestSchema.parse(data);
-  } catch (error) {
-    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
-  }
-
-  const { title, description, location, dishName, quantity, category } =
-    data as z.infer<typeof createPostRequestSchema>;
-
-  try {
-    const searchParams = new URL(data.nextUrl).searchParams;
+    const { title, description, location, nextUrl } =
+      (await handleValidateRequest({
+        schema: updatePostSchema,
+        request,
+      })) as z.infer<typeof updatePostSchema>;
+    const searchParams = new URL(nextUrl).searchParams;
     const postId = Number(searchParams.get("postId"));
 
     if (!postId) {
-      return NextResponse.json(
-        { error: "Post ID is required" },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
     }
     const [post] = await db
-      .update(postTable)
+      .update(posts)
       .set({ title, description, location })
-      .where(eq(postTable.id, postId))
+      .where(eq(posts.id, postId))
       .returning()
       .execute();
 
-    const [postDish] = await db
-      .update(postDishTable)
-      .set({ dishName, quantity, category })
-      .where(eq(postDishTable.postId, postId))
-      .returning()
-      .execute();
-
-    return NextResponse.json({ post, postDish }, { status: 200 });
+    return NextResponse.json({ post }, { status: 200 });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return handleError({ error });
   }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { id } = (await handleValidateRequest({
+      schema: deletePostSchema,
+      request,
+    })) as z.infer<typeof deletePostSchema>;
+    await db.delete(posts).where(eq(posts.id, id)).execute();
+  } catch (error) {
+    return handleError({ error });
+  }
+
+  return new NextResponse("OK", { status: 200 });
 }

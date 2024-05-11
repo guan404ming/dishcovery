@@ -13,6 +13,11 @@ const config: Config = {
   testEnvironment: "node",
   collectCoverage: true,
   collectCoverageFrom: ["src/app/api/**/*.{ts,tsx}"],
+  coveragePathIgnorePatterns: [
+    "src/app/api/uploadthing",
+    "src/app/api/utils.ts",
+    "src/app/api/auth",
+  ],
   detectOpenHandles: true,
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],

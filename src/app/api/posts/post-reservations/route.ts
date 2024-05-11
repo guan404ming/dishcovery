@@ -1,46 +1,33 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { handleError, handleValidateRequest } from "../../utils";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { postReservationTable } from "@/db/schema";
+import { postReservations } from "@/db/schema";
 
 const createPostReservationRequestSchema = z.object({
-  userId: z.number(),
-  postId: z.number(),
-  dishId: z.number(),
+  postDishId: z.number(),
   quantity: z.number(),
-  status: z.enum(["waiting", "confirmed", "finished", "cancelled"]),
+  userId: z.number(),
 });
 
 export async function POST(request: NextRequest) {
-  const data = await request.json();
-
   try {
-    createPostReservationRequestSchema.parse(data);
-  } catch (error) {
-    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
-  }
+    const { postDishId, quantity, userId } = (await handleValidateRequest({
+      schema: createPostReservationRequestSchema,
+      request,
+    })) as z.infer<typeof createPostReservationRequestSchema>;
 
-  const { userId, postId, dishId, quantity, status } = data as z.infer<
-    typeof createPostReservationRequestSchema
-  >;
-
-  try {
     const [postReservation] = await db
-      .insert(postReservationTable)
-      .values({ userId, postId, dishId, quantity, status })
+      .insert(postReservations)
+      .values({ userId, postDishId, quantity })
       .returning()
       .execute();
-
     return NextResponse.json(postReservation, { status: 200 });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return handleError({ error });
   }
 }
 
@@ -53,9 +40,10 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
   }
 
-  const { quantity, status } = data as z.infer<
-    typeof createPostReservationRequestSchema
-  >;
+  const k = createPostReservationRequestSchema.extend({
+    status: z.enum(["waiting", "confirmed", "finished", "cancelled"]),
+  });
+  const { quantity, status } = data as z.infer<typeof k>;
 
   try {
     const searchParams = new URL(data.nextUrl).searchParams;
@@ -67,9 +55,9 @@ export async function PUT(request: NextRequest) {
       );
     }
     const [postReservation] = await db
-      .update(postReservationTable)
+      .update(postReservations)
       .set({ status, quantity })
-      .where(eq(postReservationTable.id, reservationId))
+      .where(eq(postReservations.id, reservationId))
       .returning()
       .execute();
     return NextResponse.json(postReservation, { status: 200 });

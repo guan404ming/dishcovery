@@ -6,47 +6,36 @@ import ReservationDialog from "../../../components/reservation-dialog";
 import { PlusCircle } from "lucide-react";
 
 import GridContainer from "@/components/grid-container";
+import { Post } from "@/components/supplier/post";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { SelectPost } from "@/lib/type";
+import type {
+  SelectPost,
+  SelectPostDish,
+  SelectPostReservation,
+} from "@/lib/type";
 
 import AddDialog from "./add-dialog";
-import { PurchaseCard } from "./purchase-card";
-import { Post } from "@/components/supplier/post";
+import { ReservationCard } from "./reservation-card";
 
-export default function InfoTab({ postList }: { postList: SelectPost[] }) {
-  const mockPurchase = [
-    {
-      id: 123,
-      storeName: "Store A",
-      price: 10.99,
-      state: "餐點準備中",
-      photo: "1.jpeg",
-    },
-    {
-      id: 456,
-      storeName: "Store B",
-      price: 15.49,
-      state: "餐點準備中",
-      photo: "1.jpeg",
-    },
-    {
-      id: 789,
-      storeName: "Store C",
-      price: 8.75,
-      state: "餐點準備中",
-      photo: "1.jpeg",
-    },
-  ];
-
+export default function InfoTab({
+  postList,
+  reservationList,
+}: {
+  postList: SelectPost[];
+  reservationList: {
+    postReservations: SelectPostReservation;
+    postDishes: SelectPostDish;
+  }[];
+}) {
   const [reserveDialogOpen, setReserveDialogOpen] = useState(false);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
 
   return (
-    <Tabs defaultValue="purchase" className="w-full">
+    <Tabs defaultValue="reservation" className="w-full">
       <div className="mb-2 flex w-full items-center justify-between">
         <TabsList>
-          <TabsTrigger value="purchase" className="pl-0">
-            Purchase
+          <TabsTrigger value="reservation" className="pl-0">
+            Reservation
           </TabsTrigger>
           <TabsTrigger value="post" className="border-x">
             Post
@@ -61,23 +50,23 @@ export default function InfoTab({ postList }: { postList: SelectPost[] }) {
         />
       </div>
 
-      <TabsContent value="purchase">
+      <TabsContent value="reservation">
         <GridContainer>
-          {mockPurchase.map((purchase, index) => (
+          {reservationList.map((reservation, index) => (
             <div
               key={index}
               onClick={() => setReserveDialogOpen(!reserveDialogOpen)}
             >
-              <PurchaseCard purchase={purchase} />
+              <ReservationCard reservation={reservation} isCounter />
+              <ReservationDialog
+                postDishId={reservation.postReservations.postDishId}
+                title="Reservation"
+                open={reserveDialogOpen}
+                onOpenChange={setReserveDialogOpen}
+              />
             </div>
           ))}
         </GridContainer>
-
-        <ReservationDialog
-          title="Reservation"
-          open={reserveDialogOpen}
-          onOpenChange={setReserveDialogOpen}
-        />
       </TabsContent>
 
       <TabsContent value="post">

@@ -10,23 +10,27 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import usePost from "@/hooks/usePost";
 
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
 type DialogProps = {
+  postDishId: number;
   title: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
 export default function ReservationDialog({
+  postDishId,
   title,
   open,
   onOpenChange,
 }: DialogProps) {
   const numberRef = useRef<number>(0);
   const timeRef = useRef<string>();
+  const { createPostReservation } = usePost();
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -36,18 +40,6 @@ export default function ReservationDialog({
             {title}
           </DialogTitle>
         </DialogHeader>
-
-        <div className="grid w-full max-w-sm items-center gap-2">
-          <Label htmlFor="time">領取時間</Label>
-          <Input
-            type="time"
-            className="rounded-md border border-gray-300 p-2"
-            required
-            onChange={(e) => {
-              timeRef.current = e.target.value;
-            }}
-          />
-        </div>
 
         <div className="grid max-w-sm items-center gap-2">
           <Label htmlFor="number">預定數量</Label>
@@ -75,6 +67,10 @@ export default function ReservationDialog({
             onClick={() => {
               onOpenChange(!open);
               console.log(numberRef.current, timeRef.current);
+              createPostReservation({
+                postDishId,
+                quantity: numberRef.current,
+              });
             }}
           >
             confirm

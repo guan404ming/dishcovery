@@ -1,3 +1,4 @@
+import TimeText from "../time-text";
 
 import type { SelectPost } from "@/lib/type";
 
@@ -12,15 +13,17 @@ export function Post({
 }) {
   return (
     <ImageCard href={`post/${post.id}`} isCounter={isCounter}>
-      <div className="mb-1 flex flex-col space-y-0.5">
-        <div>{post.title}</div>
-        <div className="text-xs font-light text-muted-foreground">
-          Remaining: 100{" "}
-        </div>
+      <div className="flex justify-between">
+        <h1 className="font-semibold">{post.title}</h1>
       </div>
-      <span className="w-full overflow-hidden text-ellipsis text-wrap text-xs font-normal text-muted-foreground">
+
+      <div className="text-xs font-light text-muted-foreground">
+        <TimeText date={post.createTime} format="YYYY-MM-DD" />
+      </div>
+
+      <div className="mt-1 w-full max-w-24 overflow-hidden text-ellipsis text-wrap text-xs text-muted-foreground">
         {post.description}
-      </span>
+      </div>
     </ImageCard>
   );
 }
