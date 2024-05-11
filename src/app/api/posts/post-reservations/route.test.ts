@@ -1,7 +1,7 @@
 // import { type NextRequest } from "next/server";
 // import { describe, expect, it, jest } from "@jest/globals";
 // import { db } from "@/db";
-import { handleUnitTest } from "../../utils";
+import { handleUnitTest } from "../../../../lib/unit-test";
 
 import { POST, PUT, DELETE } from "./route";
 

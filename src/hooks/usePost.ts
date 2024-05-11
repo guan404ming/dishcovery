@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 import type {
   InsertPost,
@@ -13,6 +14,7 @@ import handleFetch from "./utils";
 export default function usePost() {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
+  const router = useRouter();
 
   const createPostReservation = async ({
     postDishId,
@@ -26,6 +28,7 @@ export default function usePost() {
       url: "/api/posts/post-reservations",
     });
     setLoading(false);
+    router.refresh();
   };
 
   const createPost = async ({
@@ -37,7 +40,7 @@ export default function usePost() {
   }: InsertPost & InsertPostDish) => {
     setLoading(true);
 
-    handleFetch({
+    const body = await handleFetch({
       data: {
         title,
         description,
@@ -49,6 +52,19 @@ export default function usePost() {
       method: "POST",
       url: "/api/posts",
     });
+
+    await handleFetch({
+      data: {
+        postId: body.data.id,
+        name,
+        quantity,
+        description,
+      },
+      method: "POST",
+      url: "/api/posts/post-dishes",
+    });
+
+    router.refresh();
     setLoading(false);
   };
 

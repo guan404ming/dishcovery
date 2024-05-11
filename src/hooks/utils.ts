@@ -8,13 +8,18 @@ export default async function handleFetch({
   method: string;
   url: string;
 }) {
-  const res = await fetch(url, {
-    method,
-    body: JSON.stringify({ ...data }),
-  });
+  try {
+    const res = await fetch(url, {
+      method,
+      body: JSON.stringify({ ...data }),
+    });
 
-  if (!res.ok) {
-    const body = await res.json();
-    throw new Error(body.error);
+    if (!res.ok) {
+      const body = await res.json();
+      throw new Error(body.error);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error(error);
   }
 }

@@ -1,4 +1,4 @@
-import { handleUnitTest } from "../utils";
+import { handleUnitTest } from "../../../lib/unit-test";
 
 import { POST, PUT, DELETE } from "./route";
 
