@@ -1,37 +1,33 @@
-import { getServerSession } from "next-auth/next";
 import { NextResponse, type NextRequest } from "next/server";
 
-import validateRequest, { errorMap } from "../utils";
+import { handleError, handleValidateRequest } from "../../utils";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
 import { postReservations } from "@/db/schema";
-import { authOptions } from "@/lib/authOptions";
 
 const createPostReservationRequestSchema = z.object({
   postDishId: z.number(),
   quantity: z.number(),
+  userId: z.number(),
 });
 
 export async function POST(request: NextRequest) {
-  const session = await getServerSession(authOptions);
-
   try {
-    const { postDishId, quantity } = (await validateRequest({
+    const { postDishId, quantity, userId } = (await handleValidateRequest({
       schema: createPostReservationRequestSchema,
       request,
     })) as z.infer<typeof createPostReservationRequestSchema>;
 
     const [postReservation] = await db
       .insert(postReservations)
-      .values({ userId: session?.user.id, postDishId, quantity })
+      .values({ userId, postDishId, quantity })
       .returning()
       .execute();
     return NextResponse.json(postReservation, { status: 200 });
   } catch (error) {
-    const error_ = error as Error;
-    return errorMap[error_.message];
+    return handleError({ error });
   }
 }
 

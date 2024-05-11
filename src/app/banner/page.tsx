@@ -63,7 +63,6 @@ export default function BannerUploadPage() {
           className="aspect-auto w-full border object-cover"
         />
       )}
-      
     </>
   );
 }

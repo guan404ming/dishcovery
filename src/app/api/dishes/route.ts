@@ -2,6 +2,9 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { z } from "zod";
 
+import { db } from "@/db";
+import { storeDishes } from "@/db/schema";
+
 const createDishRequestSchema = z.object({
   quantity: z.number(),
   category: z.enum([
@@ -30,12 +33,12 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // const [dish] = await db
-    //   .insert(storeDishes)
-    //   .values({ quantity, category, storeId, name, price, description })
-    //   .returning()
-    //   .execute();
-    // return NextResponse.json(dish, { status: 200 });
+    const [dish] = await db
+      .insert(storeDishes)
+      .values({ ...data })
+      .returning()
+      .execute();
+    return NextResponse.json(dish, { status: 200 });
     console.log(data);
   } catch (error) {
     console.log(error);
