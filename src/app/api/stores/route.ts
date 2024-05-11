@@ -1,11 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import { handleError, handleParseRequest } from "../utils";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
 import { stores } from "@/db/schema";
-import { eq } from "drizzle-orm";
 
 const insertStoreSchema = z.object({
   name: z.string(),
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       schema: insertStoreSchema,
       request,
     })) as z.infer<typeof insertStoreSchema>;
-  
+
     const [store] = await db
       .insert(stores)
       .values({ ...data })
