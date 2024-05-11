@@ -1,65 +1,72 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { handleError, handleParseRequest } from "../utils";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
 import { banners } from "@/db/schema";
 
-const createBannerRequestSchema = z.object({
+const insertBannerSchema = z.object({
   userId: z.number(),
   url: z.string(),
 });
+const updateBannerSchema = insertBannerSchema
+  .omit({ userId: true })
+  .extend({ id: z.number() });
+const deleteBannerSchema = z.object({ id: z.number() });
 
 export async function POST(request: NextRequest) {
-  const data = await request.json();
-
   try {
-    createBannerRequestSchema.parse(data);
-  } catch (error) {
-    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
-  }
+    const data = (await handleParseRequest({
+      schema: insertBannerSchema,
+      request,
+    })) as z.infer<typeof insertBannerSchema>;
 
-  const { userId, url } = data as z.infer<typeof createBannerRequestSchema>;
-
-  try {
     const [banner] = await db
       .insert(banners)
-      .values({ userId, url })
+      .values({ ...data })
       .returning()
       .execute();
-    return NextResponse.json(banner, { status: 200 });
+
+    return NextResponse.json({ data: { ...banner } }, { status: 200 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return handleError({ error });
   }
 }
 
-const deleteBannerRequestSchema = z.object({
-  id: z.number(),
-});
+export async function PUT(request: NextRequest) {
+  try {
+    const data = (await handleParseRequest({
+      schema: updateBannerSchema,
+      request,
+    })) as z.infer<typeof updateBannerSchema>;
+
+    const [banner] = await db
+      .update(banners)
+      .set({ ...data })
+      .where(eq(banners.id, data.id as number))
+      .returning();
+
+    return NextResponse.json({ data: { ...banner } }, { status: 200 });
+  } catch (error) {
+    return handleError({ error });
+  }
+}
 
 export async function DELETE(request: NextRequest) {
-  const data = await request.json();
-
   try {
-    deleteBannerRequestSchema.parse(data);
+    const { id } = (await handleParseRequest({
+      schema: deleteBannerSchema,
+      request,
+    })) as z.infer<typeof deleteBannerSchema>;
+    const [user] = await db
+      .delete(banners)
+      .where(eq(banners.id, id))
+      .returning()
+      .execute();
+    return NextResponse.json({ data: { ...user } }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
+    return handleError({ error });
   }
-
-  const { id } = data as z.infer<typeof deleteBannerRequestSchema>;
-
-  try {
-    await db.delete(banners).where(eq(banners.id, id)).execute();
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
-  }
-
-  return new NextResponse("OK", { status: 200 });
 }

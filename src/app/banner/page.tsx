@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import useBanner from "@/hooks/useBanner";
+import useBanner from "@/hooks/use-banner";
 import { UploadButton } from "@/lib/uploadthing";
 
 export default function BannerUploadPage() {

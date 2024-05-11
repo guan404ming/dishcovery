@@ -8,8 +8,8 @@ import { z } from "zod";
 import { db } from "@/db";
 import { posts } from "@/db/schema";
 
-const insertPostSchema = createInsertSchema(posts);
-const updatePostSchema = insertPostSchema.extend({ id: z.number() });
+export const insertPostSchema = createInsertSchema(posts);
+export const updatePostSchema = insertPostSchema.extend({ id: z.number() });
 const deletePostSchema = z.object({ id: z.number() });
 
 export async function POST(request: NextRequest) {

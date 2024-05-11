@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import usePost from "@/hooks/usePost";
+import usePost from "@/hooks/use-post";
 
 type DialogProps = {
   open: boolean;
