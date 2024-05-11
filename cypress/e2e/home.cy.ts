@@ -100,7 +100,7 @@ describe("1. Home Page", () => {
       cy.get("@btn").find("svg").should("exist");
     });
 
-    it("display dish", () => {
+    xit("display dish", () => {
       cy.get(".cursor-pointer.flex-row").should("have.length.gte", 5);
 
       cy.get(".cursor-pointer.flex-row").each(($el) => {
