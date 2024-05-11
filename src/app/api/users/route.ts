@@ -8,16 +8,16 @@ import { z } from "zod";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 
-const insertPostSchema = createInsertSchema(users);
-const updatePostSchema = createInsertSchema(users, { id: z.number() });
-const deletePostSchema = z.object({ id: z.number() });
+const insertUserSchema = createInsertSchema(users);
+const updateUserSchema = createInsertSchema(users, { id: z.number() });
+const deleteUserSchema = z.object({ id: z.number() });
 
 export async function POST(request: NextRequest) {
   try {
     const data = (await handleParseRequest({
-      schema: insertPostSchema,
+      schema: insertUserSchema,
       request,
-    })) as z.infer<typeof insertPostSchema>;
+    })) as z.infer<typeof insertUserSchema>;
 
     const [user] = await db
       .insert(users)
@@ -34,9 +34,9 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const data = (await handleParseRequest({
-      schema: updatePostSchema,
+      schema: updateUserSchema,
       request,
-    })) as z.infer<typeof updatePostSchema>;
+    })) as z.infer<typeof updateUserSchema>;
 
     const [user] = await db
       .update(users)
@@ -53,9 +53,9 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     const { id } = (await handleParseRequest({
-      schema: deletePostSchema,
+      schema: deleteUserSchema,
       request,
-    })) as z.infer<typeof deletePostSchema>;
+    })) as z.infer<typeof deleteUserSchema>;
     const [user] = await db
       .delete(users)
       .where(eq(users.id, id))
