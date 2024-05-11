@@ -2,23 +2,29 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { handleError, handleValidateRequest } from "../../utils";
 import { eq } from "drizzle-orm";
+import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import { db } from "@/db";
 import { postReservations } from "@/db/schema";
 
-const createPostReservationRequestSchema = z.object({
-  postDishId: z.number(),
-  quantity: z.number(),
-  userId: z.number(),
+const insertPostReservationSchema = createInsertSchema(postReservations);
+
+const updatePostReservationSchema = insertPostReservationSchema.extend({
+  status: z.enum(["waiting", "confirmed", "finished", "cancelled"]),
+  nextUrl: z.string(),
+});
+
+const deletePostSchema = z.object({
+  id: z.number(),
 });
 
 export async function POST(request: NextRequest) {
   try {
     const { postDishId, quantity, userId } = (await handleValidateRequest({
-      schema: createPostReservationRequestSchema,
+      schema: insertPostReservationSchema,
       request,
-    })) as z.infer<typeof createPostReservationRequestSchema>;
+    })) as z.infer<typeof insertPostReservationSchema>;
 
     const [postReservation] = await db
       .insert(postReservations)
@@ -32,28 +38,18 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  const data = await request.json();
+  const { quantity, status, nextUrl } = (await handleValidateRequest({
+    schema: updatePostReservationSchema,
+    request,
+  })) as z.infer<typeof updatePostReservationSchema>;
 
   try {
-    createPostReservationRequestSchema.parse(data);
-  } catch (error) {
-    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
-  }
-
-  const k = createPostReservationRequestSchema.extend({
-    status: z.enum(["waiting", "confirmed", "finished", "cancelled"]),
-  });
-  const { quantity, status } = data as z.infer<typeof k>;
-
-  try {
-    const searchParams = new URL(data.nextUrl).searchParams;
+    const searchParams = new URL(nextUrl).searchParams;
     const reservationId = Number(searchParams.get("reservationId"));
     if (!reservationId) {
-      return NextResponse.json(
-        { error: "Reservation ID is required" },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
     }
+
     const [postReservation] = await db
       .update(postReservations)
       .set({ status, quantity })
@@ -63,9 +59,23 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json(postReservation, { status: 200 });
   } catch (error) {
     console.log(error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return handleError({ error });
   }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { id } = (await handleValidateRequest({
+      schema: deletePostSchema,
+      request,
+    })) as z.infer<typeof deletePostSchema>;
+    await db
+      .delete(postReservations)
+      .where(eq(postReservations.id, id))
+      .execute();
+  } catch (error) {
+    return handleError({ error });
+  }
+
+  return new NextResponse("OK", { status: 200 });
 }

@@ -44,7 +44,6 @@ export async function POST(request: NextRequest) {
       })
       .returning()
       .execute();
-    console.log(post, postDish);
     return NextResponse.json({ post, postDish }, { status: 200 });
   } catch (error) {
     return handleError({ error });
