@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse, type NextRequest } from "next/server";
 
+// import { describe, expect, it, jest } from "@jest/globals";
 import type { z } from "zod";
 
-export async function handleValidateRequest({
+export async function handleParseRequest({
   schema,
   request,
 }: {
@@ -13,7 +14,7 @@ export async function handleValidateRequest({
   const data = await request.json();
 
   try {
-    console.log("data", data);
+    console.log(data);
     schema.parse(data);
   } catch (error) {
     throw new Error("Invalid Request");
@@ -23,6 +24,7 @@ export async function handleValidateRequest({
 }
 
 export async function handleError({ error }: { error: any }) {
+  console.log(error);
   const error_ = error as Error;
   const errorMap: { [key: string]: any } = {
     "Internal Server Error": NextResponse.json(

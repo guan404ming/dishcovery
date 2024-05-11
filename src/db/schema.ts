@@ -87,9 +87,6 @@ export const storeReservations = pgTable("store_reservations", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   createTime: timestamp("create_time").defaultNow().notNull(),
-  storeId: serial("store_id")
-    .notNull()
-    .references(() => stores.id, { onDelete: "cascade" }),
   storeDishId: serial("store_dish_id")
     .notNull()
     .references(() => storeDishes.id, { onDelete: "cascade" }),

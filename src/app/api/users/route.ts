@@ -6,25 +6,26 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import { db } from "@/db";
-import { posts } from "@/db/schema";
+import { users } from "@/db/schema";
 
-const insertPostSchema = createInsertSchema(posts);
-const updatePostSchema = insertPostSchema.extend({ id: z.number() });
-const deletePostSchema = z.object({ id: z.number() });
+const insertUserSchema = createInsertSchema(users);
+const updateUserSchema = createInsertSchema(users, { id: z.number() });
+const deleteUserSchema = z.object({ id: z.number() });
 
 export async function POST(request: NextRequest) {
   try {
     const data = (await handleParseRequest({
-      schema: insertPostSchema,
+      schema: insertUserSchema,
       request,
-    })) as z.infer<typeof insertPostSchema>;
+    })) as z.infer<typeof insertUserSchema>;
 
-    const [post] = await db
-      .insert(posts)
+    const [user] = await db
+      .insert(users)
       .values({ ...data })
       .returning()
       .execute();
-    return NextResponse.json({ data: { ...post } }, { status: 200 });
+
+    return NextResponse.json({ data: { ...user } }, { status: 200 });
   } catch (error) {
     return handleError({ error });
   }
@@ -33,18 +34,17 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const data = (await handleParseRequest({
-      schema: updatePostSchema,
+      schema: updateUserSchema,
       request,
-    })) as z.infer<typeof updatePostSchema>;
+    })) as z.infer<typeof updateUserSchema>;
 
-    const [post] = await db
-      .update(posts)
+    const [user] = await db
+      .update(users)
       .set({ ...data })
-      .where(eq(posts.id, data.id as number))
-      .returning()
-      .execute();
+      .where(eq(users.id, data.id as number))
+      .returning();
 
-    return NextResponse.json({ data: { ...post } }, { status: 200 });
+    return NextResponse.json({ data: { ...user } }, { status: 200 });
   } catch (error) {
     return handleError({ error });
   }
@@ -53,15 +53,15 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     const { id } = (await handleParseRequest({
-      schema: deletePostSchema,
+      schema: deleteUserSchema,
       request,
-    })) as z.infer<typeof deletePostSchema>;
-    const [post] = await db
-      .delete(posts)
-      .where(eq(posts.id, id))
+    })) as z.infer<typeof deleteUserSchema>;
+    const [user] = await db
+      .delete(users)
+      .where(eq(users.id, id))
       .returning()
       .execute();
-    return NextResponse.json({ data: { ...post } }, { status: 200 });
+    return NextResponse.json({ data: { ...user } }, { status: 200 });
   } catch (error) {
     return handleError({ error });
   }

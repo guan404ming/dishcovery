@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 
-import { authOptions } from "@/lib/authOptions";
+import { authOptions } from "@/lib/auth-options";
 
 const f = createUploadthing();
 

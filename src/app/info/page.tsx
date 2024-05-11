@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { postDishes, postReservations, posts } from "@/db/schema";
-import { authOptions } from "@/lib/authOptions";
+import { authOptions } from "@/lib/auth-options";
 
 export default async function Info() {
   const session = await getServerSession(authOptions);

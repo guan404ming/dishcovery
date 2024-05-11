@@ -1,6 +1,3 @@
-// import { type NextRequest } from "next/server";
-// import { describe, expect, it, jest } from "@jest/globals";
-// import { db } from "@/db";
 import { handleUnitTest } from "../../../../lib/unit-test";
 
 import { POST, PUT, DELETE } from "./route";
@@ -9,10 +6,10 @@ handleUnitTest({
   POST,
   PUT,
   DELETE,
-  name: "post-reservations",
+  name: "stores/store-reservations",
   requestObj: {
     userId: 1,
-    postDishId: 2,
+    storeDishId: 1,
     quantity: 2,
   },
   updatedObj: {

@@ -30,7 +30,6 @@ export async function POST(request: NextRequest) {
       .execute();
     return NextResponse.json(banner, { status: 200 });
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },
@@ -56,7 +55,6 @@ export async function DELETE(request: NextRequest) {
   try {
     await db.delete(banners).where(eq(banners.id, id)).execute();
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },
