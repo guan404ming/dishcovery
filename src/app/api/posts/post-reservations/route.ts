@@ -52,7 +52,6 @@ export async function PUT(request: NextRequest) {
       .execute();
     return NextResponse.json({ data: { ...postReservation } }, { status: 200 });
   } catch (error) {
-    console.log(error);
     return handleError({ error });
   }
 }

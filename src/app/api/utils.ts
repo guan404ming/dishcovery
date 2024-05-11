@@ -25,6 +25,7 @@ export async function handleParseRequest({
 }
 
 export async function handleError({ error }: { error: any }) {
+  console.log(error);
   const error_ = error as Error;
   const errorMap: { [key: string]: any } = {
     "Internal Server Error": NextResponse.json(
