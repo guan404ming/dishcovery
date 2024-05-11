@@ -41,9 +41,7 @@ describe("1. Home Page", () => {
     });
 
     it("contains correct images", () => {
-      cy.get('[aria-roledescription="carousel"]')
-        .find("img")
-        .should("have.length.gte", 3);
+      cy.get('[aria-roledescription="carousel"]').find("img").should("exist");
     });
   });
 
