@@ -37,7 +37,6 @@ export async function PUT(request: NextRequest) {
       schema: updatePostSchema,
       request,
     })) as z.infer<typeof updatePostSchema>;
-    console.log(data);
 
     const [user] = await db
       .update(users)
@@ -45,7 +44,7 @@ export async function PUT(request: NextRequest) {
       .where(eq(users.id, data.id as number))
       .returning();
 
-    return NextResponse.json({ data: user }, { status: 200 });
+    return NextResponse.json({ data: { ...user } }, { status: 200 });
   } catch (error) {
     return handleError({ error });
   }
@@ -62,7 +61,7 @@ export async function DELETE(request: NextRequest) {
       .where(eq(users.id, id))
       .returning()
       .execute();
-    return NextResponse.json({ data: user }, { status: 200 });
+    return NextResponse.json({ data: { ...user } }, { status: 200 });
   } catch (error) {
     return handleError({ error });
   }

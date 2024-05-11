@@ -74,20 +74,20 @@ export async function handleUnitTest({
       expect(body.error).toBe("Invalid Request");
     });
 
-    // it("should return 500 if there is an Internal Server Error", async () => {
-    //   jest.spyOn(db, "insert").mockImplementation(() => {
-    //     throw new Error("Internal Server Error");
-    //   });
+    it("should return 500 if there is an Internal Server Error", async () => {
+      jest.spyOn(db, "insert").mockImplementation(() => {
+        throw new Error("Internal Server Error");
+      });
 
-    //   const response = await POST(request);
-    //   const body = await response.json();
+      const response = await POST(request);
+      const body = await response.json();
 
-    //   expect(response.status).toBe(500);
-    //   expect(body.error).toBe("Internal Server Error");
+      expect(response.status).toBe(500);
+      expect(body.error).toBe("Internal Server Error");
 
-    //   // Restore the original implementation of db.insert
-    //   jest.restoreAllMocks();
-    // });
+      // Restore the original implementation of db.insert
+      jest.restoreAllMocks();
+    });
 
     it("should return 200 with added data if request is valid", async () => {
       const response = await POST(request);
