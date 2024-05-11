@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-import { handleError, handleValidateRequest } from "../../utils";
+import { handleError, handleParseRequest } from "../../utils";
 import { eq } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -21,7 +21,7 @@ const deletePostSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    const { postDishId, quantity, userId } = (await handleValidateRequest({
+    const { postDishId, quantity, userId } = (await handleParseRequest({
       schema: insertPostReservationSchema,
       request,
     })) as z.infer<typeof insertPostReservationSchema>;
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
-  const { quantity, status, nextUrl } = (await handleValidateRequest({
+  const { quantity, status, nextUrl } = (await handleParseRequest({
     schema: updatePostReservationSchema,
     request,
   })) as z.infer<typeof updatePostReservationSchema>;
@@ -65,7 +65,7 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const { id } = (await handleValidateRequest({
+    const { id } = (await handleParseRequest({
       schema: deletePostSchema,
       request,
     })) as z.infer<typeof deletePostSchema>;

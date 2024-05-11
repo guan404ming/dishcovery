@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-import { handleValidateRequest, handleError } from "../utils";
+import { handleParseRequest, handleError } from "../utils";
 import { eq } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -22,7 +22,7 @@ const deletePostSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const { title, description, location, quantity, name, userId } =
-      (await handleValidateRequest({
+      (await handleParseRequest({
         schema: insertPostSchema,
         request,
       })) as z.infer<typeof insertPostSchema>;
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       })
       .returning()
       .execute();
-    return NextResponse.json({ post, postDish }, { status: 200 });
+    return NextResponse.json({ data: { post, postDish } }, { status: 200 });
   } catch (error) {
     return handleError({ error });
   }
@@ -52,11 +52,12 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const { title, description, location, nextUrl } =
-      (await handleValidateRequest({
+    const { title, description, location, nextUrl } = (await handleParseRequest(
+      {
         schema: updatePostSchema,
         request,
-      })) as z.infer<typeof updatePostSchema>;
+      },
+    )) as z.infer<typeof updatePostSchema>;
     const searchParams = new URL(nextUrl).searchParams;
     const postId = Number(searchParams.get("postId"));
 
@@ -70,7 +71,7 @@ export async function PUT(request: NextRequest) {
       .returning()
       .execute();
 
-    return NextResponse.json({ post }, { status: 200 });
+    return NextResponse.json({ data: post }, { status: 200 });
   } catch (error) {
     return handleError({ error });
   }
@@ -78,7 +79,7 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const { id } = (await handleValidateRequest({
+    const { id } = (await handleParseRequest({
       schema: deletePostSchema,
       request,
     })) as z.infer<typeof deletePostSchema>;
