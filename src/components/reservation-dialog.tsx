@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import usePost from "@/hooks/usePost";
+import usePost from "@/hooks/use-post";
 
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
