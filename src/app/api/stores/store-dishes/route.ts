@@ -1,89 +1,72 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { handleError, handleParseRequest } from "../../utils";
+import { eq } from "drizzle-orm";
+import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import { db } from "@/db";
 import { storeDishes } from "@/db/schema";
 
-const createDishRequestSchema = z.object({
-  quantity: z.number(),
-  category: z.enum([
-    "taiwanese",
-    "japanese",
-    "american",
-    "healthy meal",
-    "pastry",
-    "fruit",
-  ]),
-  storeId: z.number(),
-  name: z.string(),
-  price: z.number(),
-  description: z.string(),
+const createStoreDishSchema = createInsertSchema(storeDishes).omit({
+  id: true,
 });
 
-const updateDishRequestSchema = createDishRequestSchema.omit({ storeId: true });
+const updateStoreDishSchema = createStoreDishSchema
+  .omit({ storeId: true })
+  .extend({ id: z.number() });
+const deleteStoreSchema = z.object({ id: z.number() });
 
 export async function POST(request: NextRequest) {
-  const data = await request.json();
-
   try {
-    updateDishRequestSchema.parse(data);
-  } catch (error) {
-    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
-  }
+    const data = (await handleParseRequest({
+      schema: createStoreDishSchema,
+      request,
+    })) as z.infer<typeof createStoreDishSchema>;
 
-  try {
-    const [dish] = await db
+    const [storeDish] = await db
       .insert(storeDishes)
       .values({ ...data })
       .returning()
       .execute();
-    return NextResponse.json(dish, { status: 200 });
-    console.log(data);
+    return NextResponse.json({ data: { ...storeDish } }, { status: 200 });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return handleError({ error });
   }
 }
 
 export async function PUT(request: NextRequest) {
-  // extract dish id from url parameter
-
-  const data = await request.json();
-
   try {
-    createDishRequestSchema.parse(data);
+    const data = (await handleParseRequest({
+      schema: updateStoreDishSchema,
+      request,
+    })) as z.infer<typeof updateStoreDishSchema>;
+
+    const [storeDish] = await db
+      .update(storeDishes)
+      .set({ ...data })
+      .where(eq(storeDishes.id, data.id as number))
+      .returning();
+
+    return NextResponse.json({ data: { ...storeDish } }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: "Invalid Request" }, { status: 400 });
+    return handleError({ error });
   }
+}
 
+export async function DELETE(request: NextRequest) {
   try {
-    const searchParams = new URL(data.nextUrl).searchParams;
-    const dishId = Number(searchParams.get("dishId"));
-    if (!dishId) {
-      return NextResponse.json(
-        { error: "Dish ID is required" },
-        { status: 400 },
-      );
-    }
-
-    // const [updateDish] = await db
-    //   .update(storeDishes)
-    //   .set({ quantity, category, storeId, name, price, description })
-    //   .where(eq(storeDishes.id, dishId)) // I am not sure about this line. I do my best to prevent any errors.
-    //   .returning()
-    //   .execute();
-
-    console.log(data);
-    // return NextResponse.json(updateDish, { status: 200 });
+    const { id } = (await handleParseRequest({
+      schema: deleteStoreSchema,
+      request,
+    })) as z.infer<typeof deleteStoreSchema>;
+    const [storeDish] = await db
+      .delete(storeDishes)
+      .where(eq(storeDishes.id, id))
+      .returning()
+      .execute();
+    return NextResponse.json({ data: { ...storeDish } }, { status: 200 });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return handleError({ error });
   }
 }
