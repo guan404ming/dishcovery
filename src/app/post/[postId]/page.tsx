@@ -21,7 +21,7 @@ export default async function Post({ params }: { params: { postId: string } }) {
     where: eq(postDishes.postId, parseInt(params.postId)),
   });
 
-  if (!post || !dishes) {
+  if (!post) {
     return <div>Post not found</div>;
   }
 

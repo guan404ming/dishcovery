@@ -12,11 +12,15 @@ export type SelectCategoryCollection =
 // store
 
 export type SelectStore = typeof schema.stores.$inferSelect;
+export type InsertStore = typeof schema.stores.$inferInsert;
 
 export type SelectStoreDish = typeof schema.storeDishes.$inferSelect;
+export type InsertStoreDish = typeof schema.storeDishes.$inferInsert;
 
 export type SelectStoreReservation =
   typeof schema.storeReservations.$inferSelect;
+export type InsertStoreReservation =
+  typeof schema.storeReservations.$inferInsert;
 
 // post
 

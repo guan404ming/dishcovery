@@ -80,13 +80,13 @@ export default function Dish({
         title="Cart"
         open={save}
         onOpenChange={setSave}
-        postDishId={dish.id}
+        dishId={dish.id}
       />
       <ReservationDialog
         title="Reservation"
         open={reserve}
         onOpenChange={setReserve}
-        postDishId={dish.id}
+        dishId={dish.id}
       />
     </>
   );
