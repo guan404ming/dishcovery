@@ -12,6 +12,8 @@ import type {
   SelectPost,
   SelectPostDish,
   SelectPostReservation,
+  SelectStoreDish,
+  SelectStoreReservation,
 } from "@/lib/type";
 
 import AddDialog from "./add-dialog";
@@ -19,12 +21,17 @@ import { ReservationCard } from "./reservation-card";
 
 export default function InfoTab({
   postList,
-  reservationList,
+  postReservationList,
+  storeReservationList,
 }: {
   postList: SelectPost[];
-  reservationList: {
+  postReservationList: {
     postReservations: SelectPostReservation;
     postDishes: SelectPostDish;
+  }[];
+  storeReservationList: {
+    storeReservations: SelectStoreReservation;
+    storeDishes: SelectStoreDish;
   }[];
 }) {
   const [reserveDialogOpen, setReserveDialogOpen] = useState(false);
@@ -50,23 +57,54 @@ export default function InfoTab({
         />
       </div>
 
-      <TabsContent value="reservation">
-        <GridContainer>
-          {reservationList.map((reservation, index) => (
-            <div
-              key={index}
-              onClick={() => setReserveDialogOpen(!reserveDialogOpen)}
-            >
-              <ReservationCard reservation={reservation} isCounter />
-              <ReservationDialog
-                postDishId={reservation.postReservations.postDishId}
-                title="Reservation"
-                open={reserveDialogOpen}
-                onOpenChange={setReserveDialogOpen}
-              />
-            </div>
-          ))}
-        </GridContainer>
+      <TabsContent value="reservation" className="space-y-4">
+        <h1 className="font-semibold">Post Reservations</h1>
+        {postReservationList.length > 0 && (
+          <GridContainer>
+            {postReservationList.map((reservation, index) => (
+              <div
+                key={index}
+                onClick={() => setReserveDialogOpen(!reserveDialogOpen)}
+              >
+                <ReservationCard
+                  {...reservation.postDishes}
+                  {...reservation.postReservations}
+                  isCounter
+                />
+                <ReservationDialog
+                  dishId={reservation.postReservations.postDishId}
+                  title="Reservation"
+                  open={reserveDialogOpen}
+                  onOpenChange={setReserveDialogOpen}
+                />
+              </div>
+            ))}
+          </GridContainer>
+        )}
+
+        <h1 className="font-semibold">Store Reservations</h1>
+        {storeReservationList.length > 0 && (
+          <GridContainer>
+            {storeReservationList.map((reservation, index) => (
+              <div
+                key={index}
+                onClick={() => setReserveDialogOpen(!reserveDialogOpen)}
+              >
+                <ReservationCard
+                  {...reservation.storeDishes}
+                  {...reservation.storeReservations}
+                  isCounter
+                />
+                <ReservationDialog
+                  dishId={reservation.storeReservations.storeDishId}
+                  title="Reservation"
+                  open={reserveDialogOpen}
+                  onOpenChange={setReserveDialogOpen}
+                />
+              </div>
+            ))}
+          </GridContainer>
+        )}
       </TabsContent>
 
       <TabsContent value="post">

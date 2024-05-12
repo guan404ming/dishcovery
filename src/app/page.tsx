@@ -12,15 +12,18 @@ import { db } from "@/db";
 export default async function Home() {
   const bannerList = await db.query.banners.findMany();
   const postList = await db.query.posts.findMany({ limit: 10 });
+  const storeList = await db.query.stores.findMany({ limit: 10 });
 
-  function SectionTitle({ title, url }: { title: string; url: string }) {
+  function SectionTitle({ title, url }: { title: string; url?: string }) {
     return (
       <div className="flex items-baseline justify-between">
         <span className="text-xl font-semibold">{title}</span>
-        <Link href={url} className="flex items-center space-x-1 font-thin">
-          <span className="text-xs">See All</span>
-          <ChevronRight size={16} strokeWidth={1} className="mb-[0.5px]" />
-        </Link>
+        {url && (
+          <Link href={url} className="flex items-center space-x-1 font-thin">
+            <span className="text-xs">See All</span>
+            <ChevronRight size={16} strokeWidth={1} className="mb-[0.5px]" />
+          </Link>
+        )}
       </div>
     );
   }
@@ -32,10 +35,10 @@ export default async function Home() {
       <SectionTitle title={"What are you looking for?"} url="" />
       <MapView />
 
-      <SectionTitle title={"Popular"} url="store" />
-      <StoreScrollArea />
+      <SectionTitle title={"Popular Stores"} url="/store/all" />
+      <StoreScrollArea storeList={storeList} />
 
-      <SectionTitle title={"Post"} url="post" />
+      <SectionTitle title={"Post"} url="/post/all" />
 
       <GridContainer>
         {postList.map((post, index) => (

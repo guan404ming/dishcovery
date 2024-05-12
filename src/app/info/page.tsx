@@ -6,7 +6,13 @@ import InfoTab from "@/app/info/_components/info-tab";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import { postDishes, postReservations, posts } from "@/db/schema";
+import {
+  postDishes,
+  postReservations,
+  posts,
+  storeDishes,
+  storeReservations,
+} from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 
 export default async function Info() {
@@ -18,7 +24,7 @@ export default async function Info() {
     where: eq(posts.userId, session?.user.id),
   });
 
-  const reservationList = await db
+  const postReservationList = await db
     .select({
       postReservations,
       postDishes,
@@ -26,6 +32,15 @@ export default async function Info() {
     .from(postReservations)
     .innerJoin(postDishes, eq(postReservations.postDishId, postDishes.id))
     .where(eq(postReservations.userId, session?.user.id));
+
+  const storeReservationList = await db
+    .select({
+      storeReservations,
+      storeDishes,
+    })
+    .from(storeReservations)
+    .innerJoin(storeDishes, eq(storeReservations.storeDishId, storeDishes.id))
+    .where(eq(storeReservations.userId, session?.user.id));
 
   return (
     <>
@@ -46,7 +61,11 @@ export default async function Info() {
 
       <Separator />
 
-      <InfoTab postList={postList} reservationList={reservationList} />
+      <InfoTab
+        postList={postList}
+        postReservationList={postReservationList}
+        storeReservationList={storeReservationList}
+      />
     </>
   );
 }
