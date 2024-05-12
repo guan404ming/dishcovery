@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { ChevronRight } from "lucide-react";
 
-import Map from "@/app/_components/map";
+import MapView from "@/app/_components/map";
 import { StoreScrollArea } from "@/app/_components/store-scroll-area";
 import { Banner } from "@/components/banner";
 import GridContainer from "@/components/grid-container";
@@ -33,7 +33,7 @@ export default async function Home() {
       <Banner bannerList={bannerList} />
 
       <SectionTitle title={"What are you looking for?"} url="" />
-      <Map />
+      <MapView />
 
       <SectionTitle title={"Popular Stores"} url="/store/all" />
       <StoreScrollArea storeList={storeList} />
