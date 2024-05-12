@@ -79,6 +79,7 @@ export const storeDishes = pgTable("store_dishes", {
   name: varchar("name", { length: 100 }).notNull(),
   price: integer("price").notNull(),
   description: varchar("description", { length: 100 }).notNull(),
+  image: varchar("image").notNull(),
 });
 
 export const storeReservations = pgTable("store_reservations", {
@@ -116,6 +117,7 @@ export const postDishes = pgTable("post_dishes", {
   name: varchar("name", { length: 100 }).notNull(),
   description: varchar("description", { length: 100 }).notNull(),
   price: integer("price").default(0).notNull(),
+  image: varchar("image").notNull(),
 });
 
 export const postReservations = pgTable("post_reservations", {

@@ -1,6 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
+
+import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import usePost from "@/hooks/use-post";
+import { UploadButton } from "@/lib/uploadthing";
 
 type DialogProps = {
   open: boolean;
@@ -22,6 +25,7 @@ type DialogProps = {
 };
 
 export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
+  const [url, setUrl] = useState<string>("");
   const titleRef = useRef<HTMLInputElement>(null);
   const locationRef = useRef<HTMLInputElement>(null);
   const dishNameRef = useRef<HTMLInputElement>(null);
@@ -31,7 +35,7 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[80%] max-w-[400px] rounded">
+      <DialogContent className="h-[80%] w-[80%] max-w-[400px] overflow-scroll rounded">
         <DialogHeader>
           <DialogTitle className="flex justify-start text-lg lg:text-xl">
             Add {type}
@@ -83,6 +87,30 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
           <Textarea placeholder="寫一些有關餐點的敘述" ref={descriptionRef} />
         </div>
 
+        <UploadButton
+          className="w-full text-black"
+          endpoint="imageUploader"
+          appearance={{ button: "bg-primary w-full" }}
+          onClientUploadComplete={(res) => {
+            // Do something with the response
+            console.log("Files: ", res);
+            setUrl(res[0].url);
+          }}
+          onUploadError={(error: Error) => {
+            console.log(`ERROR! ${error.message}`);
+          }}
+        />
+
+        {url && (
+          <Image
+            src={url}
+            alt={""}
+            width={100}
+            height={100}
+            className="aspect-auto w-full border object-cover"
+          />
+        )}
+
         <DialogFooter>
           <Button
             onClick={() => {
@@ -92,7 +120,8 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
                 !descriptionRef.current?.value ||
                 !locationRef.current?.value ||
                 !dishNameRef.current?.value ||
-                !quantityRef.current?.value
+                !quantityRef.current?.value ||
+                !url
               )
                 return;
               createPost({
@@ -101,6 +130,7 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
                 location: locationRef.current?.value,
                 name: dishNameRef.current?.value,
                 quantity: Number(quantityRef.current?.value),
+                image: url,
               });
             }}
           >

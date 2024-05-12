@@ -37,6 +37,7 @@ export default function usePost() {
     location,
     name,
     quantity,
+    image,
   }: InsertPost & InsertPostDish) => {
     setLoading(true);
 
@@ -59,6 +60,7 @@ export default function usePost() {
         name,
         quantity,
         description,
+        image,
       },
       method: "POST",
       url: "/api/posts/post-dishes",
