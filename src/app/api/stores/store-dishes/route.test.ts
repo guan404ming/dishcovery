@@ -13,6 +13,7 @@ handleUnitTest({
     name: "Bento",
     price: 60,
     description: "Yummy",
+    image: "bento.jpg",
   },
   updatedObj: {
     quantity: 100,
@@ -20,5 +21,6 @@ handleUnitTest({
     name: "Bento",
     price: 60,
     description: "Yummy",
+    image: "Bento.jpg",
   },
 });

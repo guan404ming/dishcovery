@@ -12,14 +12,12 @@ const insertPostDishSchema = z.object({
   name: z.string(),
   quantity: z.number(),
   description: z.string(),
+  image: z.string(),
 });
 
-const updatePostDishSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  quantity: z.number(),
-  description: z.string(),
-});
+const updatePostDishSchema = insertPostDishSchema
+  .extend({ id: z.number() })
+  .omit({ postId: true });
 const deletePostDishSchema = z.object({ id: z.number() });
 
 export async function POST(request: NextRequest) {
