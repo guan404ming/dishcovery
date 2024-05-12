@@ -13,7 +13,7 @@ export default function MapView() {
   const position = { lat: 25.0129, lng: 121.5371};
   const [open, setOpen] = useState(false);
   return (
-    <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+    <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}>
       <div className="h-[300px] w-[500px]">
         <Map zoom={15} center={position} mapId={process.env.NEXT_PUBLIC_MAP_ID}>
           <AdvancedMarker position={position} onClick={() => setOpen(true)} >
