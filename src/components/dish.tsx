@@ -22,20 +22,14 @@ export default function Dish({
   return (
     <>
       <div className="flex w-full justify-between md:max-w-screen-sm">
-        <div className="grid w-56 min-w-[120px] grid-cols-3 gap-2">
-          {[0, 1, 2].map((image, index) => (
-            <Image
-              key={index}
-              src={"/1.jpeg"}
-              className={cn(
-                "aspect-square w-full rounded object-cover",
-                `${index === 0 ? "col-span-3" : "col-span-1"}`,
-              )}
-              width={100}
-              height={100}
-              alt={index.toString()}
-            />
-          ))}
+        <div className="w-56 min-w-[120px]">
+          <Image
+            src={dish.image}
+            className={cn("aspect-square w-full rounded object-cover")}
+            width={100}
+            height={100}
+            alt={dish.name}
+          />
         </div>
 
         <div className="flex w-full flex-col justify-between px-4">
@@ -50,7 +44,7 @@ export default function Dish({
             <div className="text-xs font-light text-muted-foreground">
               Remaining: {dish.quantity}
             </div>
-            <span className="my-2 h-16 w-full overflow-hidden text-ellipsis text-wrap text-xs text-muted-foreground">
+            <span className="my-2 h-10 w-full overflow-hidden text-ellipsis text-wrap text-xs text-muted-foreground">
               {dish.description}
             </span>
           </div>
