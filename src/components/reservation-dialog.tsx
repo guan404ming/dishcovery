@@ -2,6 +2,8 @@
 
 import { useRef } from "react";
 
+import { usePathname } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,19 +13,20 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import usePost from "@/hooks/use-post";
+import useStore from "@/hooks/use-store";
 
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
 type DialogProps = {
-  postDishId: number;
+  dishId: number;
   title: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
 export default function ReservationDialog({
-  postDishId,
+  dishId,
   title,
   open,
   onOpenChange,
@@ -31,6 +34,8 @@ export default function ReservationDialog({
   const numberRef = useRef<number>(0);
   const timeRef = useRef<string>();
   const { createPostReservation } = usePost();
+  const { createStoreReservation } = useStore();
+  const pathname = usePathname();
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -67,10 +72,17 @@ export default function ReservationDialog({
             onClick={() => {
               onOpenChange(!open);
               console.log(numberRef.current, timeRef.current);
-              createPostReservation({
-                postDishId,
-                quantity: numberRef.current,
-              });
+              if (pathname.includes("post")) {
+                createPostReservation({
+                  postDishId: dishId,
+                  quantity: numberRef.current,
+                });
+              } else {
+                createStoreReservation({
+                  storeDishId: dishId,
+                  quantity: numberRef.current,
+                });
+              }
             }}
           >
             confirm

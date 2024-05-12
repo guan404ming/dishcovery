@@ -1,34 +1,46 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-
+import { eq } from "drizzle-orm";
 import { ChevronLeft } from "lucide-react";
 import { BellPlus } from "lucide-react";
 
+import Dish from "@/components/dish";
+import GridContainer from "@/components/grid-container";
 import { Separator } from "@/components/ui/separator";
+import { db } from "@/db";
+import { storeDishes, stores, users } from "@/db/schema";
 
-const shop = ["Food Store"];
+export default async function Store({
+  params,
+}: {
+  params: { storeId: string };
+}) {
+  const [store] = await db
+    .select()
+    .from(stores)
+    .where(eq(stores.id, parseInt(params.storeId)))
+    .innerJoin(users, eq(stores.userId, users.id))
+    .limit(1);
 
-export default function Store() {
-  const router = useRouter();
+  const dishes = await db.query.storeDishes.findMany({
+    where: eq(storeDishes.storeId, parseInt(params.storeId)),
+  });
+
   return (
     <>
       <div className="flex w-full items-center justify-between text-center">
-        <ChevronLeft
-          className="h-4 w-4 cursor-pointer"
-          onClick={() => router.back()}
-        />
-        <h1 className="text-center text-xl font-semibold">{shop}</h1>
+        <ChevronLeft className="h-4 w-4 cursor-pointer" />
+        <h1 className="text-center text-xl font-semibold">
+          {store.stores.name}
+        </h1>
         <BellPlus className="h-4 w-4 cursor-pointer" />
       </div>
 
       <Separator />
 
-      {/* <div className="flex flex-col max-md:space-y-4 md:grid md:grid-cols-2">
-        {products.map((product) => (
-          <Dish key={product.id} dish={product} />
+      <GridContainer>
+        {dishes.map((dish) => (
+          <Dish key={dish.id} dish={dish} />
         ))}
-      </div> */}
+      </GridContainer>
     </>
   );
 }

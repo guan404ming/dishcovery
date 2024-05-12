@@ -1,35 +1,30 @@
 "use client";
 
 import ImageCard from "@/components/supplier/image-card";
-import type { SelectPostDish, SelectPostReservation } from "@/lib/type";
 
 export function ReservationCard({
-  reservation,
+  name,
+  price,
+  quantity,
+  status,
   isCounter,
 }: {
-  reservation: {
-    postReservations: SelectPostReservation;
-    postDishes: SelectPostDish;
-  };
+  name: string;
+  price: number;
+  quantity: number;
+  status: string;
   isCounter?: boolean;
 }) {
   return (
-    <ImageCard
-      isCounter={isCounter}
-      href="#"
-      initAmount={reservation.postReservations.quantity}
-    >
+    <ImageCard isCounter={isCounter} href="#" initAmount={quantity}>
       <div className="mb-1 flex items-baseline space-x-3">
-        <div className="text-lg font-semibold">
-          {reservation.postDishes.name}
-        </div>
+        <div className="text-lg font-semibold">{name}</div>
         <div className="text-xs font-light text-muted-foreground">
-          $
-          {reservation.postDishes.price * reservation.postReservations.quantity}
+          ${price * quantity}
         </div>
       </div>
       <span className="w-full overflow-hidden text-ellipsis text-wrap text-xs font-normal text-muted-foreground">
-        {reservation.postReservations.status}
+        {status}
       </span>
     </ImageCard>
   );
