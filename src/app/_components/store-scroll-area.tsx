@@ -6,57 +6,15 @@ import { useRouter } from "next/navigation";
 import { Card } from "../../components/ui/card";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import type { SelectStore } from "@/lib/type";
 
-export interface Store {
-  name: string;
-  picUrl: string;
-}
-
-export const works: Store[] = [
-  {
-    name: "Ornella Binni",
-    picUrl:
-      "https://images.unsplash.com/photo-1465869185982-5a1a7522cbcb?auto=format&fit=crop&w=300&q=80",
-  },
-  {
-    name: "Tom Byrom",
-    picUrl:
-      "https://images.unsplash.com/photo-1548516173-3cabfa4607e9?auto=format&fit=crop&w=300&q=80",
-  },
-  {
-    name: "Vladimir",
-    picUrl:
-      "https://images.unsplash.com/photo-1494337480532-3725c85fd2ab?auto=format&fit=crop&w=300&q=80",
-  },
-  {
-    name: "Ornella Binni",
-    picUrl:
-      "https://images.unsplash.com/photo-1465869185982-5a1a7522cbcb?auto=format&fit=crop&w=300&q=80",
-  },
-  {
-    name: "Tom Byrom",
-    picUrl:
-      "https://images.unsplash.com/photo-1548516173-3cabfa4607e9?auto=format&fit=crop&w=300&q=80",
-  },
-  {
-    name: "Vladimir Malyavko Malyavko",
-    picUrl:
-      "https://images.unsplash.com/photo-1494337480532-3725c85fd2ab?auto=format&fit=crop&w=300&q=80",
-  },
-  {
-    name: "Vladimir Malyavko Malyavko",
-    picUrl:
-      "https://images.unsplash.com/photo-1494337480532-3725c85fd2ab?auto=format&fit=crop&w=300&q=80",
-  },
-];
-
-export function StoreScrollArea() {
+export function StoreScrollArea({ storeList }: { storeList: SelectStore[] }) {
   const router = useRouter();
 
   return (
     <ScrollArea className="w-full overflow-hidden rounded-md">
       <div className="flex w-max space-x-2 md:space-x-4">
-        {works.map((store) => (
+        {storeList.map((store) => (
           <Card
             key={store.name}
             className="flex w-[125px] cursor-pointer flex-col overflow-hidden text-center md:w-[200px]"
@@ -73,10 +31,11 @@ export function StoreScrollArea() {
                 height={100}
               />
             </div>
-            <div className="truncate px-4 py-2 text-xs font-semibold text-foreground">
-              {store.name}{" "}
+
+            <div className="space-y-1 truncate px-4 py-2 text-xs font-semibold text-foreground">
+              <p>{store.name}</p>
               <span className="block truncate font-normal text-muted-foreground">
-                ${store.name.length} · 100 left
+                @{store.address}
               </span>
             </div>
           </Card>
