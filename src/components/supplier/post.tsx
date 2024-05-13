@@ -1,6 +1,6 @@
 import TimeText from "../time-text";
 
-import type { SelectPost } from "@/lib/type";
+import type { SelectPost, SelectPostDish } from "@/lib/type";
 
 import ImageCard from "./image-card";
 
@@ -8,11 +8,11 @@ export function Post({
   post,
   isCounter,
 }: {
-  post: SelectPost;
+  post: SelectPost & { postDishes: SelectPostDish };
   isCounter?: boolean;
 }) {
   return (
-    <ImageCard href={`/post/${post.id}`} isCounter={isCounter}>
+    <ImageCard href={`/post/${post.id}`} isCounter={isCounter} image={post.postDishes?.image || ""}>
       <div className="flex justify-between">
         <h1 className="font-semibold">{post.title}</h1>
       </div>

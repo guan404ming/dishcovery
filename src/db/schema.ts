@@ -33,6 +33,7 @@ export const users = pgTable(
 
 export const usersRelations = relations(users, ({ many }) => ({
   categoryCollections: many(categoryCollections),
+  storeCollections: many(storeCollections),
 }));
 
 export const carts = pgTable("carts", {
@@ -70,6 +71,10 @@ export const stores = pgTable("stores", {
     .references(() => users.id, { onDelete: "cascade" }),
 });
 
+export const storesRelations = relations(stores, ({ many }) => ({
+  storeCollections: many(storeCollections),
+}));
+
 export const storeDishes = pgTable("store_dishes", {
   id: serial("id").primaryKey(),
   quantity: integer("quantity").notNull().default(1),
@@ -79,6 +84,7 @@ export const storeDishes = pgTable("store_dishes", {
   name: varchar("name", { length: 100 }).notNull(),
   price: integer("price").notNull(),
   description: varchar("description", { length: 100 }).notNull(),
+  image: varchar("image").notNull(),
 });
 
 export const storeReservations = pgTable("store_reservations", {
@@ -107,6 +113,15 @@ export const posts = pgTable("posts", {
     .references(() => users.id, { onDelete: "cascade" }),
 });
 
+export const postsRelations = relations(posts, ({ one }) => {
+  return {
+    postDishes: one(postDishes, {
+      fields: [posts.id],
+      references: [postDishes.postId],
+    }),
+  };
+});
+
 export const postDishes = pgTable("post_dishes", {
   id: serial("id").primaryKey(),
   postId: serial("post_id")
@@ -116,6 +131,7 @@ export const postDishes = pgTable("post_dishes", {
   name: varchar("name", { length: 100 }).notNull(),
   description: varchar("description", { length: 100 }).notNull(),
   price: integer("price").default(0).notNull(),
+  image: varchar("image").notNull(),
 });
 
 export const postReservations = pgTable("post_reservations", {
@@ -131,7 +147,6 @@ export const postReservations = pgTable("post_reservations", {
   status: statusEnum("status").notNull().default("waiting"),
 });
 
-// collection
 export const categories = pgTable("categories", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 50 }).notNull(),
@@ -141,9 +156,12 @@ export const categoryRelations = relations(categories, ({ many }) => ({
   categoryCollections: many(categoryCollections),
 }));
 
+// collection
+
 export const categoryCollections = pgTable(
   "category_collections",
   {
+    id: serial("id").unique(),
     userId: integer("user_id")
       .notNull()
       .references(() => users.id),
@@ -156,7 +174,7 @@ export const categoryCollections = pgTable(
   }),
 );
 
-export const userToCategoryRelations = relations(
+export const categoryCollectionsRelations = relations(
   categoryCollections,
   ({ one }) => ({
     category: one(categories, {
@@ -165,6 +183,36 @@ export const userToCategoryRelations = relations(
     }),
     user: one(users, {
       fields: [categoryCollections.userId],
+      references: [users.id],
+    }),
+  }),
+);
+
+export const storeCollections = pgTable(
+  "store_collections",
+  {
+    id: serial("id").unique(),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id),
+    storeId: integer("store_id")
+      .notNull()
+      .references(() => categories.id),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.userId, t.storeId] }),
+  }),
+);
+
+export const storeCollectionsRelations = relations(
+  storeCollections,
+  ({ one }) => ({
+    store: one(stores, {
+      fields: [storeCollections.storeId],
+      references: [stores.id],
+    }),
+    user: one(users, {
+      fields: [storeCollections.userId],
       references: [users.id],
     }),
   }),

@@ -12,10 +12,12 @@ handleUnitTest({
     name: "Pizza",
     quantity: 1,
     description: "Delicious",
+    image: "pizza.jpg",
   },
   updatedObj: {
     name: "Pizza + Soda",
     quantity: 2,
     description: "Delicious!!",
+    image: "pizza+soda.jpg",
   },
 });

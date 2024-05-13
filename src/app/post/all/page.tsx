@@ -3,7 +3,9 @@ import { Post } from "@/components/supplier/post";
 import { db } from "@/db";
 
 export default async function AllPost() {
-  const postList = await db.query.posts.findMany();
+  const postList = await db.query.posts.findMany({
+    with: { postDishes: true },
+  });
 
   return (
     <>
