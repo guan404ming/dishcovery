@@ -2,6 +2,10 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
+import { toast } from "sonner";
+
+import handleFetch from "./utils";
+
 export default function useReservation() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -15,16 +19,13 @@ export default function useReservation() {
   }) => {
     setLoading(true);
 
-    const res = await fetch("/api/banners", {
+    await handleFetch({
+      data: { userId, url },
       method: "POST",
-      body: JSON.stringify({ userId, url: url }),
+      url: "/api/banners",
     });
 
-    if (!res.ok) {
-      const body = await res.json();
-      throw new Error(body.error);
-    }
-
+    toast("Banner has been created.");
     router.refresh();
     setLoading(false);
   };

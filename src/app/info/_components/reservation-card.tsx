@@ -18,7 +18,7 @@ export function ReservationCard({
   return (
     <ImageCard isCounter={isCounter} href="#" initAmount={quantity}>
       <div className="mb-1 flex items-baseline space-x-3">
-        <div className="text-lg font-semibold">{name}</div>
+        <div className="text font-semibold">{name}</div>
         <div className="text-xs font-light text-muted-foreground">
           ${price * quantity}
         </div>
