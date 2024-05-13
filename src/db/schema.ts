@@ -161,6 +161,7 @@ export const categoryRelations = relations(categories, ({ many }) => ({
 export const categoryCollections = pgTable(
   "category_collections",
   {
+    id: serial("id").unique(),
     userId: integer("user_id")
       .notNull()
       .references(() => users.id),
@@ -190,6 +191,7 @@ export const categoryCollectionsRelations = relations(
 export const storeCollections = pgTable(
   "store_collections",
   {
+    id: serial("id").unique(),
     userId: integer("user_id")
       .notNull()
       .references(() => users.id),
