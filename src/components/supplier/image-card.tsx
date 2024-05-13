@@ -15,11 +15,13 @@ export default function ImageCard({
   href,
   isCounter,
   initAmount,
+  image
 }: {
   children: React.ReactNode;
   href?: string;
   isCounter?: boolean;
   initAmount?: number;
+  image?: string;
 }) {
   const [amount, setAmount] = useState(initAmount || 0);
 
@@ -35,7 +37,7 @@ export default function ImageCard({
     <Link href={href || "/"}>
       <Card className="z-0 flex max-h-32 w-full cursor-pointer overflow-hidden text-ellipsis text-center">
         <Image
-          src={"/1.jpeg"}
+          src={image || "/1.jpeg"}
           alt="image"
           className="aspect-[1/1] object-cover"
           width={100}
