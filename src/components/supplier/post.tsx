@@ -12,7 +12,11 @@ export function Post({
   isCounter?: boolean;
 }) {
   return (
-    <ImageCard href={`/post/${post.id}`} isCounter={isCounter} image={post.postDishes?.image || ""}>
+    <ImageCard
+      href={`/post/${post.id}`}
+      isCounter={isCounter}
+      image={post.postDishes?.image || ""}
+    >
       <div className="flex justify-between">
         <h1 className="font-semibold">{post.title}</h1>
       </div>

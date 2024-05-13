@@ -36,9 +36,10 @@ export default function usePost() {
     description,
     location,
     name,
+    dishDescription,
     quantity,
     image,
-  }: InsertPost & InsertPostDish) => {
+  }: InsertPost & InsertPostDish & { dishDescription: string }) => {
     setLoading(true);
 
     const body = await handleFetch({
@@ -59,7 +60,7 @@ export default function usePost() {
         postId: body.data.id,
         name,
         quantity,
-        description,
+        description: dishDescription,
         image,
       },
       method: "POST",
