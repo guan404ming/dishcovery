@@ -11,7 +11,10 @@ import { db } from "@/db";
 
 export default async function Home() {
   const bannerList = await db.query.banners.findMany();
-  const postList = await db.query.posts.findMany({ limit: 10, with: { postDishes: true } });
+  const postList = await db.query.posts.findMany({
+    limit: 10,
+    with: { postDishes: true },
+  });
   const storeList = await db.query.stores.findMany({ limit: 10 });
 
   function SectionTitle({ title, url }: { title: string; url?: string }) {

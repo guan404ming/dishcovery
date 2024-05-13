@@ -15,7 +15,7 @@ export default function ImageCard({
   href,
   isCounter,
   initAmount,
-  image
+  image,
 }: {
   children: React.ReactNode;
   href?: string;

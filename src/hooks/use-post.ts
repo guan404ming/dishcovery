@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
+import { toast } from "sonner";
+
 import type {
   InsertPost,
   InsertPostDish,
@@ -22,11 +24,13 @@ export default function usePost() {
   }: InsertPostReservation) => {
     setLoading(true);
 
-    handleFetch({
+    await handleFetch({
       data: { postDishId, quantity, userId: session?.user?.id },
       method: "POST",
       url: "/api/posts/post-reservations",
     });
+
+    toast("Post reservation has been created.");
     setLoading(false);
     router.refresh();
   };
@@ -36,9 +40,10 @@ export default function usePost() {
     description,
     location,
     name,
+    dishDescription,
     quantity,
     image,
-  }: InsertPost & InsertPostDish) => {
+  }: InsertPost & InsertPostDish & { dishDescription: string }) => {
     setLoading(true);
 
     const body = await handleFetch({
@@ -59,13 +64,14 @@ export default function usePost() {
         postId: body.data.id,
         name,
         quantity,
-        description,
+        description: dishDescription,
         image,
       },
       method: "POST",
       url: "/api/posts/post-dishes",
     });
 
+    toast("Post has been created.");
     router.refresh();
     setLoading(false);
   };

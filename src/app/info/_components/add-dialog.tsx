@@ -27,10 +27,11 @@ type DialogProps = {
 export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
   const [url, setUrl] = useState<string>("");
   const titleRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const locationRef = useRef<HTMLInputElement>(null);
   const dishNameRef = useRef<HTMLInputElement>(null);
+  const dishDescriptionRef = useRef<HTMLTextAreaElement>(null);
   const quantityRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const { createPost } = usePost();
 
   return (
@@ -50,6 +51,11 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
             required
             ref={titleRef}
           />
+        </div>
+
+        <div className="grid w-full max-w-sm items-center gap-2">
+          <Label htmlFor="description">內文</Label>
+          <Textarea placeholder="寫一些有關餐點的敘述" ref={descriptionRef} />
         </div>
 
         <div className="grid w-full max-w-sm items-center gap-2">
@@ -84,32 +90,37 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
 
         <div className="grid w-full max-w-sm items-center gap-2">
           <Label htmlFor="description">商品敘述</Label>
-          <Textarea placeholder="寫一些有關餐點的敘述" ref={descriptionRef} />
+          <Textarea
+            placeholder="寫一些有關餐點的敘述"
+            ref={dishDescriptionRef}
+          />
         </div>
 
-        <UploadButton
-          className="w-full text-black"
-          endpoint="imageUploader"
-          appearance={{ button: "bg-primary w-full" }}
-          onClientUploadComplete={(res) => {
-            // Do something with the response
-            console.log("Files: ", res);
-            setUrl(res[0].url);
-          }}
-          onUploadError={(error: Error) => {
-            console.log(`ERROR! ${error.message}`);
-          }}
-        />
-
-        {url && (
-          <Image
-            src={url}
-            alt={""}
-            width={100}
-            height={100}
-            className="aspect-auto w-full border object-cover"
+        <div className="grid w-full max-w-sm items-center gap-2">
+          <Label htmlFor="description">商品圖片</Label>
+          {url && (
+            <Image
+              src={url}
+              alt={""}
+              width={100}
+              height={100}
+              className="aspect-auto w-full border object-cover"
+            />
+          )}
+          <UploadButton
+            className="w-full text-black"
+            endpoint="imageUploader"
+            appearance={{ button: "bg-primary w-full" }}
+            onClientUploadComplete={(res) => {
+              // Do something with the response
+              console.log("Files: ", res);
+              setUrl(res[0].url);
+            }}
+            onUploadError={(error: Error) => {
+              console.log(`ERROR! ${error.message}`);
+            }}
           />
-        )}
+        </div>
 
         <DialogFooter>
           <Button
@@ -121,6 +132,7 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
                 !locationRef.current?.value ||
                 !dishNameRef.current?.value ||
                 !quantityRef.current?.value ||
+                !dishDescriptionRef.current?.value ||
                 !url
               )
                 return;
@@ -129,6 +141,7 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
                 description: descriptionRef.current?.value,
                 location: locationRef.current?.value,
                 name: dishNameRef.current?.value,
+                dishDescription: dishDescriptionRef.current?.value,
                 quantity: Number(quantityRef.current?.value),
                 image: url,
               });
