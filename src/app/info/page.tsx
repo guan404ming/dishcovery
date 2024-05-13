@@ -21,6 +21,9 @@ export default async function Info() {
 
   const postList = await db.query.posts.findMany({
     limit: 5,
+    with: {
+      postDishes: true,
+    },
     where: eq(posts.userId, session?.user.id),
   });
 

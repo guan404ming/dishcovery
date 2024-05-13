@@ -24,7 +24,7 @@ export default function InfoTab({
   postReservationList,
   storeReservationList,
 }: {
-  postList: SelectPost[];
+  postList: (SelectPost & { postDishes: SelectPostDish })[];
   postReservationList: {
     postReservations: SelectPostReservation;
     postDishes: SelectPostDish;
