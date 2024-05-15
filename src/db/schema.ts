@@ -34,22 +34,8 @@ export const users = pgTable(
 export const usersRelations = relations(users, ({ many }) => ({
   categoryCollections: many(categoryCollections),
   storeCollections: many(storeCollections),
+  cart: many(carts),
 }));
-
-export const carts = pgTable("carts", {
-  id: serial("id").primaryKey(),
-  userId: serial("user_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  createTime: timestamp("create_time").defaultNow().notNull(),
-  dishId: serial("dish_id")
-    .notNull()
-    .references(() => storeDishes.id, { onDelete: "cascade" }),
-  quantity: integer("quantity").notNull().default(1),
-  storeId: serial("store_id")
-    .notNull()
-    .references(() => stores.id, { onDelete: "cascade" }),
-});
 
 export const banners = pgTable("banners", {
   id: serial("id").primaryKey(),
@@ -86,6 +72,10 @@ export const storeDishes = pgTable("store_dishes", {
   description: varchar("description", { length: 100 }).notNull(),
   image: varchar("image").notNull(),
 });
+
+export const storeDishesRelation = relations(storeDishes, ({ many }) => ({
+  cart: many(carts),
+}));
 
 export const storeReservations = pgTable("store_reservations", {
   id: serial("id").primaryKey(),
@@ -197,7 +187,7 @@ export const storeCollections = pgTable(
       .references(() => users.id),
     storeId: integer("store_id")
       .notNull()
-      .references(() => categories.id),
+      .references(() => stores.id),
   },
   (t) => ({
     pk: primaryKey({ columns: [t.userId, t.storeId] }),
@@ -217,3 +207,31 @@ export const storeCollectionsRelations = relations(
     }),
   }),
 );
+
+export const carts = pgTable(
+  "carts",
+  {
+    id: serial("id"),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id),
+    storeDishId: integer("store_id")
+      .notNull()
+      .references(() => storeDishes.id),
+    quantity: integer("quantity").notNull().default(1),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.userId, t.storeDishId] }),
+  }),
+);
+
+export const cartsRelations = relations(carts, ({ one }) => ({
+  storeDish: one(storeDishes, {
+    fields: [carts.storeDishId],
+    references: [storeDishes.id],
+  }),
+  user: one(users, {
+    fields: [carts.userId],
+    references: [users.id],
+  }),
+}));
