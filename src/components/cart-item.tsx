@@ -1,6 +1,7 @@
 "use client";
 
 import useCart from "@/hooks/use-cart";
+
 import ImageCard from "./supplier/image-card";
 
 export default function CartItem({
@@ -16,18 +17,18 @@ export default function CartItem({
   price: number;
   image: string;
 }) {
-  const { updateCart } = useCart()
+  const { updateCart } = useCart();
   const handleUpdateCart = async (number: number) => {
-    await updateCart(id, number)
-  }
+    await updateCart(id, number);
+  };
 
   return (
     <ImageCard
       href={`#`}
-      counter={({
+      counter={{
         amount: quantity,
-        setAmount: handleUpdateCart
-      })}
+        setAmount: handleUpdateCart,
+      }}
       image={image || ""}
     >
       <div className="flex justify-between">

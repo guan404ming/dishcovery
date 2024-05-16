@@ -55,6 +55,7 @@ export const stores = pgTable("stores", {
   userId: serial("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
+  image: varchar("image").notNull(),
 });
 
 export const storesRelations = relations(stores, ({ many }) => ({

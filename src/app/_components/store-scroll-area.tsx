@@ -17,7 +17,7 @@ export function StoreScrollArea({ storeList }: { storeList: SelectStore[] }) {
             <Card className="flex w-[125px] cursor-pointer flex-col overflow-hidden text-center md:w-[200px]">
               <div className="rounded-md">
                 <Image
-                  src={"/1.jpeg"}
+                  src={store.image}
                   alt={`${store.name}`}
                   className="aspect-[2/1] w-full object-cover"
                   width={100}

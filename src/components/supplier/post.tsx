@@ -10,10 +10,7 @@ export function Post({
   post: SelectPost & { postDishes: SelectPostDish };
 }) {
   return (
-    <ImageCard
-      href={`/post/${post.id}`}
-      image={post.postDishes?.image}
-    >
+    <ImageCard href={`/post/${post.id}`} image={post.postDishes?.image}>
       <div className="flex justify-between">
         <h1 className="font-semibold">{post.title}</h1>
       </div>
