@@ -17,7 +17,7 @@ export default function CartItem({
 }) {
   return (
     <ImageCardCart
-      href={`/cart/${id}`}
+      href={`#`}
       isCounter={isCounter}
       initAmount={quantity}
       image={image || ""}
