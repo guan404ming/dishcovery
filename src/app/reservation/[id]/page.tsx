@@ -1,13 +1,8 @@
-import { PlusCircle, MinusCircle } from "lucide-react";
-
 import { ReservationCard } from "@/app/reservation/_components/reservation-card";
 import { ReservationUpdate } from "@/app/reservation/_components/reservation-update";
 
-import ResStateDialog from "@/app/reservation/_components/resstate-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import usePost from "@/hooks/use-post";
 
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
@@ -42,10 +37,15 @@ export default async function Reservation({ params: { id } }: ReservationPagePro
   })
   .from(postReservations)
   .innerJoin(postDishes, eq(postReservations.postDishId, dish.id))
-  .innerJoin(users, eq(postReservations.userId, users.id));
+  .innerJoin(users, eq(postReservations.userId, users.id))
+
+  const uniqueReservationsMap = new Map();
+  reservationList.forEach(reservation => {
+    uniqueReservationsMap.set(reservation.postReservations.id, reservation);
+  });
+  const uniqueReservations = Array.from(uniqueReservationsMap.values());
 
 
-  // const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
 
   return (
     <>
@@ -69,31 +69,18 @@ export default async function Reservation({ params: { id } }: ReservationPagePro
 
       <div className="flex flex-row items-center justify-between">
         <p className="text-lg font-bold lg:text-2xl">
-          Reservation({reservationList.length})
+          Reservation({uniqueReservations.length})
         </p>
-        {/* <Button
-          variant="ghost"
-          size="icon"
-          className="flex flex-col items-center justify-center"
-          onClick={() => setCancelDialogOpen(!cancelDialogOpen)}
-        >
-          <MinusCircle />
-        </Button>
-
-        <ResStateDialog
-          open={cancelDialogOpen}
-          onOpenChange={setCancelDialogOpen}
-          type="cancel"
-        /> */}
       </div>
 
       <div className="flex flex-col space-y-2">
-        {reservationList.map((reservation, index) => (
+        {uniqueReservations.map((reservation, index) => (
           <div
             key={index}
             className="w-full"
           >
             <ReservationCard
+              id={reservation.postReservations.id}
               name={reservation.users?.name}
               price={reservation.postDishes.price}
               quantity={reservation.postReservations.quantity}
