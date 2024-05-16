@@ -7,16 +7,16 @@ import ImageCard from "./image-card";
 import { authOptions } from "@/lib/auth-options";
 import { getServerSession } from "next-auth";
 
-export async function Post({
+export function Post({
   post,
 }: {
   post: SelectPost & { postDishes: SelectPostDish };
 }) {
-  const session = await getServerSession(authOptions);
-  const isAuthor = post.userId === session?.user.id;
+  // const session = await getServerSession(authOptions);
+  // const isAuthor = post.userId === session?.user.id;
   
   return (
-    <ImageCard href={isAuthor ? `/reservation/${post.id}` : `/post/${post.id}`} image={post.postDishes?.image}>
+    <ImageCard href={`/post/${post.id}`} image={post.postDishes?.image}>
       <div className="flex justify-between">
         <h1 className="font-semibold">{post.title}</h1>
       </div>
