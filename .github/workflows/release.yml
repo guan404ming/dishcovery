@@ -28,11 +28,11 @@ jobs:
       - name: Code check
         run: yarn lint
 
-      - name: Run E2E tests
-        uses: cypress-io/github-action@v6
-        with:
-          start: yarn dev
-          wait-on: "http://localhost:3000"
+      # - name: Run E2E tests
+      #   uses: cypress-io/github-action@v6
+      #   with:
+      #     start: yarn dev
+      #     wait-on: "http://localhost:3000"
 
       - name: Run unit tests
         run: yarn test

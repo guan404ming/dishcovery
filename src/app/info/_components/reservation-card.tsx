@@ -7,16 +7,16 @@ export function ReservationCard({
   price,
   quantity,
   status,
-  isCounter,
+  image
 }: {
   name: string;
   price: number;
   quantity: number;
+  image: string;
   status: string;
-  isCounter?: boolean;
 }) {
   return (
-    <ImageCard isCounter={isCounter} href="#" initAmount={quantity}>
+    <ImageCard href="#" image={image}>
       <div className="mb-1 flex items-baseline space-x-3">
         <div className="text font-semibold">{name}</div>
         <div className="text-xs font-light text-muted-foreground">

@@ -69,7 +69,6 @@ export default function InfoTab({
                 <ReservationCard
                   {...reservation.postDishes}
                   {...reservation.postReservations}
-                  isCounter
                 />
                 <ReservationDialog
                   dishId={reservation.postReservations.postDishId}
@@ -93,7 +92,6 @@ export default function InfoTab({
                 <ReservationCard
                   {...reservation.storeDishes}
                   {...reservation.storeReservations}
-                  isCounter
                 />
                 <ReservationDialog
                   dishId={reservation.storeReservations.storeDishId}
@@ -110,7 +108,7 @@ export default function InfoTab({
       <TabsContent value="post">
         <GridContainer>
           {postList.map((post, index) => (
-            <Post post={post} key={index} isCounter />
+            <Post post={post} key={index} />
           ))}
         </GridContainer>
 

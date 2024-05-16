@@ -2,13 +2,13 @@ import { getServerSession } from "next-auth";
 
 import { eq } from "drizzle-orm";
 
-import CartItem from "@/components/cartitem";
 import GridContainer from "@/components/grid-container";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { carts } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
+import CartItem from "@/components/cart-item";
 
 export default async function Cart() {
   const session = await getServerSession(authOptions);
@@ -40,7 +40,6 @@ export default async function Cart() {
             quantity={cartItem.quantity}
             price={cartItem.storeDish.price}
             image={cartItem.storeDish.image}
-            isCounter={true}
           />
         ))}
       </GridContainer>

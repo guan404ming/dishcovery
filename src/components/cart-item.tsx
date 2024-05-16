@@ -1,4 +1,7 @@
-import ImageCardCart from "./supplier/image-card_cart";
+"use client";
+
+import useCart from "@/hooks/use-cart";
+import ImageCard from "./supplier/image-card";
 
 export default function CartItem({
   id,
@@ -6,22 +9,26 @@ export default function CartItem({
   quantity,
   price,
   image,
-  isCounter,
 }: {
   id: number;
   name: string;
   quantity: number;
   price: number;
   image: string;
-  isCounter?: boolean;
 }) {
+  const { updateCart } = useCart()
+  const handleUpdateCart = async (number: number) => {
+    await updateCart(id, number)
+  }
+
   return (
-    <ImageCardCart
+    <ImageCard
       href={`#`}
-      isCounter={isCounter}
-      initAmount={quantity}
+      counter={({
+        amount: quantity,
+        setAmount: handleUpdateCart
+      })}
       image={image || ""}
-      id={id}
     >
       <div className="flex justify-between">
         <h1 className="font-semibold">{name}</h1>
@@ -30,6 +37,6 @@ export default function CartItem({
       <div className="mt-1 w-full max-w-24 overflow-hidden text-ellipsis text-wrap text-xs text-muted-foreground">
         $ {price}
       </div>
-    </ImageCardCart>
+    </ImageCard>
   );
 }
