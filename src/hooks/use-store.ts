@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 import { toast } from "sonner";
 
@@ -12,7 +11,6 @@ import handleFetch from "./utils";
 export default function useStore() {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
-  const router = useRouter();
 
   const createStoreReservation = async ({
     storeDishId,
@@ -28,7 +26,6 @@ export default function useStore() {
 
     toast("Store reservation has been created.");
     setLoading(false);
-    router.refresh();
   };
 
   return {
