@@ -16,10 +16,10 @@ export default function useReservation() {
 
     try {
       await handleFetch({
-        data: { 
-          id, 
-          quantity, 
-          status:"finished",
+        data: {
+          id,
+          quantity,
+          status: "finished",
         },
         method: "PUT",
         url: "/api/posts/post-reservations",
@@ -41,8 +41,8 @@ export default function useReservation() {
 
     try {
       await handleFetch({
-        data: { 
-          id, 
+        data: {
+          id,
         },
         method: "DELETE",
         url: "/api/posts/post-reservations",

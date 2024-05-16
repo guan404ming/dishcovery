@@ -76,18 +76,26 @@ export default function usePost() {
     setLoading(false);
   };
 
-  const updatePost = async (id: number, postId: number, name: string, quantity: number, description: string, image: string ) => {
+  const updatePost = async (
+    id: number,
+    postId: number,
+    name: string,
+    quantity: number,
+    description: string,
+    image: string,
+  ) => {
     setLoading(true);
 
     try {
       await handleFetch({
-        data: { 
-          id, 
-          postId, 
-          name, 
-          quantity, 
-          description, 
-          image },
+        data: {
+          id,
+          postId,
+          name,
+          quantity,
+          description,
+          image,
+        },
         method: "PUT",
         url: `/api/posts/post-dishes`,
       });

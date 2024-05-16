@@ -7,7 +7,6 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
-
 import useReservation from "@/hooks/use-reservation";
 
 type ResStateDialogProps = {
@@ -29,10 +28,10 @@ export default function ResStateDialog({
 
   const handleCancel = () => {
     cancelRservation(id);
-  }
+  };
   const handleFinish = () => {
     finishRservation(id, quantity);
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -52,16 +51,19 @@ export default function ResStateDialog({
           </div>
         )}
         <DialogFooter className="gap-2">
-            <Button className="block w-full" onClick={() => {
-                onOpenChange(!open); 
-                if (type === 'cancel') {
-                  handleCancel(); 
-                } else if (type === 'finish') {
-                  handleFinish();
-                }
-              }}>
-              confirm
-            </Button>
+          <Button
+            className="block w-full"
+            onClick={() => {
+              onOpenChange(!open);
+              if (type === "cancel") {
+                handleCancel();
+              } else if (type === "finish") {
+                handleFinish();
+              }
+            }}
+          >
+            confirm
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
