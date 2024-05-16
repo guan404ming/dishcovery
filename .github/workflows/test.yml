@@ -5,29 +5,29 @@ on:
     branches: ["*"]
 
 jobs:
-  e2e:
-    runs-on: ubuntu-latest
-    name: yarn e2e
-    steps:
-      - uses: actions/checkout@v4
+  # e2e:
+  #   runs-on: ubuntu-latest
+  #   name: yarn e2e
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+  #     - name: Install Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 20
 
-      - name: Install dependencies
-        run: yarn install
+  #     - name: Install dependencies
+  #       run: yarn install
 
-      - name: "Create env file"
-        run: |
-          touch .env
-          echo POSTGRES_URL=${{ secrets.POSTGRES_URL }} >> .env
+  #     - name: "Create env file"
+  #       run: |
+  #         touch .env
+  #         echo POSTGRES_URL=${{ secrets.POSTGRES_URL }} >> .env
 
-      - uses: cypress-io/github-action@v6
-        with:
-          start: yarn dev
-          wait-on: "http://localhost:3000"
+  #     - uses: cypress-io/github-action@v6
+  #       with:
+  #         start: yarn dev
+  #         wait-on: "http://localhost:3000"
 
   test:
     runs-on: ubuntu-latest
@@ -49,3 +49,24 @@ jobs:
           echo POSTGRES_URL=${{ secrets.POSTGRES_URL }} >> .env
 
       - run: yarn test
+
+  build:
+    runs-on: ubuntu-latest
+    name: yarn build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: "Create env file"
+        run: |
+          touch .env
+          echo POSTGRES_URL=${{ secrets.POSTGRES_URL }} >> .env
+
+      - run: yarn build

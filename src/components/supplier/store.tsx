@@ -4,13 +4,11 @@ import ImageCard from "./image-card";
 
 export function Store({
   store,
-  isCounter,
 }: {
   store: SelectStore;
-  isCounter?: boolean;
 }) {
   return (
-    <ImageCard href={`/store/${store.id}`} isCounter={isCounter}>
+    <ImageCard href={`/store/${store.id}`} image="/1.jpeg">
       <div className="flex justify-between">
         <h1 className="font-semibold">{store.name}</h1>
       </div>

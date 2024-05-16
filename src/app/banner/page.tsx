@@ -46,11 +46,9 @@ export default function BannerUploadPage() {
           console.log("Files: ", res);
           setUrl(res[0].url);
           createBanner({ url: res[0].url, userId: session?.user?.id });
-          alert("Upload Completed");
         }}
         onUploadError={(error: Error) => {
-          // Do something with the error.
-          alert(`ERROR! ${error.message}`);
+          console.error("Error uploading file: ", error);
         }}
       />
 

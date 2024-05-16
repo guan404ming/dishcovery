@@ -50,7 +50,7 @@ export default function Header() {
 
             <DropdownMenuItem>
               <ShoppingCart className="mr-2 h-4 w-4" />
-              <Link href="/cart/123">Cart</Link>
+              <Link href="/cart">Cart</Link>
               <DropdownMenuShortcut>⌘C</DropdownMenuShortcut>
             </DropdownMenuItem>
 
