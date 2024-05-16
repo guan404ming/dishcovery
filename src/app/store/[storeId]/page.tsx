@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { eq } from "drizzle-orm";
 import { ChevronLeft } from "lucide-react";
 import { BellPlus } from "lucide-react";
@@ -33,6 +35,14 @@ export default async function Store({
         </h1>
         <BellPlus className="h-4 w-4 cursor-pointer" />
       </div>
+
+      <Image
+        width={"600"}
+        height={"600"}
+        src={store.stores.image}
+        alt="banner"
+        className=" aspect-[3/1] rounded object-cover"
+      />
 
       <Separator />
 

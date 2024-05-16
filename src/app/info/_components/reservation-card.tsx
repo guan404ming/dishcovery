@@ -7,7 +7,7 @@ export function ReservationCard({
   price,
   quantity,
   status,
-  image
+  image,
 }: {
   name: string;
   price: number;

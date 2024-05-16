@@ -2,13 +2,9 @@ import type { SelectStore } from "@/lib/type";
 
 import ImageCard from "./image-card";
 
-export function Store({
-  store,
-}: {
-  store: SelectStore;
-}) {
+export function Store({ store }: { store: SelectStore }) {
   return (
-    <ImageCard href={`/store/${store.id}`} image="/1.jpeg">
+    <ImageCard href={`/store/${store.id}`} image={store.image}>
       <div className="flex justify-between">
         <h1 className="font-semibold">{store.name}</h1>
       </div>

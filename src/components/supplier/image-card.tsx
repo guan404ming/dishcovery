@@ -30,18 +30,18 @@ export default function ImageCard({
   return (
     <Card
       onClick={() => handleRouting()}
-      className="z-0 flex max-h-32 w-full cursor-pointer overflow-hidden text-ellipsis text-center"
+      className="z-0 flex h-32 cursor-pointer flex-nowrap text-center"
     >
       <Image
         src={image}
         alt="image"
-        className="aspect-[1/1] object-cover"
-        width={100}
-        height={100}
+        className="aspect-square object-cover"
+        width={144}
+        height={144}
       />
 
-      <div className="flex w-full justify-between">
-        <div className="flex flex-col px-4 py-3 text-left">{children}</div>
+      <div className="flex justify-between">
+        <div className="px-4 py-3 text-left">{children}</div>
 
         {counter && (
           <div className="mr-4 flex items-center justify-between space-x-2">
