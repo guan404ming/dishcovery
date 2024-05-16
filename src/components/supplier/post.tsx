@@ -4,9 +4,6 @@ import type { SelectPost, SelectPostDish } from "@/lib/type";
 
 import ImageCard from "./image-card";
 
-import { authOptions } from "@/lib/auth-options";
-import { getServerSession } from "next-auth";
-
 export function Post({
   post,
 }: {
