@@ -21,7 +21,7 @@ export function Post({
         <TimeText date={post.createTime} format="YYYY-MM-DD" />
       </div>
 
-      <div className="mt-1 w-full max-w-24 overflow-hidden text-ellipsis text-wrap text-xs text-muted-foreground">
+      <div className="mt-1 w-full line-clamp-3 text-xs text-muted-foreground">
         {post.description}
       </div>
     </ImageCard>

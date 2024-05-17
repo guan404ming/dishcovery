@@ -17,14 +17,9 @@ export function ReservationCard({
 }) {
   return (
     <ImageCard href="#" image={image}>
-      <div className="mb-1 flex items-baseline space-x-3">
-        <div className="text font-semibold">{name}</div>
-        <div className="text-xs font-light text-muted-foreground">
-          ${price * quantity}
-        </div>
-      </div>
-      <span className="w-full overflow-hidden text-ellipsis text-wrap text-xs font-normal text-muted-foreground">
-        {status}
+      <h1 className="line-clamp-2 font-semibold">{name}</h1>
+      <span className="text-muted-foreground text-sm">
+        ${price * quantity} · {status}
       </span>
     </ImageCard>
   );

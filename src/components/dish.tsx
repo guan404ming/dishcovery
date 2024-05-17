@@ -27,7 +27,7 @@ export default function Dish({
         <Button
           size={"icon"}
           variant="outline"
-          className="absolute bottom-2 left-[88px] h-8 w-8 rounded-full border"
+          className="absolute bottom-2 left-20 h-8 w-8 rounded-full border"
           // onClick={() => setCart(!cart)}
           onClick={() => setReserve(!reserve)}
         >

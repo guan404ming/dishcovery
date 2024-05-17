@@ -58,50 +58,54 @@ export default function InfoTab({
       </div>
 
       <TabsContent value="reservation" className="space-y-4">
-        <h1 className="font-semibold">Post Reservations</h1>
         {postReservationList.length > 0 && (
-          <GridContainer>
-            {postReservationList.map((reservation, index) => (
-              <div
-                key={index}
-                onClick={() => setReserveDialogOpen(!reserveDialogOpen)}
-              >
-                <ReservationCard
-                  {...reservation.postDishes}
-                  {...reservation.postReservations}
-                />
-                <ReservationDialog
-                  dishId={reservation.postReservations.postDishId}
-                  title="Reservation"
-                  open={reserveDialogOpen}
-                  onOpenChange={setReserveDialogOpen}
-                />
-              </div>
-            ))}
-          </GridContainer>
+          <>
+            <h1 className="text-xl font-semibold">Post Reservations</h1>
+            <GridContainer>
+              {postReservationList.map((reservation, index) => (
+                <div
+                  key={index}
+                  onClick={() => setReserveDialogOpen(!reserveDialogOpen)}
+                >
+                  <ReservationCard
+                    {...reservation.postDishes}
+                    {...reservation.postReservations}
+                  />
+                  <ReservationDialog
+                    dishId={reservation.postReservations.postDishId}
+                    title="Reservation"
+                    open={reserveDialogOpen}
+                    onOpenChange={setReserveDialogOpen}
+                  />
+                </div>
+              ))}
+            </GridContainer>
+          </>
         )}
 
-        <h1 className="font-semibold">Store Reservations</h1>
         {storeReservationList.length > 0 && (
-          <GridContainer>
-            {storeReservationList.map((reservation, index) => (
-              <div
-                key={index}
-                onClick={() => setReserveDialogOpen(!reserveDialogOpen)}
-              >
-                <ReservationCard
-                  {...reservation.storeDishes}
-                  {...reservation.storeReservations}
-                />
-                <ReservationDialog
-                  dishId={reservation.storeReservations.storeDishId}
-                  title="Reservation"
-                  open={reserveDialogOpen}
-                  onOpenChange={setReserveDialogOpen}
-                />
-              </div>
-            ))}
-          </GridContainer>
+          <>
+            <h1 className="text-xl font-semibold">Store Reservations</h1>
+            <GridContainer>
+              {storeReservationList.map((reservation, index) => (
+                <div
+                  key={index}
+                  onClick={() => setReserveDialogOpen(!reserveDialogOpen)}
+                >
+                  <ReservationCard
+                    {...reservation.storeDishes}
+                    {...reservation.storeReservations}
+                  />
+                  <ReservationDialog
+                    dishId={reservation.storeReservations.storeDishId}
+                    title="Reservation"
+                    open={reserveDialogOpen}
+                    onOpenChange={setReserveDialogOpen}
+                  />
+                </div>
+              ))}
+            </GridContainer>
+          </>
         )}
       </TabsContent>
 
