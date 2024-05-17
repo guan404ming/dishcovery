@@ -1,8 +1,8 @@
 "use client";
 
-import useCart from "@/hooks/use-cart";
+import ImageCard from "../../../components/supplier/image-card";
 
-import ImageCard from "./supplier/image-card";
+import useCart from "@/hooks/use-cart";
 
 export default function CartItem({
   id,
@@ -32,7 +32,7 @@ export default function CartItem({
       image={image || ""}
     >
       <div className="flex justify-between">
-        <h1 className="font-semibold">{name}</h1>
+        <h1 className="line-clamp-2 font-semibold">{name}</h1>
       </div>
 
       <div className="mt-1 w-full max-w-24 overflow-hidden text-ellipsis text-wrap text-xs text-muted-foreground">

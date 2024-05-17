@@ -1,11 +1,11 @@
 import Image from "next/image";
 
 import { eq } from "drizzle-orm";
-import { ChevronLeft } from "lucide-react";
-import { BellPlus } from "lucide-react";
+import { Bookmark } from "lucide-react";
 
 import Dish from "@/components/dish";
 import GridContainer from "@/components/grid-container";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { storeDishes, stores, users } from "@/db/schema";
@@ -28,27 +28,42 @@ export default async function Store({
 
   return (
     <>
-      <div className="flex w-full items-center justify-between text-center">
-        <ChevronLeft className="h-4 w-4 cursor-pointer" />
-        <h1 className="text-center text-xl font-semibold">
-          {store.stores.name}
-        </h1>
-        <BellPlus className="h-4 w-4 cursor-pointer" />
+      <div className="relative w-full">
+        <Button
+          size={"icon"}
+          variant="outline"
+          className="absolute right-2 top-2 rounded-full border-none bg-black/30 backdrop-blur-sm "
+        >
+          <Bookmark className="stroke-white" />
+        </Button>
+        <Image
+          width={"600"}
+          height={"600"}
+          src={store.stores.image}
+          alt="banner"
+          className="aspect-[3/1] rounded object-cover"
+        />
       </div>
 
-      <Image
-        width={"600"}
-        height={"600"}
-        src={store.stores.image}
-        alt="banner"
-        className=" aspect-[3/1] rounded object-cover"
-      />
+      <div className="grid gap-1 text-center">
+        <h1 className="text-2xl font-bold">{store.stores.name}</h1>
+
+        <div className="text-sm text-gray-500">
+          <span className="text-black">{store.users.name}</span> ·{" "}
+          {store.stores.phone}
+        </div>
+      </div>
 
       <Separator />
 
+      <h1 className="text-xl font-bold">精選商品</h1>
+
       <GridContainer>
         {dishes.map((dish) => (
-          <Dish key={dish.id} dish={dish} />
+          <>
+            <Dish key={dish.id} dish={dish} />
+            <Separator className="md:hidden"></Separator>
+          </>
         ))}
       </GridContainer>
     </>

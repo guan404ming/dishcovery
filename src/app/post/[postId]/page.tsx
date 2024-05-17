@@ -1,6 +1,5 @@
 import { eq } from "drizzle-orm";
 
-import { Banner } from "@/components/banner";
 import Dish from "@/components/dish";
 import GridContainer from "@/components/grid-container";
 import TimeText from "@/components/time-text";
@@ -9,7 +8,6 @@ import { db } from "@/db";
 import { postDishes, posts, users } from "@/db/schema";
 
 export default async function Post({ params }: { params: { postId: string } }) {
-  const bannerList = await db.query.banners.findMany();
   const [post] = await db
     .select()
     .from(posts)
@@ -27,20 +25,14 @@ export default async function Post({ params }: { params: { postId: string } }) {
 
   return (
     <>
-      <Banner bannerList={bannerList} />
-
-      <p className="text-center text-lg font-bold md:text-2xl lg:text-4xl">
-        {post.posts.title}
-      </p>
+      <h2 className="text-2xl font-bold">{post.posts.title}</h2>
 
       <div className="flex gap-4">
         <Avatar className="h-12 w-12 bg-slate-400 lg:h-14 lg:w-14">
-          <AvatarFallback>W</AvatarFallback>
+          <AvatarFallback>{post.users.name.slice(0, 1)}</AvatarFallback>
         </Avatar>
         <div>
-          <p className="font-semibold text-slate-800 md:text-lg lg:text-xl">
-            {post.users.name}
-          </p>
+          <p className="text-slate-800">{post.users.name}</p>
           <span className="text-sm text-slate-400">
             <TimeText date={post.posts.createTime} format="YYYY-MM-DD" />
             {" @"}
@@ -55,11 +47,7 @@ export default async function Post({ params }: { params: { postId: string } }) {
         ))}
       </GridContainer>
 
-      <div>
-        <text className="line-clamp-3 text-sm text-slate-600">
-          {post.posts.description}
-        </text>
-      </div>
+      <p className="line-clamp-3 text-slate-600">{post.posts.description}</p>
     </>
   );
 }

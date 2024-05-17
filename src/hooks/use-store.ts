@@ -28,7 +28,21 @@ export default function useStore() {
     setLoading(false);
   };
 
+  const deleteStoreReservation = async (id: number) => {
+    setLoading(true);
+
+    await handleFetch({
+      data: { id },
+      method: "DELETE",
+      url: `/api/stores/store-reservations`,
+    });
+
+    toast("Store reservation has been deleted.");
+    setLoading(false);
+  };
+
   return {
+    deleteStoreReservation,
     createStoreReservation,
     loading,
   };
