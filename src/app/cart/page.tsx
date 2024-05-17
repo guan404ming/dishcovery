@@ -2,13 +2,13 @@ import { getServerSession } from "next-auth";
 
 import { eq } from "drizzle-orm";
 
-import CartItem from "@/components/cart-item";
 import GridContainer from "@/components/grid-container";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { carts } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 
+import CartItem from "./_components/cart-item";
 import ConfirmButton from "./_components/confirm-button";
 
 export default async function Cart() {
