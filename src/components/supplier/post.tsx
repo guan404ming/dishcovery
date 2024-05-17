@@ -11,7 +11,7 @@ export function Post({
 }) {
   // const session = await getServerSession(authOptions);
   // const isAuthor = post.userId === session?.user.id;
-  
+
   return (
     <ImageCard href={`/post/${post.id}`} image={post.postDishes?.image}>
       <div className="flex justify-between">

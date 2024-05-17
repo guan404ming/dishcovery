@@ -32,7 +32,7 @@ export default async function Store({
         <Button
           size={"icon"}
           variant="outline"
-          className="absolute right-2 top-2 rounded-full border-none bg-black bg-opacity-60"
+          className="absolute right-2 top-2 rounded-full border-none bg-black/30 backdrop-blur-sm "
         >
           <Bookmark className="stroke-white" />
         </Button>
@@ -62,7 +62,7 @@ export default async function Store({
         {dishes.map((dish) => (
           <>
             <Dish key={dish.id} dish={dish} />
-            <Separator></Separator>
+            <Separator className="md:hidden"></Separator>
           </>
         ))}
       </GridContainer>
