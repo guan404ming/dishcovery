@@ -8,6 +8,7 @@ import { Banner } from "@/components/banner";
 import GridContainer from "@/components/grid-container";
 import { Post } from "@/components/supplier/post";
 import { db } from "@/db";
+import { Separator } from "@/components/ui/separator";
 
 export default async function Home() {
   const bannerList = await db.query.banners.findMany();
@@ -45,7 +46,10 @@ export default async function Home() {
 
       <GridContainer>
         {postList.map((post, index) => (
-          <Post post={post} key={index} />
+          <>
+            <Post post={post} key={index} />
+            <Separator className="md:hidden"></Separator>
+          </>
         ))}
       </GridContainer>
     </>
