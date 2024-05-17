@@ -25,18 +25,14 @@ export default async function Post({ params }: { params: { postId: string } }) {
 
   return (
     <>
-      <h2 className="text-2xl font-bold">
-        {post.posts.title}
-      </h2>
+      <h2 className="text-2xl font-bold">{post.posts.title}</h2>
 
       <div className="flex gap-4">
         <Avatar className="h-12 w-12 bg-slate-400 lg:h-14 lg:w-14">
           <AvatarFallback>{post.users.name.slice(0, 1)}</AvatarFallback>
         </Avatar>
         <div>
-          <p className="text-slate-800">
-            {post.users.name}
-          </p>
+          <p className="text-slate-800">{post.users.name}</p>
           <span className="text-sm text-slate-400">
             <TimeText date={post.posts.createTime} format="YYYY-MM-DD" />
             {" @"}
@@ -51,11 +47,7 @@ export default async function Post({ params }: { params: { postId: string } }) {
         ))}
       </GridContainer>
 
-      <div>
-        <text className="line-clamp-3 text-slate-600">
-          {post.posts.description}
-        </text>
-      </div>
+      <p className="line-clamp-3 text-slate-600">{post.posts.description}</p>
     </>
   );
 }

@@ -4,20 +4,22 @@ import { eq } from "drizzle-orm";
 
 import CartItem from "@/components/cart-item";
 import GridContainer from "@/components/grid-container";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { carts } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 
+import ConfirmButton from "./_components/confirm-button";
+
 export default async function Cart() {
   const session = await getServerSession(authOptions);
+
   if (!session?.user) {
     return <div>Not Authorized</div>;
   }
 
   const cartItem = await db.query.carts.findMany({
-    where: eq(carts.id, session?.user.id),
+    where: eq(carts.userId, session?.user.id),
     with: {
       storeDish: true,
     },
@@ -48,7 +50,7 @@ export default async function Cart() {
         <p className="text-xl font-semibold text-slate-600">
           Total{"  "}${totalPrice}
         </p>
-        <Button>Confirm</Button>
+        <ConfirmButton cartItem={cartItem}></ConfirmButton>
       </div>
 
       <Separator />

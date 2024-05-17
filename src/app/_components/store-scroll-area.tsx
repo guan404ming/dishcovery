@@ -14,11 +14,11 @@ export function StoreScrollArea({ storeList }: { storeList: SelectStore[] }) {
       <div className="flex w-max space-x-2">
         {storeList.map((store) => (
           <Link key={store.name} href={`/store/${store.id}`}>
-            <Card className="flex cursor-pointer flex-col border-none w-[200px]">
+            <Card className="flex w-[200px] cursor-pointer flex-col border-none">
               <Image
                 src={store.image}
                 alt={`${store.name}`}
-                className="aspect-[2/1] w-full object-cover rounded-md"
+                className="aspect-[2/1] w-full rounded-md object-cover"
                 width={100}
                 height={100}
               />

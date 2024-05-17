@@ -9,9 +9,12 @@ export function Post({
 }: {
   post: SelectPost & { postDishes: SelectPostDish };
 }) {
-
   return (
-    <ImageCard href={`/post/${post.id}`} image={post.postDishes?.image} className="border-none shadow-none">
+    <ImageCard
+      href={`/post/${post.id}`}
+      image={post.postDishes?.image}
+      className="border-none shadow-none"
+    >
       <h1 className="line-clamp-2 font-semibold">{post.title}</h1>
 
       <div className="text-sm font-light text-muted-foreground">

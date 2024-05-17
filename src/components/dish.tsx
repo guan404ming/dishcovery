@@ -15,7 +15,7 @@ export default function Dish({
 }: {
   dish: SelectPostDish | SelectStoreDish;
 }) {
-  const [save, setSave] = useState(false);
+  const [cart, setCart] = useState(false);
   const [reserve, setReserve] = useState(false);
 
   return (
@@ -28,7 +28,8 @@ export default function Dish({
           size={"icon"}
           variant="outline"
           className="absolute bottom-2 left-[88px] h-8 w-8 rounded-full border"
-          onClick={() => setSave(!reserve)}
+          // onClick={() => setCart(!cart)}
+          onClick={() => setReserve(!reserve)}
         >
           <Plus className="h-3 w-3" strokeWidth={3} />
         </Button>
@@ -49,8 +50,8 @@ export default function Dish({
       </ImageCard>
       <ReservationDialog
         title="Cart"
-        open={save}
-        onOpenChange={setSave}
+        open={cart}
+        onOpenChange={setCart}
         dishId={dish.id}
       />
       <ReservationDialog

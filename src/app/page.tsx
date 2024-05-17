@@ -7,8 +7,8 @@ import { StoreScrollArea } from "@/app/_components/store-scroll-area";
 import { Banner } from "@/components/banner";
 import GridContainer from "@/components/grid-container";
 import { Post } from "@/components/supplier/post";
-import { db } from "@/db";
 import { Separator } from "@/components/ui/separator";
+import { db } from "@/db";
 
 export default async function Home() {
   const bannerList = await db.query.banners.findMany();
