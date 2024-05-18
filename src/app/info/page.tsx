@@ -12,6 +12,7 @@ import {
   posts,
   storeDishes,
   storeReservations,
+  stores,
 } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 
@@ -45,6 +46,13 @@ export default async function Info() {
     .innerJoin(storeDishes, eq(storeReservations.storeDishId, storeDishes.id))
     .where(eq(storeReservations.userId, session?.user.id));
 
+  const storeDishList = await db.query.stores.findFirst({
+    with: {
+      storeDishes: true,
+    },
+    where: eq(stores.userId, session?.user.id),
+  });
+
   return (
     <>
       <div className="flex items-center space-x-4">
@@ -68,6 +76,7 @@ export default async function Info() {
         postList={postList}
         postReservationList={postReservationList}
         storeReservationList={storeReservationList}
+        storeDishList={storeDishList?.storeDishes || []}
       />
     </>
   );

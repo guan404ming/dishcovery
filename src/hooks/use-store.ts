@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { toast } from "sonner";
 
-import type { InsertStoreReservation } from "@/lib/type";
+import type { InsertStoreDish, InsertStoreReservation } from "@/lib/type";
 
 import handleFetch from "./utils";
 
@@ -61,10 +61,33 @@ export default function useStore() {
     router.refresh();
   };
 
+  const updateStoreDish = async ({
+    id,
+    quantity,
+    storeId,
+    name,
+    price,
+    description,
+    image,
+  }: InsertStoreDish) => {
+    setLoading(true);
+
+    await handleFetch({
+      data: { id, quantity, storeId, name, price, description, image },
+      method: "PUT",
+      url: "/api/stores/store-dishes",
+    });
+
+    toast("Post reservation has been updated.");
+    setLoading(false);
+    router.refresh();
+  };
+
   return {
     updateStoreReservation,
     deleteStoreReservation,
     createStoreReservation,
+    updateStoreDish,
     loading,
   };
 }

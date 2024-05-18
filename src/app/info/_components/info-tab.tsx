@@ -8,6 +8,7 @@ import GridContainer from "@/components/grid-container";
 import { Post } from "@/components/supplier/post";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import usePost from "@/hooks/use-post";
+import useStore from "@/hooks/use-store";
 import type {
   SelectPost,
   SelectPostDish,
@@ -18,11 +19,13 @@ import type {
 
 import AddDialog from "./add-dialog";
 import { ReservationCard } from "./reservation-card";
+import { StoreCard } from "./store-counter-card";
 
 export default function InfoTab({
   postList,
   postReservationList,
   storeReservationList,
+  storeDishList,
 }: {
   postList: (SelectPost & { postDishes: SelectPostDish })[];
   postReservationList: {
@@ -33,8 +36,10 @@ export default function InfoTab({
     storeReservations: SelectStoreReservation;
     storeDishes: SelectStoreDish;
   }[];
+  storeDishList: SelectStoreDish[];
 }) {
   const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const { updateStoreDish } = useStore();
   const { updatePost } = usePost();
 
   return (
@@ -125,6 +130,20 @@ export default function InfoTab({
         className="grid grid-cols-1 gap-2 md:grid-cols-2"
         value="store"
       >
+        <GridContainer>
+          {storeDishList.map((storeDish, index) => (
+            <StoreCard
+              storeDish={storeDish}
+              key={index}
+              counter={{
+                amount: storeDish.quantity,
+                setAmount: async (number: number) => {
+                  await updateStoreDish({ ...storeDish, quantity: number });
+                },
+              }}
+            />
+          ))}
+        </GridContainer>
         <AddDialog
           open={addDialogOpen}
           onOpenChange={setAddDialogOpen}
