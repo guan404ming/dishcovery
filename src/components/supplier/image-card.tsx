@@ -35,7 +35,7 @@ export default function ImageCard({
     <Card
       onClick={() => handleRouting()}
       className={cn(
-        "z-0 flex h-32 cursor-pointer flex-nowrap text-center",
+        "z-0 flex h-[120px] cursor-pointer flex-nowrap text-center",
         className,
       )}
     >
@@ -43,8 +43,8 @@ export default function ImageCard({
         src={image}
         alt="image"
         className="aspect-square rounded border object-cover"
-        width={128}
-        height={128}
+        width={120}
+        height={120}
       />
 
       <div className="flex justify-between">

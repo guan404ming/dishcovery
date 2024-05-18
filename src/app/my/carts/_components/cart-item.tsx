@@ -1,7 +1,6 @@
 "use client";
 
-import ImageCard from "../../../components/supplier/image-card";
-
+import ImageCard from "@/components/supplier/image-card";
 import useCart from "@/hooks/use-cart";
 
 export default function CartItem({

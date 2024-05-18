@@ -35,6 +35,24 @@ export default function usePost() {
     router.refresh();
   };
 
+  const updatePostReservation = async ({
+    id,
+    quantity,
+    status,
+  }: InsertPostReservation) => {
+    setLoading(true);
+
+    await handleFetch({
+      data: { id, quantity, status },
+      method: "PUT",
+      url: "/api/posts/post-reservations",
+    });
+
+    toast("Post reservation has been updated.");
+    setLoading(false);
+    router.refresh();
+  };
+
   const createPost = async ({
     title,
     description,
@@ -114,6 +132,7 @@ export default function usePost() {
   return {
     createPost,
     createPostReservation,
+    updatePostReservation,
     updatePost,
     loading,
   };
