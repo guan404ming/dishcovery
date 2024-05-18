@@ -1,7 +1,14 @@
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 
-import { Receipt, FilePen, Store, User } from "lucide-react";
+import {
+  Receipt,
+  FilePen,
+  Store,
+  User,
+  Bookmark,
+  ShoppingCart,
+} from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -20,9 +27,8 @@ function MyButton({
   return (
     <Link href={href}>
       <Button
-        size={"icon"}
         variant={"outline"}
-        className="flex w-full items-center justify-start space-x-2 pl-4 shadow-sm"
+        className="flex h-12 w-full items-center justify-start space-x-2 pl-4 shadow-sm"
       >
         {Icon}
         <p>{text}</p>
@@ -63,6 +69,12 @@ export default async function My() {
         />
         <MyButton Icon={<FilePen />} href="/my/posts" text="Posts" />
         <MyButton Icon={<Store />} href="/my/stores" text="Stores" />
+        <MyButton Icon={<ShoppingCart />} href="/my/carts" text="Cart" />
+        <MyButton
+          Icon={<Bookmark />}
+          href="/my/collections"
+          text="Collections"
+        />
       </div>
     </>
   );

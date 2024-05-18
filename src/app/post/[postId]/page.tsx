@@ -1,3 +1,6 @@
+import { getServerSession } from "next-auth";
+import Link from "next/link";
+
 import { eq } from "drizzle-orm";
 
 import Dish from "@/components/dish";
@@ -6,8 +9,10 @@ import TimeText from "@/components/time-text";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { postDishes, posts, users } from "@/db/schema";
+import { authOptions } from "@/lib/auth-options";
 
 export default async function Post({ params }: { params: { postId: string } }) {
+  const session = await getServerSession(authOptions);
   const [post] = await db
     .select()
     .from(posts)
@@ -38,7 +43,16 @@ export default async function Post({ params }: { params: { postId: string } }) {
 
       <GridContainer>
         {dishes.map((dish) => (
-          <Dish key={dish.id} dish={dish} />
+          <Link
+            href={
+              session?.user.id === post.users.id
+                ? `/reservation/${dish.id}`
+                : "#"
+            }
+            key={dish.id}
+          >
+            <Dish key={dish.id} dish={dish} />
+          </Link>
         ))}
       </GridContainer>
 

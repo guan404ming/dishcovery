@@ -50,13 +50,13 @@ export default function Header() {
 
             <DropdownMenuItem>
               <ShoppingCart className="mr-2 h-4 w-4" />
-              <Link href="/cart">Cart</Link>
+              <Link href="/my/carts">Cart</Link>
               <DropdownMenuShortcut>⌘C</DropdownMenuShortcut>
             </DropdownMenuItem>
 
             <DropdownMenuItem>
               <Bookmark className="mr-2 h-4 w-4" />
-              <Link href="/collections">Collection</Link>
+              <Link href="/my/collections">Collection</Link>
               <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
             </DropdownMenuItem>
 

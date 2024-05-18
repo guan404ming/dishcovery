@@ -11,7 +11,7 @@ import { authOptions } from "@/lib/auth-options";
 import CartItem from "./_components/cart-item";
 import ConfirmButton from "./_components/confirm-button";
 
-export default async function Cart() {
+export default async function MyCarts() {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
