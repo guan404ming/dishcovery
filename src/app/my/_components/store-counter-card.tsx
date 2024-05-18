@@ -1,19 +1,26 @@
+"use client";
+
 import ImageCard from "@/components/supplier/image-card";
+import useStore from "@/hooks/use-store";
 import type { SelectStoreDish } from "@/lib/type";
 
-export function StoreCard({
+export function StoreCounterCard({
   storeDish,
-  counter,
 }: {
   storeDish: SelectStoreDish;
-  counter?: { amount: number; setAmount: (number: number) => Promise<void> };
 }) {
+  const { updateStoreDish } = useStore();
   return (
     <ImageCard
       href={`/reservation/${storeDish.id}`}
       image={storeDish.image}
       className="border-none shadow-none"
-      counter={counter}
+      counter={{
+        amount: storeDish.quantity,
+        setAmount: async (number: number) => {
+          await updateStoreDish({ ...storeDish, quantity: number });
+        },
+      }}
     >
       <h1 className="line-clamp-2 font-semibold">{storeDish.name}</h1>
 

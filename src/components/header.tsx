@@ -44,7 +44,7 @@ export default function Header() {
 
             <DropdownMenuItem>
               <User className="mr-2 h-4 w-4" />
-              <Link href="/info">Info</Link>
+              <Link href="/my">Info</Link>
               <DropdownMenuShortcut>⌘I</DropdownMenuShortcut>
             </DropdownMenuItem>
 
