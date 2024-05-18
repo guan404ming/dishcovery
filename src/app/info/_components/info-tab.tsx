@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 
-import ReservationDialog from "../../../components/reservation-dialog";
 import { PlusCircle } from "lucide-react";
 
 import GridContainer from "@/components/grid-container";
 import { Post } from "@/components/supplier/post";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import usePost from "@/hooks/use-post";
 import type {
   SelectPost,
   SelectPostDish,
@@ -34,8 +34,8 @@ export default function InfoTab({
     storeDishes: SelectStoreDish;
   }[];
 }) {
-  const [reserveDialogOpen, setReserveDialogOpen] = useState(false);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const { updatePost } = usePost();
 
   return (
     <Tabs defaultValue="reservation" className="w-full">
@@ -63,21 +63,12 @@ export default function InfoTab({
             <h1 className="text-xl font-semibold">Post Reservations</h1>
             <GridContainer>
               {postReservationList.map((reservation, index) => (
-                <div
+                <ReservationCard
                   key={index}
-                  onClick={() => setReserveDialogOpen(!reserveDialogOpen)}
-                >
-                  <ReservationCard
-                    {...reservation.postDishes}
-                    {...reservation.postReservations}
-                  />
-                  <ReservationDialog
-                    dishId={reservation.postReservations.postDishId}
-                    title="Reservation"
-                    open={reserveDialogOpen}
-                    onOpenChange={setReserveDialogOpen}
-                  />
-                </div>
+                  {...reservation.postDishes}
+                  {...reservation.postReservations}
+                  isPost={true}
+                />
               ))}
             </GridContainer>
           </>
@@ -88,21 +79,12 @@ export default function InfoTab({
             <h1 className="text-xl font-semibold">Store Reservations</h1>
             <GridContainer>
               {storeReservationList.map((reservation, index) => (
-                <div
+                <ReservationCard
+                  {...reservation.storeDishes}
+                  {...reservation.storeReservations}
+                  isPost={false}
                   key={index}
-                  onClick={() => setReserveDialogOpen(!reserveDialogOpen)}
-                >
-                  <ReservationCard
-                    {...reservation.storeDishes}
-                    {...reservation.storeReservations}
-                  />
-                  <ReservationDialog
-                    dishId={reservation.storeReservations.storeDishId}
-                    title="Reservation"
-                    open={reserveDialogOpen}
-                    onOpenChange={setReserveDialogOpen}
-                  />
-                </div>
+                />
               ))}
             </GridContainer>
           </>
@@ -112,7 +94,23 @@ export default function InfoTab({
       <TabsContent value="post">
         <GridContainer>
           {postList.map((post, index) => (
-            <Post post={post} key={index} />
+            <Post
+              post={post}
+              key={index}
+              counter={{
+                amount: post.postDishes.quantity,
+                setAmount: async (number: number) => {
+                  await updatePost(
+                    post.id,
+                    post.postDishes.id,
+                    post.postDishes.name,
+                    number,
+                    post.postDishes.description,
+                    post.postDishes.image,
+                  );
+                },
+              }}
+            />
           ))}
         </GridContainer>
 

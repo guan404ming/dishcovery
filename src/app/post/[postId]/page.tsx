@@ -3,9 +3,9 @@ import { eq } from "drizzle-orm";
 import Dish from "@/components/dish";
 import GridContainer from "@/components/grid-container";
 import TimeText from "@/components/time-text";
+import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { postDishes, posts, users } from "@/db/schema";
-import { Separator } from "@/components/ui/separator";
 
 export default async function Post({ params }: { params: { postId: string } }) {
   const [post] = await db
