@@ -23,7 +23,11 @@ export default async function StoreDishPage({
   }
 
   const reservationList = await db
-    .select()
+    .select({
+      storeReservations,
+      storeDishes,
+      users,
+    })
     .from(storeReservations)
     .where(eq(storeReservations.storeDishId, storeDishId))
     .innerJoin(users, eq(users.id, storeReservations.userId))
@@ -42,7 +46,7 @@ export default async function StoreDishPage({
         {reservationList.map((reservation, index) => (
           <StoreReservationCard
             key={index}
-            {...reservation.store_reservations}
+            {...reservation.storeReservations}
             name={reservation.users.name}
           />
         ))}

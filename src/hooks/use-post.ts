@@ -142,12 +142,32 @@ export default function usePost() {
     router.refresh();
   };
 
+  const updatePostDish = async ({
+    id,
+    quantity,
+    postId,
+    name,
+    price,
+    description,
+    image,
+  }: InsertPostDish) => {
+    await handleFetch({
+      data: { id, quantity, postId, name, price, description, image },
+      method: "PUT",
+      url: "/api/posts/post-dishes",
+      successMessage: "Post dish has been updated.",
+      setLoading,
+    });
+    router.refresh();
+  };
+
   return {
     createPost,
     createPostReservation,
     updatePostReservation,
     finishPostReservation,
     deletePostReservation,
+    updatePostDish,
     updatePost,
     loading,
   };
