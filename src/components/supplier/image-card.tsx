@@ -47,7 +47,7 @@ export default function ImageCard({
         height={120}
       />
 
-      <div className="flex justify-between">
+      <div className="flex justify-between w-full">
         <div className="px-4 py-2 text-left">{children}</div>
 
         {counter && (

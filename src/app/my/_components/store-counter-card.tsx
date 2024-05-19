@@ -22,7 +22,7 @@ export function StoreCounterCard({
         },
       }}
     >
-      <h1 className="line-clamp-2 font-semibold">{storeDish.name}</h1>
+      <h1 className="line-clamp-2 font-semibold max-w-20">{storeDish.name}</h1>
 
       <div className="mt-1 line-clamp-3 w-full text-xs text-muted-foreground">
         {storeDish.description}
