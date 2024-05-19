@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth/next";
 
-import { ReservationCard } from "../_components/reservation-card";
 import { eq, desc } from "drizzle-orm";
 
 import GridContainer from "@/components/grid-container";
+import Reservation from "@/components/image-card/reservation";
 import { db } from "@/db";
 import {
   postReservations,
@@ -44,7 +44,7 @@ export default async function MyReservations() {
           <h1 className="text-xl font-semibold">Post Reservations</h1>
           <GridContainer>
             {postReservationList.map((reservation, index) => (
-              <ReservationCard
+              <Reservation
                 key={index}
                 {...reservation.postDishes}
                 {...reservation.postReservations}
@@ -60,7 +60,7 @@ export default async function MyReservations() {
           <h1 className="text-xl font-semibold">Store Reservations</h1>
           <GridContainer>
             {storeReservationList.map((reservation, index) => (
-              <ReservationCard
+              <Reservation
                 {...reservation.storeDishes}
                 {...reservation.storeReservations}
                 isPost={false}

@@ -1,12 +1,12 @@
 import { getServerSession } from "next-auth/next";
 
-import { StoreCounterCard } from "../_components/store-counter-card";
 import { eq } from "drizzle-orm";
 
 import GridContainer from "@/components/grid-container";
 import { db } from "@/db";
 import { stores } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
+import StoreDish from "../_components/store-dish";
 
 export default async function MyStores() {
   const session = await getServerSession(authOptions);
@@ -28,7 +28,7 @@ export default async function MyStores() {
       <h1 className="text-xl font-semibold">My Store Dishes</h1>
       <GridContainer>
         {store.storeDishes.map((storeDish, index) => (
-          <StoreCounterCard storeDish={storeDish} key={index} />
+          <StoreDish storeDish={storeDish} key={index} />
         ))}
       </GridContainer>
     </>

@@ -4,7 +4,7 @@ import ImageCardPrimitive from "@/components/image-card/image-card-primitive";
 import usePost from "@/hooks/use-post";
 import useStore from "@/hooks/use-store";
 
-export function ReservationCard({
+export default function Reservation({
   name,
   price,
   quantity,

@@ -4,7 +4,7 @@ import ImageCardPrimitive from "@/components/image-card/image-card-primitive";
 import useStore from "@/hooks/use-store";
 import type { SelectStoreDish } from "@/lib/type";
 
-export function StoreCounterCard({
+export default function StoreDish({
   storeDish,
 }: {
   storeDish: SelectStoreDish;
