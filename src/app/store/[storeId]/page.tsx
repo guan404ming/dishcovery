@@ -5,12 +5,12 @@ import { eq } from "drizzle-orm";
 import { Bookmark } from "lucide-react";
 
 import GridContainer from "@/components/grid-container";
-import Dish from "@/components/image-card/dish";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { storeDishes, stores, users } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
+import StoreDish from "@/components/image-card/store-dish";
 
 export default async function StorePage({
   params,
@@ -64,9 +64,9 @@ export default async function StorePage({
 
       <GridContainer>
         {dishes.map((dish) => (
-          <Dish
+          <StoreDish
             key={dish.id}
-            dish={dish}
+            storeDish={dish}
             isAuthor={session?.user.id === store.users.id}
           />
         ))}
