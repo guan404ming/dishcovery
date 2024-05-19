@@ -26,7 +26,6 @@ export default function Reservation({
 
   return (
     <ImageCardPrimitive
-      href="#"
       image={image}
       counter={{
         amount: quantity,

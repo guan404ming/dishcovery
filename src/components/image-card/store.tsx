@@ -4,11 +4,7 @@ import ImageCardPrimitive from "./image-card-primitive";
 
 export function Store({ store }: { store: SelectStore }) {
   return (
-    <ImageCardPrimitive
-      href={`/store/${store.id}`}
-      image={store.image}
-      className="border-none shadow-none"
-    >
+    <ImageCardPrimitive href={`/store/${store.id}`} image={store.image}>
       <h1 className="line-clamp-2 font-semibold">{store.name}</h1>
 
       <div className="text-sm font-light text-muted-foreground">

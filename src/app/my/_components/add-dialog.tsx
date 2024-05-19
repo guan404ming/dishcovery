@@ -39,7 +39,7 @@ export default function AddDialog({ type }: DialogProps) {
     <Dialog>
       <DialogTrigger asChild>
         <Button size={"icon"} variant={"ghost"}>
-          <PlusCircle className="cursor-pointer h-5 w-5" />
+          <PlusCircle className="h-5 w-5 cursor-pointer" />
         </Button>
       </DialogTrigger>
       <DialogContent className="h-[80%] w-[80%] max-w-[400px] overflow-scroll rounded">

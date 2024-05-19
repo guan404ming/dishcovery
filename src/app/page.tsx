@@ -7,7 +7,6 @@ import { StoreScrollArea } from "@/app/_components/store-scroll-area";
 import { Banner } from "@/components/banner";
 import GridContainer from "@/components/grid-container";
 import { Post } from "@/components/image-card/post";
-import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 
 export default async function Home() {
@@ -49,10 +48,7 @@ export default async function Home() {
 
       <GridContainer>
         {postList.map((post, index) => (
-          <>
-            <Post post={post} key={index} />
-            <Separator className="md:hidden"></Separator>
-          </>
+          <Post post={post} key={index} />
         ))}
       </GridContainer>
     </>

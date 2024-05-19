@@ -1,12 +1,12 @@
 import { getServerSession } from "next-auth/next";
 
+import StoreDish from "../_components/store-dish";
 import { eq } from "drizzle-orm";
 
 import GridContainer from "@/components/grid-container";
 import { db } from "@/db";
 import { stores } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
-import StoreDish from "../_components/store-dish";
 
 export default async function MyStoresPage() {
   const session = await getServerSession(authOptions);

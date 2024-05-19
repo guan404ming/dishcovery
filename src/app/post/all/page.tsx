@@ -1,6 +1,5 @@
 import GridContainer from "@/components/grid-container";
 import { Post } from "@/components/image-card/post";
-import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 
 export default async function AllPostPage() {
@@ -13,10 +12,7 @@ export default async function AllPostPage() {
       <span className="text-xl font-semibold">All Posts</span>
       <GridContainer>
         {postList.map((post) => (
-          <>
-            <Post key={post.id} post={post} />
-            <Separator className="md:hidden"></Separator>
-          </>
+          <Post key={post.id} post={post} />
         ))}
       </GridContainer>
     </>

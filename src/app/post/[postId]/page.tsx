@@ -1,18 +1,20 @@
 import { getServerSession } from "next-auth";
-import Link from "next/link";
 
 import { eq } from "drizzle-orm";
 
-
 import GridContainer from "@/components/grid-container";
+import Dish from "@/components/image-card/dish";
 import TimeText from "@/components/time-text";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { postDishes, posts, users } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
-import Dish from "@/components/image-card/dish";
 
-export default async function PostPage({ params }: { params: { postId: string } }) {
+export default async function PostPage({
+  params,
+}: {
+  params: { postId: string };
+}) {
   const session = await getServerSession(authOptions);
   const [post] = await db
     .select()
@@ -44,20 +46,17 @@ export default async function PostPage({ params }: { params: { postId: string } 
 
       <GridContainer>
         {dishes.map((dish) => (
-          <Link
+          <Dish
+            key={dish.id}
+            dish={dish}
             href={
               session?.user.id === post.users.id
                 ? `/reservation/${dish.id}`
                 : "#"
             }
-            key={dish.id}
-          >
-            <Dish key={dish.id} dish={dish} />
-          </Link>
+          />
         ))}
       </GridContainer>
-
-      <Separator />
 
       <p className="line-clamp-3 text-slate-600">{post.posts.description}</p>
     </>

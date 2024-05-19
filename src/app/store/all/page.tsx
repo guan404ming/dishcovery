@@ -1,6 +1,5 @@
 import GridContainer from "@/components/grid-container";
 import { Store } from "@/components/image-card/store";
-import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 
 export default async function AllStorePage() {
@@ -11,10 +10,7 @@ export default async function AllStorePage() {
       <span className="text-xl font-semibold">All Stores</span>
       <GridContainer>
         {storeList.map((store) => (
-          <>
-            <Store store={store} key={store.id} />
-            <Separator className="md:hidden"></Separator>
-          </>
+          <Store store={store} key={store.id} />
         ))}
       </GridContainer>
     </>

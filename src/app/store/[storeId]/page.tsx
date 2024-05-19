@@ -3,13 +3,12 @@ import Image from "next/image";
 import { eq } from "drizzle-orm";
 import { Bookmark } from "lucide-react";
 
-
 import GridContainer from "@/components/grid-container";
+import Dish from "@/components/image-card/dish";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { storeDishes, stores, users } from "@/db/schema";
-import Dish from "@/components/image-card/dish";
 
 export default async function StorePage({
   params,
@@ -61,10 +60,7 @@ export default async function StorePage({
 
       <GridContainer>
         {dishes.map((dish) => (
-          <>
-            <Dish key={dish.id} dish={dish} />
-            <Separator className="md:hidden"></Separator>
-          </>
+          <Dish key={dish.id} dish={dish} />
         ))}
       </GridContainer>
     </>

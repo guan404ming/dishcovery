@@ -23,12 +23,11 @@ export default function CartItem({
 
   return (
     <ImageCardPrimitive
-      href={`#`}
       counter={{
         amount: quantity,
         setAmount: handleUpdateCart,
       }}
-      image={image || ""}
+      image={image}
     >
       <div className="flex justify-between">
         <h1 className="line-clamp-2 font-semibold">{name}</h1>

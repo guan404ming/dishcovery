@@ -20,7 +20,6 @@ export function Post({
     <ImageCardPrimitive
       href={`/post/${post.id}`}
       image={post.postDishes?.image}
-      className="border-none shadow-none"
       counter={
         isCounter
           ? {

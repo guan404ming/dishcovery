@@ -2,18 +2,20 @@
 
 import { useState } from "react";
 
+import ReservationDialog from "../reservation-dialog";
+import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 
 import type { SelectPostDish, SelectStoreDish } from "@/lib/type";
 
-import ReservationDialog from "../reservation-dialog";
 import ImageCardPrimitive from "./image-card-primitive";
-import { Button } from "../ui/button";
 
 export default function Dish({
   dish,
+  href,
 }: {
   dish: SelectPostDish | SelectStoreDish;
+  href?: string;
 }) {
   const [cart, setCart] = useState(false);
   const [reserve, setReserve] = useState(false);
@@ -23,6 +25,7 @@ export default function Dish({
       <ImageCardPrimitive
         image={dish.image}
         className="relative border-none shadow-none"
+        href={href}
       >
         <Button
           size={"icon"}
