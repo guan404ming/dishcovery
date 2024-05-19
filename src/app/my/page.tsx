@@ -37,7 +37,7 @@ function MyButton({
   );
 }
 
-export default async function My() {
+export default async function MyPage() {
   const session = await getServerSession(authOptions);
   if (!session) return <div>Unauthorized</div>;
 
@@ -60,7 +60,7 @@ export default async function My() {
 
       <Separator />
 
-      <div className="grid w-full grid-cols-2 gap-2">
+      <div className="md:grid-col-3 grid w-full grid-cols-2 gap-2">
         <MyButton Icon={<User />} href="/my/account" text="Account" />
         <MyButton
           Icon={<Receipt />}

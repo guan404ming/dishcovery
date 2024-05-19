@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 
 import { eq } from "drizzle-orm";
+import { ShoppingCart } from "lucide-react";
 
 import GridContainer from "@/components/grid-container";
 import { Separator } from "@/components/ui/separator";
@@ -11,7 +12,7 @@ import { authOptions } from "@/lib/auth-options";
 import CartItem from "./_components/cart-item";
 import ConfirmButton from "./_components/confirm-button";
 
-export default async function MyCarts() {
+export default async function MyCartsPage() {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
@@ -23,11 +24,21 @@ export default async function MyCarts() {
     with: {
       storeDish: true,
     },
+    orderBy: (carts, { desc }) => [desc(carts.id)],
   });
 
   const totalPrice = cartItem.reduce((total, cartItem) => {
     return total + cartItem.storeDish.price * cartItem.quantity;
   }, 0);
+
+  if (cartItem.length === 0) {
+    return (
+      <div className="flex flex-grow flex-col items-center justify-center space-y-4 text-center text-xl font-semibold">
+        <ShoppingCart size={40} />
+        <p>Cart is empty</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -45,14 +56,12 @@ export default async function MyCarts() {
           />
         ))}
       </GridContainer>
-
       <div className="flex items-center justify-between">
         <p className="text-xl font-semibold text-slate-600">
           Total{"  "}${totalPrice}
         </p>
         <ConfirmButton cartItem={cartItem}></ConfirmButton>
       </div>
-
       <Separator />
     </>
   );

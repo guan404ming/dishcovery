@@ -1,9 +1,8 @@
 import GridContainer from "@/components/grid-container";
-import { Post } from "@/components/supplier/post";
-import { Separator } from "@/components/ui/separator";
+import { Post } from "@/components/image-card/post";
 import { db } from "@/db";
 
-export default async function AllPost() {
+export default async function AllPostPage() {
   const postList = await db.query.posts.findMany({
     with: { postDishes: true },
   });
@@ -13,10 +12,7 @@ export default async function AllPost() {
       <span className="text-xl font-semibold">All Posts</span>
       <GridContainer>
         {postList.map((post) => (
-          <>
-            <Post key={post.id} post={post} />
-            <Separator className="md:hidden"></Separator>
-          </>
+          <Post key={post.id} post={post} />
         ))}
       </GridContainer>
     </>

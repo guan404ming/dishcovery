@@ -1,14 +1,10 @@
 import type { SelectStore } from "@/lib/type";
 
-import ImageCard from "./image-card";
+import ImageCardPrimitive from "./image-card-primitive";
 
 export function Store({ store }: { store: SelectStore }) {
   return (
-    <ImageCard
-      href={`/store/${store.id}`}
-      image={store.image}
-      className="border-none shadow-none"
-    >
+    <ImageCardPrimitive href={`/store/${store.id}`} image={store.image}>
       <h1 className="line-clamp-2 font-semibold">{store.name}</h1>
 
       <div className="text-sm font-light text-muted-foreground">
@@ -18,6 +14,6 @@ export function Store({ store }: { store: SelectStore }) {
       <div className="mt-1 line-clamp-3 w-full text-xs text-muted-foreground">
         {store.phone}
       </div>
-    </ImageCard>
+    </ImageCardPrimitive>
   );
 }

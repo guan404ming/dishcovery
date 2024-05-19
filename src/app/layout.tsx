@@ -6,6 +6,7 @@ import "@uploadthing/react/styles.css";
 import Header from "@/components/header";
 import NextAuthProvider from "@/components/next-auth-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { cn } from "@/lib/utils";
 
 import "./globals.css";
 
@@ -24,9 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <NextAuthProvider>
-        <body className={inter.className}>
+        <body className={cn(inter.className, "flex justify-center")}>
           <Header />
-          <main className="flex min-h-screen w-full flex-col space-y-5 px-6 py-[84px]">
+          <main className="flex min-h-screen w-full max-w-[1200px] flex-col space-y-5 px-6 py-[84px]">
             {children}
           </main>
           <Toaster />

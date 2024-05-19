@@ -4,12 +4,12 @@ import AddDialog from "../_components/add-dialog";
 import { eq } from "drizzle-orm";
 
 import GridContainer from "@/components/grid-container";
-import { Post } from "@/components/supplier/post";
+import { Post } from "@/components/image-card/post";
 import { db } from "@/db";
 import { posts } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 
-export default async function MyReservations() {
+export default async function MyReservationsPage() {
   const session = await getServerSession(authOptions);
   if (!session) return <div>Unauthorized</div>;
 
@@ -19,6 +19,7 @@ export default async function MyReservations() {
       postDishes: true,
     },
     where: eq(posts.userId, session?.user.id),
+    orderBy: (posts, { desc }) => [desc(posts.createTime)],
   });
 
   return (

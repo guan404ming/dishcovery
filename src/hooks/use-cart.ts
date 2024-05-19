@@ -11,60 +11,36 @@ export default function useCart() {
   const { data: session } = useSession();
 
   const updateCart = async (id: number, quantity: number) => {
-    setLoading(true);
-
-    try {
-      await handleFetch({
-        data: { id, quantity },
-        method: "PUT",
-        url: `/api/carts`,
-      });
-
-      setLoading(false);
-      router.refresh();
-    } catch (error) {
-      console.error("Error updating cart item quantity:", error);
-    }
-
-    setLoading(false);
+    await handleFetch({
+      data: { id, quantity },
+      method: "PUT",
+      url: `/api/carts`,
+      successMessage: "Cart item quantity has been updated.",
+      setLoading,
+    });
+    router.refresh();
   };
 
   const addToCart = async (storeDishId: number, quantity: number) => {
-    setLoading(true);
-
-    try {
-      await handleFetch({
-        data: { storeDishId, quantity, userId: session?.user?.id },
-        method: "POST",
-        url: `/api/carts`,
-      });
-
-      setLoading(false);
-      router.refresh();
-    } catch (error) {
-      console.error("Error updating cart item quantity:", error);
-    }
-
-    setLoading(false);
+    await handleFetch({
+      data: { storeDishId, quantity, userId: session?.user?.id },
+      method: "POST",
+      url: `/api/carts`,
+      successMessage: "Cart item has been added.",
+      setLoading,
+    });
+    router.refresh();
   };
 
   const removeFromCart = async (id: number) => {
-    setLoading(true);
-
-    try {
-      await handleFetch({
-        data: { id },
-        method: "DELETE",
-        url: `/api/carts`,
-      });
-
-      setLoading(false);
-      router.refresh();
-    } catch (error) {
-      console.error("Error updating cart item quantity:", error);
-    }
-
-    setLoading(false);
+    await handleFetch({
+      data: { id },
+      method: "DELETE",
+      url: `/api/carts`,
+      successMessage: "Cart item has been removed.",
+      setLoading,
+    });
+    router.refresh();
   };
 
   return {

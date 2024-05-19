@@ -1,16 +1,18 @@
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 
 import { eq } from "drizzle-orm";
 import { Bookmark } from "lucide-react";
 
-import Dish from "@/components/dish";
 import GridContainer from "@/components/grid-container";
+import Dish from "@/components/image-card/dish";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { storeDishes, stores, users } from "@/db/schema";
+import { authOptions } from "@/lib/auth-options";
 
-export default async function Store({
+export default async function StorePage({
   params,
 }: {
   params: { storeId: string };
@@ -25,6 +27,8 @@ export default async function Store({
   const dishes = await db.query.storeDishes.findMany({
     where: eq(storeDishes.storeId, parseInt(params.storeId)),
   });
+
+  const session = await getServerSession(authOptions);
 
   return (
     <>
@@ -41,7 +45,7 @@ export default async function Store({
           height={"600"}
           src={store.stores.image}
           alt="banner"
-          className="aspect-[3/1] rounded object-cover"
+          className="aspect-[4/1] w-full rounded object-cover"
         />
       </div>
 
@@ -60,10 +64,11 @@ export default async function Store({
 
       <GridContainer>
         {dishes.map((dish) => (
-          <>
-            <Dish key={dish.id} dish={dish} />
-            <Separator className="md:hidden"></Separator>
-          </>
+          <Dish
+            key={dish.id}
+            dish={dish}
+            isAuthor={session?.user.id === store.users.id}
+          />
         ))}
       </GridContainer>
     </>

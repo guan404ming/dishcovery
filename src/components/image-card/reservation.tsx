@@ -1,10 +1,10 @@
 "use client";
 
-import ImageCard from "@/components/supplier/image-card";
+import ImageCardPrimitive from "@/components/image-card/image-card-primitive";
 import usePost from "@/hooks/use-post";
 import useStore from "@/hooks/use-store";
 
-export function ReservationCard({
+export default function Reservation({
   name,
   price,
   quantity,
@@ -25,8 +25,7 @@ export function ReservationCard({
   const { updateStoreReservation } = useStore();
 
   return (
-    <ImageCard
-      href="#"
+    <ImageCardPrimitive
       image={image}
       counter={{
         amount: quantity,
@@ -39,10 +38,10 @@ export function ReservationCard({
         },
       }}
     >
-      <h1 className="line-clamp-2 w-full max-w-20 font-semibold">{name}</h1>
+      <h1 className="line-clamp-2 w-full font-semibold">{name}</h1>
       <span className="text-sm text-muted-foreground">
         ${price * quantity} · {status}
       </span>
-    </ImageCard>
+    </ImageCardPrimitive>
   );
 }

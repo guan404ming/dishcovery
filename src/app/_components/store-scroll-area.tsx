@@ -11,7 +11,7 @@ import type { SelectStore } from "@/lib/type";
 export function StoreScrollArea({ storeList }: { storeList: SelectStore[] }) {
   return (
     <ScrollArea className="w-full overflow-hidden rounded-md">
-      <div className="flex w-max space-x-2">
+      <div className="flex w-max space-x-2 md:space-x-4">
         {storeList.map((store) => (
           <Link key={store.name} href={`/store/${store.id}`}>
             <Card className="flex w-[200px] cursor-pointer flex-col border-none">
