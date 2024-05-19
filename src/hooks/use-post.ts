@@ -35,6 +35,24 @@ export default function usePost() {
     router.refresh();
   };
 
+  const updatePostReservation = async ({
+    id,
+    quantity,
+    status,
+  }: InsertPostReservation) => {
+    setLoading(true);
+
+    await handleFetch({
+      data: { id, quantity, status },
+      method: "PUT",
+      url: "/api/posts/post-reservations",
+    });
+
+    toast("Post reservation has been updated.");
+    setLoading(false);
+    router.refresh();
+  };
+
   const createPost = async ({
     title,
     description,
@@ -76,9 +94,46 @@ export default function usePost() {
     setLoading(false);
   };
 
+  const updatePost = async (
+    id: number,
+    postId: number,
+    name: string,
+    quantity: number,
+    description: string,
+    image: string,
+  ) => {
+    setLoading(true);
+
+    try {
+      await handleFetch({
+        data: {
+          id,
+          postId,
+          name,
+          quantity,
+          description,
+          image,
+        },
+        method: "PUT",
+        url: `/api/posts/post-dishes`,
+      });
+
+      setLoading(false);
+      router.refresh();
+    } catch (error) {
+      console.error("Error updating post item quantity:", error);
+    }
+
+    toast("Post item has been updated.");
+    router.refresh();
+    setLoading(false);
+  };
+
   return {
     createPost,
     createPostReservation,
+    updatePostReservation,
+    updatePost,
     loading,
   };
 }

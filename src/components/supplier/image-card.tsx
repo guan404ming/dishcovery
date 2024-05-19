@@ -6,11 +6,14 @@ import { useRouter } from "next/navigation";
 import { Card } from "../ui/card";
 import { PlusCircle, MinusCircle } from "lucide-react";
 
+import { cn } from "@/lib/utils";
+
 export default function ImageCard({
   children,
   href,
   counter,
   image,
+  className,
 }: {
   children: React.ReactNode;
   href?: string;
@@ -19,6 +22,7 @@ export default function ImageCard({
     setAmount: (number: number) => Promise<void>;
   };
   image: string;
+  className?: string;
 }) {
   const router = useRouter();
   const handleRouting = () => {
@@ -30,18 +34,21 @@ export default function ImageCard({
   return (
     <Card
       onClick={() => handleRouting()}
-      className="z-0 flex max-h-32 w-full cursor-pointer overflow-hidden text-ellipsis text-center"
+      className={cn(
+        "z-0 flex h-[120px] cursor-pointer flex-nowrap text-center",
+        className,
+      )}
     >
       <Image
         src={image}
         alt="image"
-        className="aspect-[1/1] object-cover"
-        width={100}
-        height={100}
+        className="aspect-square rounded border object-cover"
+        width={120}
+        height={120}
       />
 
-      <div className="flex w-full justify-between">
-        <div className="flex flex-col px-4 py-3 text-left">{children}</div>
+      <div className="flex justify-between">
+        <div className="px-4 py-2 text-left">{children}</div>
 
         {counter && (
           <div className="mr-4 flex items-center justify-between space-x-2">

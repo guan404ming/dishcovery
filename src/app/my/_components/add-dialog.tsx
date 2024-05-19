@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 
 import Image from "next/image";
 
+import { PlusCircle } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,6 +13,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,12 +22,10 @@ import usePost from "@/hooks/use-post";
 import { UploadButton } from "@/lib/uploadthing";
 
 type DialogProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
   type: string;
 };
 
-export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
+export default function AddDialog({ type }: DialogProps) {
   const [url, setUrl] = useState<string>("");
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -35,7 +36,12 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
   const { createPost } = usePost();
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button size={"icon"} variant={"ghost"}>
+          <PlusCircle size={18} strokeWidth={1.5} className="cursor-pointer" />
+        </Button>
+      </DialogTrigger>
       <DialogContent className="h-[80%] w-[80%] max-w-[400px] overflow-scroll rounded">
         <DialogHeader>
           <DialogTitle className="flex justify-start text-lg lg:text-xl">
@@ -125,7 +131,6 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
         <DialogFooter>
           <Button
             onClick={() => {
-              onOpenChange(!open);
               if (
                 !titleRef.current?.value ||
                 !descriptionRef.current?.value ||

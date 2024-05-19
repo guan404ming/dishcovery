@@ -12,6 +12,7 @@ const insertStoreSchema = z.object({
   address: z.string(),
   phone: z.string(),
   userId: z.number(),
+  image: z.string(),
 });
 const updateStoreSchema = insertStoreSchema.extend({ id: z.number() });
 const deleteStoreSchema = z.object({ id: z.number() });

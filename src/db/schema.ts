@@ -55,10 +55,12 @@ export const stores = pgTable("stores", {
   userId: serial("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
+  image: varchar("image").notNull(),
 });
 
 export const storesRelations = relations(stores, ({ many }) => ({
   storeCollections: many(storeCollections),
+  storeDishes: many(storeDishes),
 }));
 
 export const storeDishes = pgTable("store_dishes", {
@@ -73,8 +75,12 @@ export const storeDishes = pgTable("store_dishes", {
   image: varchar("image").notNull(),
 });
 
-export const storeDishesRelation = relations(storeDishes, ({ many }) => ({
+export const storeDishesRelation = relations(storeDishes, ({ many, one }) => ({
   cart: many(carts),
+  store: one(stores, {
+    fields: [storeDishes.storeId],
+    references: [stores.id],
+  }),
 }));
 
 export const storeReservations = pgTable("store_reservations", {

@@ -1,15 +1,18 @@
+import { getServerSession } from "next-auth";
+import Link from "next/link";
+
 import { eq } from "drizzle-orm";
 
-import { Banner } from "@/components/banner";
 import Dish from "@/components/dish";
 import GridContainer from "@/components/grid-container";
 import TimeText from "@/components/time-text";
-import { AvatarFallback, Avatar } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { postDishes, posts, users } from "@/db/schema";
+import { authOptions } from "@/lib/auth-options";
 
 export default async function Post({ params }: { params: { postId: string } }) {
-  const bannerList = await db.query.banners.findMany();
+  const session = await getServerSession(authOptions);
   const [post] = await db
     .select()
     .from(posts)
@@ -27,39 +30,35 @@ export default async function Post({ params }: { params: { postId: string } }) {
 
   return (
     <>
-      <Banner bannerList={bannerList} />
+      <div className="grid gap-1 text-center">
+        <h1 className="text-2xl font-bold">{post.posts.title}</h1>
 
-      <p className="text-center text-lg font-bold md:text-2xl lg:text-4xl">
-        {post.posts.title}
-      </p>
-
-      <div className="flex gap-4">
-        <Avatar className="h-12 w-12 bg-slate-400 lg:h-14 lg:w-14">
-          <AvatarFallback>W</AvatarFallback>
-        </Avatar>
-        <div>
-          <p className="font-semibold text-slate-800 md:text-lg lg:text-xl">
-            {post.users.name}
-          </p>
-          <span className="text-sm text-slate-400">
-            <TimeText date={post.posts.createTime} format="YYYY-MM-DD" />
-            {" @"}
-            {post.posts.location}
-          </span>
+        <div className="text-sm text-gray-500">
+          <TimeText date={post.posts.createTime} format="YYYY-MM-DD" /> ·{" "}
+          {post.posts.location}
         </div>
       </div>
 
+      <Separator />
+
       <GridContainer>
         {dishes.map((dish) => (
-          <Dish key={dish.id} dish={dish} />
+          <Link
+            href={
+              session?.user.id === post.users.id
+                ? `/reservation/${dish.id}`
+                : "#"
+            }
+            key={dish.id}
+          >
+            <Dish key={dish.id} dish={dish} />
+          </Link>
         ))}
       </GridContainer>
 
-      <div>
-        <text className="line-clamp-3 text-sm text-slate-600">
-          {post.posts.description}
-        </text>
-      </div>
+      <Separator />
+
+      <p className="line-clamp-3 text-slate-600">{post.posts.description}</p>
     </>
   );
 }

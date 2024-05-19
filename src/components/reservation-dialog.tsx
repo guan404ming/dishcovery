@@ -12,8 +12,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import useCart from "@/hooks/use-cart";
 import usePost from "@/hooks/use-post";
-import useStore from "@/hooks/use-store";
 
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
@@ -32,9 +32,8 @@ export default function ReservationDialog({
   onOpenChange,
 }: DialogProps) {
   const numberRef = useRef<number>(0);
-  const timeRef = useRef<string>();
   const { createPostReservation } = usePost();
-  const { createStoreReservation } = useStore();
+  const { addToCart } = useCart();
   const pathname = usePathname();
 
   return (
@@ -71,17 +70,13 @@ export default function ReservationDialog({
             className="block w-full"
             onClick={() => {
               onOpenChange(!open);
-              console.log(numberRef.current, timeRef.current);
               if (pathname.includes("post")) {
                 createPostReservation({
                   postDishId: dishId,
                   quantity: numberRef.current,
                 });
               } else {
-                createStoreReservation({
-                  storeDishId: dishId,
-                  quantity: numberRef.current,
-                });
+                addToCart(dishId, numberRef.current);
               }
             }}
           >

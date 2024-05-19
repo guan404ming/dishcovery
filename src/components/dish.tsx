@@ -2,78 +2,56 @@
 
 import { useState } from "react";
 
-import Image from "next/image";
+import { Plus } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import type { SelectPostDish, SelectStoreDish } from "@/lib/type";
-import { cn } from "@/lib/utils";
 
 import ReservationDialog from "./reservation-dialog";
+import ImageCard from "./supplier/image-card";
+import { Button } from "./ui/button";
 
 export default function Dish({
   dish,
 }: {
   dish: SelectPostDish | SelectStoreDish;
 }) {
-  const [save, setSave] = useState(false);
+  const [cart, setCart] = useState(false);
   const [reserve, setReserve] = useState(false);
 
   return (
     <>
-      <div className="flex w-full justify-between md:max-w-screen-sm">
-        <div className="w-56 min-w-[120px]">
-          <Image
-            src={dish.image}
-            className={cn("aspect-square w-full rounded object-cover")}
-            width={100}
-            height={100}
-            alt={dish.name}
-          />
-        </div>
+      <ImageCard
+        image={dish.image}
+        className="relative border-none shadow-none"
+      >
+        <Button
+          size={"icon"}
+          variant="outline"
+          className="absolute bottom-2 left-20 h-8 w-8 rounded-full border"
+          // onClick={() => setCart(!cart)}
+          onClick={() => setReserve(!reserve)}
+        >
+          <Plus className="h-3 w-3" strokeWidth={3} />
+        </Button>
+        <div className="flex flex-col">
+          <h1 className="line-clamp-2 font-semibold">{dish.name}</h1>
 
-        <div className="flex w-full flex-col justify-between px-4">
-          <div className="flex w-full flex-col">
-            <div className="flex justify-between">
-              <h1 className="font-semibold">{dish.name}</h1>
-              <span className="text-sm">
-                {dish.price !== 0 ? `$${dish.price}` : "免費"}
-              </span>
-            </div>
-
-            <div className="text-xs font-light text-muted-foreground">
-              Remaining: {dish.quantity}
-            </div>
-            <span className="my-2 h-10 w-full overflow-hidden text-ellipsis text-wrap text-xs text-muted-foreground">
-              {dish.description}
+          <div className="flex items-center space-x-2 text-sm">
+            <span>
+              {dish.price !== 0 ? `$${dish.price}` : "free"} · Remaining:{" "}
+              {dish.quantity}
             </span>
           </div>
 
-          <div className="flex space-x-2">
-            <Button
-              className="h-8 w-20 text-xs"
-              onClick={() => {
-                setSave(!save);
-              }}
-            >
-              Cart
-            </Button>
-            <Button
-              className="h-8 w-20 text-xs"
-              onClick={() => {
-                setReserve(!reserve);
-              }}
-            >
-              Reserve
-            </Button>
-          </div>
+          <span className="my-1 line-clamp-2 text-sm text-muted-foreground">
+            {dish.description}
+          </span>
         </div>
-      </div>
-      <Separator className="md:hidden" />
+      </ImageCard>
       <ReservationDialog
         title="Cart"
-        open={save}
-        onOpenChange={setSave}
+        open={cart}
+        onOpenChange={setCart}
         dishId={dish.id}
       />
       <ReservationDialog

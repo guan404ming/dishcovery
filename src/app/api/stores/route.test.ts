@@ -12,11 +12,13 @@ handleUnitTest({
     address: `台北市${Math.random()}路`,
     phone: `09${Math.random()}`,
     userId: 1,
+    image: `https://www.google.com.tw/${Math.random()}`,
   },
   updatedObj: {
     name: `${Math.random()}`,
     phone: `09${Math.random()}`,
     address: `台南市${Math.random()}路`,
     userId: 1,
+    image: `https://www.google.com.tw/${Math.random()}`,
   },
 });
