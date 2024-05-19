@@ -12,7 +12,7 @@ import { postDishes, posts, users } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 import Dish from "@/components/image-card/dish";
 
-export default async function Post({ params }: { params: { postId: string } }) {
+export default async function PostPage({ params }: { params: { postId: string } }) {
   const session = await getServerSession(authOptions);
   const [post] = await db
     .select()

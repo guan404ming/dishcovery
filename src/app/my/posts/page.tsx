@@ -9,7 +9,7 @@ import { db } from "@/db";
 import { posts } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 
-export default async function MyReservations() {
+export default async function MyReservationsPage() {
   const session = await getServerSession(authOptions);
   if (!session) return <div>Unauthorized</div>;
 

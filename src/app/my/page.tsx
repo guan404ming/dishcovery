@@ -37,7 +37,7 @@ function MyButton({
   );
 }
 
-export default async function My() {
+export default async function MyPage() {
   const session = await getServerSession(authOptions);
   if (!session) return <div>Unauthorized</div>;
 

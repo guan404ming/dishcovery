@@ -11,7 +11,7 @@ import { db } from "@/db";
 import { storeDishes, stores, users } from "@/db/schema";
 import Dish from "@/components/image-card/dish";
 
-export default async function Store({
+export default async function StorePage({
   params,
 }: {
   params: { storeId: string };

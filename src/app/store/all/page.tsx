@@ -3,7 +3,7 @@ import { Store } from "@/components/image-card/store";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 
-export default async function AllStore() {
+export default async function AllStorePage() {
   const storeList = await db.query.stores.findMany();
 
   return (

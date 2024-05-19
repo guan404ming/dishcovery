@@ -3,7 +3,7 @@ import { Post } from "@/components/image-card/post";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 
-export default async function AllPost() {
+export default async function AllPostPage() {
   const postList = await db.query.posts.findMany({
     with: { postDishes: true },
   });

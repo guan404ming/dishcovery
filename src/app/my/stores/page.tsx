@@ -8,7 +8,7 @@ import { stores } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 import StoreDish from "../_components/store-dish";
 
-export default async function MyStores() {
+export default async function MyStoresPage() {
   const session = await getServerSession(authOptions);
   if (!session) return <div>Unauthorized</div>;
 

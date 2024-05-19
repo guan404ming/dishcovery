@@ -13,7 +13,7 @@ type ReservationPageProps = {
   };
 };
 
-export default async function Reservation({
+export default async function ReservationPage({
   params: { id },
 }: ReservationPageProps) {
   const dish = await db.query.postDishes.findFirst({
