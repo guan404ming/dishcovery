@@ -19,6 +19,7 @@ export default async function MyReservations() {
       postDishes: true,
     },
     where: eq(posts.userId, session?.user.id),
+    orderBy: (posts, { desc }) => [desc(posts.createTime)],
   });
 
   return (

@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next";
 
 import { ReservationCard } from "../_components/reservation-card";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 
 import GridContainer from "@/components/grid-container";
 import { db } from "@/db";
@@ -24,6 +24,7 @@ export default async function MyReservations() {
     })
     .from(postReservations)
     .innerJoin(postDishes, eq(postReservations.postDishId, postDishes.id))
+    .orderBy(desc(postReservations.createTime))
     .where(eq(postReservations.userId, session?.user.id));
 
   const storeReservationList = await db
@@ -33,6 +34,7 @@ export default async function MyReservations() {
     })
     .from(storeReservations)
     .innerJoin(storeDishes, eq(storeReservations.storeDishId, storeDishes.id))
+    .orderBy(desc(storeReservations.createTime))
     .where(eq(storeReservations.userId, session?.user.id));
 
   return (

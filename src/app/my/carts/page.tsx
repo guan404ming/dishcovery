@@ -23,6 +23,7 @@ export default async function MyCarts() {
     with: {
       storeDish: true,
     },
+    orderBy: (carts, { desc }) => [desc(carts.id)],
   });
 
   const totalPrice = cartItem.reduce((total, cartItem) => {
