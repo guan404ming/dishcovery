@@ -54,6 +54,17 @@ export default function useStore() {
     router.refresh();
   };
 
+  const finishStoreReservation = async (id: number, quantity: number) => {
+    await handleFetch({
+      data: { id, quantity, status: "finished" },
+      method: "PUT",
+      url: "/api/stores/store-reservations",
+      successMessage: "Reservation has been finished.",
+      setLoading,
+    });
+    router.refresh();
+  };
+
   const updateStoreDish = async ({
     id,
     quantity,
@@ -75,6 +86,7 @@ export default function useStore() {
 
   return {
     updateStoreReservation,
+    finishStoreReservation,
     deleteStoreReservation,
     createStoreReservation,
     updateStoreDish,

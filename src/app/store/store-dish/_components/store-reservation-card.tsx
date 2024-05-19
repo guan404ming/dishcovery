@@ -51,6 +51,7 @@ export function StoreReservationCard({
         type="finish"
         id={id}
         quantity={quantity}
+        isStore
       />
       <ResStateDialog
         open={cancelDialogOpen}
@@ -58,6 +59,7 @@ export function StoreReservationCard({
         type="cancel"
         id={id}
         quantity={quantity}
+        isStore
       />
     </Card>
   );

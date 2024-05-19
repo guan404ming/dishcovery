@@ -45,6 +45,28 @@ export default function usePost() {
     router.refresh();
   };
 
+  const finishPostReservation = async (id: number, quantity: number) => {
+    await handleFetch({
+      data: { id, quantity, status: "finished" },
+      method: "PUT",
+      url: "/api/posts/post-reservations",
+      successMessage: "Reservation has been finished.",
+      setLoading,
+    });
+    router.refresh();
+  };
+
+  const deletePostReservation = async (id: number) => {
+    await handleFetch({
+      data: { id },
+      method: "DELETE",
+      url: "/api/posts/post-reservations",
+      successMessage: "Reservation has been deleted.",
+      setLoading,
+    });
+    router.refresh();
+  };
+
   const createPost = async ({
     title,
     description,
@@ -124,6 +146,8 @@ export default function usePost() {
     createPost,
     createPostReservation,
     updatePostReservation,
+    finishPostReservation,
+    deletePostReservation,
     updatePost,
     loading,
   };

@@ -45,7 +45,7 @@ export default function ImageCardPrimitive({
         <Image
           src={image}
           alt="image"
-          className="aspect-square rounded border object-cover"
+          className="aspect-square rounded border object-cover flex-shrink-0"
           width={120}
           height={120}
         />

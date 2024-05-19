@@ -1,10 +1,11 @@
 import { StoreReservationCard } from "../_components/store-reservation-card";
 import { eq } from "drizzle-orm";
 
-import StoreDish from "@/app/my/_components/store-dish";
+
 import GridContainer from "@/components/grid-container";
 import { db } from "@/db";
 import { storeDishes, storeReservations, users } from "@/db/schema";
+import StoreDish from "@/components/image-card/store-dish";
 
 export default async function StoreDishPage({
   params: { storeDishId },
@@ -28,11 +29,10 @@ export default async function StoreDishPage({
     .innerJoin(users, eq(users.id, storeReservations.userId))
     .innerJoin(storeDishes, eq(storeDishes.id, storeReservations.storeDishId));
 
-  console.log(reservationList);
 
   return (
     <>
-      <StoreDish storeDish={dish} />
+      <StoreDish storeDish={dish} isAuthor isCounter />
 
       <h1 className="text-xl font-semibold">
         Reservation({reservationList.length})

@@ -7,7 +7,8 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
-import useReservation from "@/hooks/use-reservation";
+import usePost from "@/hooks/use-post";
+import useStore from "@/hooks/use-store";
 
 type ResStateDialogProps = {
   open: boolean;
@@ -23,15 +24,25 @@ export default function ResStateDialog({
   type,
   id,
   quantity,
-}: ResStateDialogProps) {
-  const { finishReservation, cancelReservation } = useReservation();
+  isStore = false,
+}: ResStateDialogProps & { isStore?: boolean }) {
+  const { finishPostReservation, deletePostReservation } = usePost();
+  const { finishStoreReservation, deleteStoreReservation } = useStore();
 
   const handleConfirm = () => {
     onOpenChange(!open);
-    if (type === "cancel") {
-      cancelReservation(id);
-    } else if (type === "finish") {
-      finishReservation(id, quantity);
+    if (isStore) {
+      if (type === "cancel") {
+        deleteStoreReservation(id);
+      } else if (type === "finish") {
+        finishStoreReservation(id, quantity);
+      }
+    } else {
+      if (type === "cancel") {
+        deletePostReservation(id);
+      } else if (type === "finish") {
+        finishPostReservation(id, quantity);
+      }
     }
   };
 
