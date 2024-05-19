@@ -2,11 +2,11 @@ import Link from "next/link";
 
 import { ChevronRight } from "lucide-react";
 
-import Map from "@/app/_components/map";
+import MapView from "@/app/_components/map";
 import { StoreScrollArea } from "@/app/_components/store-scroll-area";
 import { Banner } from "@/components/banner";
 import GridContainer from "@/components/grid-container";
-import { Post } from "@/components/supplier/post";
+import { Post } from "@/components/image-card/post";
 import { db } from "@/db";
 
 export default async function Home() {
@@ -14,8 +14,11 @@ export default async function Home() {
   const postList = await db.query.posts.findMany({
     limit: 10,
     with: { postDishes: true },
+    orderBy: (posts, { desc }) => [desc(posts.createTime)],
   });
-  const storeList = await db.query.stores.findMany({ limit: 10 });
+  const storeList = await db.query.stores.findMany({
+    limit: 10,
+  });
 
   function SectionTitle({ title, url }: { title: string; url?: string }) {
     return (
@@ -36,7 +39,7 @@ export default async function Home() {
       <Banner bannerList={bannerList} />
 
       <SectionTitle title={"What are you looking for?"} url="" />
-      <Map />
+      <MapView storeList={storeList} />
 
       <SectionTitle title={"Popular Stores"} url="/store/all" />
       <StoreScrollArea storeList={storeList} />

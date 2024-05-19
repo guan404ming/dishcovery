@@ -1,31 +1,44 @@
 import { getServerSession } from "next-auth";
 
 import { eq } from "drizzle-orm";
+import { ShoppingCart } from "lucide-react";
 
-import CartItem from "@/components/cart-item";
 import GridContainer from "@/components/grid-container";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { carts } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 
-export default async function Cart() {
+import CartItem from "./_components/cart-item";
+import ConfirmButton from "./_components/confirm-button";
+
+export default async function MyCartsPage() {
   const session = await getServerSession(authOptions);
+
   if (!session?.user) {
     return <div>Not Authorized</div>;
   }
 
   const cartItem = await db.query.carts.findMany({
-    where: eq(carts.id, session?.user.id),
+    where: eq(carts.userId, session?.user.id),
     with: {
       storeDish: true,
     },
+    orderBy: (carts, { desc }) => [desc(carts.id)],
   });
 
   const totalPrice = cartItem.reduce((total, cartItem) => {
     return total + cartItem.storeDish.price * cartItem.quantity;
   }, 0);
+
+  if (cartItem.length === 0) {
+    return (
+      <div className="flex flex-grow flex-col items-center justify-center space-y-4 text-center text-xl font-semibold">
+        <ShoppingCart size={40} />
+        <p>Cart is empty</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -43,14 +56,12 @@ export default async function Cart() {
           />
         ))}
       </GridContainer>
-
       <div className="flex items-center justify-between">
         <p className="text-xl font-semibold text-slate-600">
           Total{"  "}${totalPrice}
         </p>
-        <Button>Confirm</Button>
+        <ConfirmButton cartItem={cartItem}></ConfirmButton>
       </div>
-
       <Separator />
     </>
   );

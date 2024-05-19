@@ -10,7 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import useBanner from "@/hooks/use-banner";
 import { UploadButton } from "@/lib/uploadthing";
 
-export default function BannerUploadPage() {
+export default function AdminBannerPage() {
   const router = useRouter();
   const { status, data: session } = useSession({
     required: true,

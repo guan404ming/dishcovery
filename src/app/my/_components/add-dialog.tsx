@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 
 import Image from "next/image";
 
+import { PlusCircle } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,6 +13,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,13 +21,14 @@ import { Textarea } from "@/components/ui/textarea";
 import usePost from "@/hooks/use-post";
 import { UploadButton } from "@/lib/uploadthing";
 
+import LocationPicker from "./location-picker";
+
 type DialogProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
   type: string;
 };
 
-export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
+export default function AddDialog({ type }: DialogProps) {
+  const [open, setOpen] = useState<boolean>(false);
   const [url, setUrl] = useState<string>("");
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -32,10 +36,18 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
   const dishNameRef = useRef<HTMLInputElement>(null);
   const dishDescriptionRef = useRef<HTMLTextAreaElement>(null);
   const quantityRef = useRef<HTMLInputElement>(null);
+  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
+    null,
+  );
   const { createPost } = usePost();
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button size={"icon"} variant={"ghost"}>
+          <PlusCircle className="h-5 w-5 cursor-pointer" />
+        </Button>
+      </DialogTrigger>
       <DialogContent className="h-[80%] w-[80%] max-w-[400px] overflow-scroll rounded">
         <DialogHeader>
           <DialogTitle className="flex justify-start text-lg lg:text-xl">
@@ -112,7 +124,6 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
             endpoint="imageUploader"
             appearance={{ button: "bg-primary w-full" }}
             onClientUploadComplete={(res) => {
-              // Do something with the response
               console.log("Files: ", res);
               setUrl(res[0].url);
             }}
@@ -121,11 +132,14 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
             }}
           />
         </div>
+        <div className="grid w-full max-w-sm items-center gap-2">
+          <Label htmlFor="locationPicker">選擇地點</Label>
+          <LocationPicker setLocation={setLocation} />
+        </div>
 
         <DialogFooter>
           <Button
             onClick={() => {
-              onOpenChange(!open);
               if (
                 !titleRef.current?.value ||
                 !descriptionRef.current?.value ||
@@ -133,7 +147,9 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
                 !dishNameRef.current?.value ||
                 !quantityRef.current?.value ||
                 !dishDescriptionRef.current?.value ||
-                !url
+                !url ||
+                !location?.lat ||
+                !location?.lng
               )
                 return;
               createPost({
@@ -144,7 +160,10 @@ export default function AddDialog({ open, onOpenChange, type }: DialogProps) {
                 dishDescription: dishDescriptionRef.current?.value,
                 quantity: Number(quantityRef.current?.value),
                 image: url,
+                lat: location?.lat,
+                lng: location?.lng,
               });
+              setOpen(false);
             }}
           >
             confirm

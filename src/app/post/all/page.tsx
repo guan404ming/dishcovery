@@ -1,8 +1,8 @@
 import GridContainer from "@/components/grid-container";
-import { Post } from "@/components/supplier/post";
+import { Post } from "@/components/image-card/post";
 import { db } from "@/db";
 
-export default async function AllPost() {
+export default async function AllPostPage() {
   const postList = await db.query.posts.findMany({
     with: { postDishes: true },
   });
