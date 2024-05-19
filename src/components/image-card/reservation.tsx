@@ -38,7 +38,7 @@ export default function Reservation({
         },
       }}
     >
-      <h1 className="line-clamp-2 w-full max-w-20 font-semibold">{name}</h1>
+      <h1 className="line-clamp-2 w-full font-semibold">{name}</h1>
       <span className="text-sm text-muted-foreground">
         ${price * quantity} · {status}
       </span>

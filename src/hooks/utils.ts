@@ -23,7 +23,7 @@ export default async function handleFetch({
       method,
       body: JSON.stringify({ ...data }),
     });
-    
+
     toast(successMessage || "Success");
 
     if (!res.ok) {

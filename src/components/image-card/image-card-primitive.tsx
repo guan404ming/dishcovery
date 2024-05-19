@@ -50,7 +50,14 @@ export default function ImageCardPrimitive({
         />
 
         <div className="flex w-full justify-between">
-          <div className="px-4 py-2 text-left">{children}</div>
+          <div
+            className={cn(
+              "px-4 py-2 text-left",
+              counter && " max-[400px]:max-w-24",
+            )}
+          >
+            {children}
+          </div>
 
           {counter && (
             <div className="mr-4 flex items-center justify-between space-x-2">

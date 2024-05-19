@@ -33,9 +33,7 @@ export default function CartItem({
         <h1 className="line-clamp-2 font-semibold">{name}</h1>
       </div>
 
-      <div className="mt-1 w-full max-w-24 overflow-hidden text-ellipsis text-wrap text-xs text-muted-foreground">
-        $ {price}
-      </div>
+      <div className="text-sm text-muted-foreground">$ {price}</div>
     </ImageCardPrimitive>
   );
 }
