@@ -60,7 +60,7 @@ export default async function MyPage() {
 
       <Separator />
 
-      <div className="grid w-full grid-cols-2 gap-2">
+      <div className="md:grid-col-3 grid w-full grid-cols-2 gap-2">
         <MyButton Icon={<User />} href="/my/account" text="Account" />
         <MyButton
           Icon={<Receipt />}

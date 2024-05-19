@@ -49,11 +49,7 @@ export default async function PostPage({
           <Dish
             key={dish.id}
             dish={dish}
-            href={
-              session?.user.id === post.users.id
-                ? `/reservation/${dish.id}`
-                : "#"
-            }
+            isAuthor={session?.user.id === post.users.id}
           />
         ))}
       </GridContainer>

@@ -1,3 +1,4 @@
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 
 import { eq } from "drizzle-orm";
@@ -9,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { storeDishes, stores, users } from "@/db/schema";
+import { authOptions } from "@/lib/auth-options";
 
 export default async function StorePage({
   params,
@@ -26,6 +28,8 @@ export default async function StorePage({
     where: eq(storeDishes.storeId, parseInt(params.storeId)),
   });
 
+  const session = await getServerSession(authOptions);
+
   return (
     <>
       <div className="relative w-full">
@@ -41,7 +45,7 @@ export default async function StorePage({
           height={"600"}
           src={store.stores.image}
           alt="banner"
-          className="aspect-[3/1] rounded object-cover"
+          className="aspect-[4/1] w-full rounded object-cover"
         />
       </div>
 
@@ -60,7 +64,11 @@ export default async function StorePage({
 
       <GridContainer>
         {dishes.map((dish) => (
-          <Dish key={dish.id} dish={dish} />
+          <Dish
+            key={dish.id}
+            dish={dish}
+            isAuthor={session?.user.id === store.users.id}
+          />
         ))}
       </GridContainer>
     </>

@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 
+import { useRouter } from "next/navigation";
+
 import ReservationDialog from "../reservation-dialog";
 import { Button } from "../ui/button";
-import { Plus } from "lucide-react";
+import { Plus, Pen } from "lucide-react";
 
 import type { SelectPostDish, SelectStoreDish } from "@/lib/type";
 
@@ -12,30 +14,39 @@ import ImageCardPrimitive from "./image-card-primitive";
 
 export default function Dish({
   dish,
-  href,
+  isAuthor,
 }: {
   dish: SelectPostDish | SelectStoreDish;
-  href?: string;
+  isAuthor?: boolean;
 }) {
   const [cart, setCart] = useState(false);
   const [reserve, setReserve] = useState(false);
+  const router = useRouter();
 
   return (
     <>
-      <ImageCardPrimitive
-        image={dish.image}
-        className="relative border-none shadow-none"
-        href={href}
-      >
-        <Button
-          size={"icon"}
-          variant="outline"
-          className="absolute bottom-2 left-20 h-8 w-8 rounded-full border"
-          // onClick={() => setCart(!cart)}
-          onClick={() => setReserve(!reserve)}
-        >
-          <Plus className="h-3 w-3" strokeWidth={3} />
-        </Button>
+      <ImageCardPrimitive image={dish.image} className="relative">
+        {isAuthor ? (
+          <Button
+            size={"icon"}
+            variant="outline"
+            className="absolute bottom-2 left-20 h-8 w-8 rounded-full border"
+            onClick={() => router.push(`/reservation/${dish.id}`)}
+          >
+            <Pen className="h-3 w-3" strokeWidth={3} />
+          </Button>
+        ) : (
+          <Button
+            size={"icon"}
+            variant="outline"
+            className="absolute bottom-2 left-20 h-8 w-8 rounded-full border"
+            // onClick={() => setCart(!cart)}
+            onClick={() => setReserve(!reserve)}
+          >
+            <Plus className="h-3 w-3" strokeWidth={3} />
+          </Button>
+        )}
+
         <div className="flex flex-col">
           <h1 className="line-clamp-2 font-semibold">{dish.name}</h1>
 
