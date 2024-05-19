@@ -24,13 +24,15 @@ export default function ResStateDialog({
   id,
   quantity,
 }: ResStateDialogProps) {
-  const { finishRservation, cancelRservation } = useReservation();
+  const { finishReservation, cancelReservation } = useReservation();
 
-  const handleCancel = () => {
-    cancelRservation(id);
-  };
-  const handleFinish = () => {
-    finishRservation(id, quantity);
+  const handleConfirm = () => {
+    onOpenChange(!open);
+    if (type === "cancel") {
+      cancelReservation(id);
+    } else if (type === "finish") {
+      finishReservation(id, quantity);
+    }
   };
 
   return (
@@ -51,17 +53,7 @@ export default function ResStateDialog({
           </div>
         )}
         <DialogFooter className="gap-2">
-          <Button
-            className="block w-full"
-            onClick={() => {
-              onOpenChange(!open);
-              if (type === "cancel") {
-                handleCancel();
-              } else if (type === "finish") {
-                handleFinish();
-              }
-            }}
-          >
+          <Button className="block w-full" onClick={handleConfirm}>
             confirm
           </Button>
         </DialogFooter>

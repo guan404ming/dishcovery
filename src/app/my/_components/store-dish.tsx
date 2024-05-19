@@ -12,7 +12,7 @@ export default function StoreDish({
   const { updateStoreDish } = useStore();
   return (
     <ImageCardPrimitive
-      href={`/reservation/${storeDish.id}`}
+      href={`/store/store-dish/${storeDish.id}`}
       image={storeDish.image}
       counter={{
         amount: storeDish.quantity,

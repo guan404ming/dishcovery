@@ -8,7 +8,7 @@ export default function useReservation() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const finishRservation = async (id: number, quantity: number) => {
+  const finishReservation = async (id: number, quantity: number) => {
     await handleFetch({
       data: { id, quantity, status: "finished" },
       method: "PUT",
@@ -19,7 +19,7 @@ export default function useReservation() {
     router.refresh();
   };
 
-  const cancelRservation = async (id: number) => {
+  const cancelReservation = async (id: number) => {
     await handleFetch({
       data: { id },
       method: "DELETE",
@@ -31,8 +31,8 @@ export default function useReservation() {
   };
 
   return {
-    finishRservation,
-    cancelRservation,
+    finishReservation,
+    cancelReservation,
     loading,
   };
 }

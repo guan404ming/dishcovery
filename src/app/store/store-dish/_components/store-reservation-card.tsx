@@ -6,23 +6,16 @@ import { MinusCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import type { SelectStoreReservation } from "@/lib/type";
+
 import ResStateDialog from "@/components/dialog/resstate-dialog";
 
-type ReservationCard = {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  status: string;
-};
-
-export function ReservationCard({
-  id,
-  name,
-  price,
-  quantity,
+export function StoreReservationCard({
   status,
-}: ReservationCard) {
+  id,
+  quantity,
+  name,
+}: SelectStoreReservation & { name: string }) {
   const [finishDialogOpen, setFinishDialogOpen] = useState(false);
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
 
@@ -35,10 +28,9 @@ export function ReservationCard({
         <div className="flex flex-col gap-x-4">
           <div className="flex items-center gap-x-2 lg:gap-x-8">
             <p className="text-lg font-bold lg:text-2xl">{name}</p>
-            <p className="text-md lg:text-lg">$ {price}</p>
           </div>
           <div className="text-md pt-2 font-normal text-muted-foreground lg:pt-4 lg:text-lg">
-            {status}...
+            {status}
           </div>
         </div>
         <div className="flex flex-row items-center gap-x-4">
