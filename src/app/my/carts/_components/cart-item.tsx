@@ -1,6 +1,6 @@
 "use client";
 
-import ImageCard from "@/components/supplier/image-card";
+import ImageCardPrimitive from "@/components/image-card/image-card-primitive";
 import useCart from "@/hooks/use-cart";
 
 export default function CartItem({
@@ -22,7 +22,7 @@ export default function CartItem({
   };
 
   return (
-    <ImageCard
+    <ImageCardPrimitive
       href={`#`}
       counter={{
         amount: quantity,
@@ -37,6 +37,6 @@ export default function CartItem({
       <div className="mt-1 w-full max-w-24 overflow-hidden text-ellipsis text-wrap text-xs text-muted-foreground">
         $ {price}
       </div>
-    </ImageCard>
+    </ImageCardPrimitive>
   );
 }

@@ -3,12 +3,13 @@ import Image from "next/image";
 import { eq } from "drizzle-orm";
 import { Bookmark } from "lucide-react";
 
-import Dish from "@/components/dish";
+
 import GridContainer from "@/components/grid-container";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { storeDishes, stores, users } from "@/db/schema";
+import Dish from "@/components/image-card/dish";
 
 export default async function Store({
   params,

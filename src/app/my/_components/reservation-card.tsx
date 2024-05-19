@@ -1,6 +1,6 @@
 "use client";
 
-import ImageCard from "@/components/supplier/image-card";
+import ImageCardPrimitive from "@/components/image-card/image-card-primitive";
 import usePost from "@/hooks/use-post";
 import useStore from "@/hooks/use-store";
 
@@ -25,7 +25,7 @@ export function ReservationCard({
   const { updateStoreReservation } = useStore();
 
   return (
-    <ImageCard
+    <ImageCardPrimitive
       href="#"
       image={image}
       counter={{
@@ -43,6 +43,6 @@ export function ReservationCard({
       <span className="text-sm text-muted-foreground">
         ${price * quantity} · {status}
       </span>
-    </ImageCard>
+    </ImageCardPrimitive>
   );
 }

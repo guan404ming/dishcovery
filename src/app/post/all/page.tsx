@@ -1,5 +1,5 @@
 import GridContainer from "@/components/grid-container";
-import { Post } from "@/components/supplier/post";
+import { Post } from "@/components/image-card/post";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 

@@ -5,7 +5,7 @@ import TimeText from "../time-text";
 import usePost from "@/hooks/use-post";
 import type { SelectPost, SelectPostDish } from "@/lib/type";
 
-import ImageCard from "./image-card";
+import ImageCardPrimitive from "./image-card-primitive";
 
 export function Post({
   post,
@@ -17,7 +17,7 @@ export function Post({
   const { updatePost } = usePost();
 
   return (
-    <ImageCard
+    <ImageCardPrimitive
       href={`/post/${post.id}`}
       image={post.postDishes?.image}
       className="border-none shadow-none"
@@ -48,6 +48,6 @@ export function Post({
       <div className="mt-1 line-clamp-3 w-full text-xs text-muted-foreground">
         {post.description}
       </div>
-    </ImageCard>
+    </ImageCardPrimitive>
   );
 }

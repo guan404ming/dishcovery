@@ -6,7 +6,7 @@ import MapView from "@/app/_components/map";
 import { StoreScrollArea } from "@/app/_components/store-scroll-area";
 import { Banner } from "@/components/banner";
 import GridContainer from "@/components/grid-container";
-import { Post } from "@/components/supplier/post";
+import { Post } from "@/components/image-card/post";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 

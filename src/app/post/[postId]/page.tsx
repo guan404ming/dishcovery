@@ -3,13 +3,14 @@ import Link from "next/link";
 
 import { eq } from "drizzle-orm";
 
-import Dish from "@/components/dish";
+
 import GridContainer from "@/components/grid-container";
 import TimeText from "@/components/time-text";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { postDishes, posts, users } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
+import Dish from "@/components/image-card/dish";
 
 export default async function Post({ params }: { params: { postId: string } }) {
   const session = await getServerSession(authOptions);

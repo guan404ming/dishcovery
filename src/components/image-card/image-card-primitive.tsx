@@ -8,7 +8,7 @@ import { PlusCircle, MinusCircle } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-export default function ImageCard({
+export default function ImageCardPrimitive({
   children,
   href,
   counter,

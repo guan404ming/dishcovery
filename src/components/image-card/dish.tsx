@@ -6,9 +6,9 @@ import { Plus } from "lucide-react";
 
 import type { SelectPostDish, SelectStoreDish } from "@/lib/type";
 
-import ReservationDialog from "./reservation-dialog";
-import ImageCard from "./supplier/image-card";
-import { Button } from "./ui/button";
+import ReservationDialog from "../reservation-dialog";
+import ImageCardPrimitive from "./image-card-primitive";
+import { Button } from "../ui/button";
 
 export default function Dish({
   dish,
@@ -20,7 +20,7 @@ export default function Dish({
 
   return (
     <>
-      <ImageCard
+      <ImageCardPrimitive
         image={dish.image}
         className="relative border-none shadow-none"
       >
@@ -47,7 +47,7 @@ export default function Dish({
             {dish.description}
           </span>
         </div>
-      </ImageCard>
+      </ImageCardPrimitive>
       <ReservationDialog
         title="Cart"
         open={cart}

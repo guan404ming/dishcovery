@@ -4,7 +4,7 @@ import AddDialog from "../_components/add-dialog";
 import { eq } from "drizzle-orm";
 
 import GridContainer from "@/components/grid-container";
-import { Post } from "@/components/supplier/post";
+import { Post } from "@/components/image-card/post";
 import { db } from "@/db";
 import { posts } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
