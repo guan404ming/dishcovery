@@ -38,7 +38,8 @@ export default function ImageCardPrimitive({
         onClick={() => handleRouting()}
         className={cn(
           className,
-          "z-0 flex h-[120px] cursor-pointer flex-nowrap text-center shadow-none max-md:border-none",
+          "z-0 flex h-[120px] flex-nowrap text-center shadow-none max-md:border-none",
+          href && "cursor-pointer",
         )}
       >
         <Image

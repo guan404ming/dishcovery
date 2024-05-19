@@ -42,27 +42,29 @@ export default async function ReservationPage({
 
   return (
     <>
-      <div className="flex flex-row items-center justify-between gap-x-4 pl-2 lg:p-4">
-        <div className="flex flex-row items-center gap-x-4">
+      <div className="flex items-center justify-between">
+        <div className="flex space-x-4">
           <Avatar className="h-12 w-12">
             <AvatarImage src={dish.image as string} />
-            <AvatarFallback>{dish.name.slice(0, 1) as string}</AvatarFallback>
+            <AvatarFallback>{dish.name?.slice(0, 1) as string}</AvatarFallback>
           </Avatar>
-          <div className="flex flex-col">
-            <p className="text-md font-bold lg:text-lg">{dish.name}</p>
-            <p className="text-md text-muted-foreground">$ {dish.price}</p>
+
+          <div>
+            <p className="text-lg">{dish.name}</p>
+            <div className="text-xs font-normal text-muted-foreground">
+              $ {dish.price}
+            </div>
           </div>
         </div>
+
         <ReservationUpdate {...dish} />
       </div>
 
       <Separator />
 
-      <div className="flex flex-row items-center justify-between">
-        <p className="text-lg font-bold lg:text-2xl">
-          Reservation({uniqueReservations.length})
-        </p>
-      </div>
+      <h1 className="text-xl font-semibold">
+        Reservation({uniqueReservations.length})
+      </h1>
 
       <div className="flex flex-col space-y-2">
         {uniqueReservations.map((reservation, index) => (
