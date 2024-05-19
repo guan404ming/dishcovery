@@ -1,18 +1,30 @@
+import { toast } from "sonner";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export default async function handleFetch({
   data,
   method,
   url,
+  successMessage,
+  errorMessage,
+  setLoading,
 }: {
   data: any;
   method: string;
   url: string;
+  successMessage?: string;
+  errorMessage?: string;
+  setLoading: (loading: boolean) => void;
 }) {
+  setLoading(true);
+
   try {
     const res = await fetch(url, {
       method,
       body: JSON.stringify({ ...data }),
     });
+    
+    toast(successMessage || "Success");
 
     if (!res.ok) {
       const body = await res.json();
@@ -20,6 +32,8 @@ export default async function handleFetch({
     }
     return await res.json();
   } catch (error) {
-    console.error(error);
+    toast(errorMessage || (error as Error).message);
   }
+
+  setLoading(false);
 }
