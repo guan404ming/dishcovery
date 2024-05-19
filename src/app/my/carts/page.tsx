@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 
 import { eq } from "drizzle-orm";
+import { ShoppingCart } from "lucide-react";
 
 import GridContainer from "@/components/grid-container";
 import { Separator } from "@/components/ui/separator";
@@ -30,6 +31,15 @@ export default async function MyCartsPage() {
     return total + cartItem.storeDish.price * cartItem.quantity;
   }, 0);
 
+  if (cartItem.length === 0) {
+    return (
+      <div className="flex flex-grow flex-col items-center justify-center space-y-4 text-center text-xl font-semibold">
+        <ShoppingCart size={40} />
+        <p>Cart is empty</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <p className="text-xl font-bold">Cart</p>
@@ -46,14 +56,12 @@ export default async function MyCartsPage() {
           />
         ))}
       </GridContainer>
-
       <div className="flex items-center justify-between">
         <p className="text-xl font-semibold text-slate-600">
           Total{"  "}${totalPrice}
         </p>
         <ConfirmButton cartItem={cartItem}></ConfirmButton>
       </div>
-
       <Separator />
     </>
   );
