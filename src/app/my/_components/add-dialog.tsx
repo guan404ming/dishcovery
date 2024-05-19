@@ -21,11 +21,14 @@ import { Textarea } from "@/components/ui/textarea";
 import usePost from "@/hooks/use-post";
 import { UploadButton } from "@/lib/uploadthing";
 
+import LocationPicker from "./location-picker";
+
 type DialogProps = {
   type: string;
 };
 
 export default function AddDialog({ type }: DialogProps) {
+  const [open, setOpen] = useState<boolean>(false);
   const [url, setUrl] = useState<string>("");
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
@@ -33,10 +36,13 @@ export default function AddDialog({ type }: DialogProps) {
   const dishNameRef = useRef<HTMLInputElement>(null);
   const dishDescriptionRef = useRef<HTMLTextAreaElement>(null);
   const quantityRef = useRef<HTMLInputElement>(null);
+  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
+    null,
+  );
   const { createPost } = usePost();
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size={"icon"} variant={"ghost"}>
           <PlusCircle className="h-5 w-5 cursor-pointer" />
@@ -118,7 +124,6 @@ export default function AddDialog({ type }: DialogProps) {
             endpoint="imageUploader"
             appearance={{ button: "bg-primary w-full" }}
             onClientUploadComplete={(res) => {
-              // Do something with the response
               console.log("Files: ", res);
               setUrl(res[0].url);
             }}
@@ -126,6 +131,10 @@ export default function AddDialog({ type }: DialogProps) {
               console.log(`ERROR! ${error.message}`);
             }}
           />
+        </div>
+        <div className="grid w-full max-w-sm items-center gap-2">
+          <Label htmlFor="locationPicker">選擇地點</Label>
+          <LocationPicker setLocation={setLocation} />
         </div>
 
         <DialogFooter>
@@ -138,7 +147,9 @@ export default function AddDialog({ type }: DialogProps) {
                 !dishNameRef.current?.value ||
                 !quantityRef.current?.value ||
                 !dishDescriptionRef.current?.value ||
-                !url
+                !url ||
+                !location?.lat ||
+                !location?.lng
               )
                 return;
               createPost({
@@ -149,7 +160,10 @@ export default function AddDialog({ type }: DialogProps) {
                 dishDescription: dishDescriptionRef.current?.value,
                 quantity: Number(quantityRef.current?.value),
                 image: url,
+                lat: location?.lat,
+                lng: location?.lng,
               });
+              setOpen(false);
             }}
           >
             confirm

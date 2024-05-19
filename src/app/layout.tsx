@@ -3,8 +3,8 @@ import { Inter } from "next/font/google";
 
 import "@uploadthing/react/styles.css";
 
+import ContextProvider from "@/components/context-provider";
 import Header from "@/components/header";
-import NextAuthProvider from "@/components/next-auth-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <NextAuthProvider>
+      <ContextProvider>
         <body className={cn(inter.className, "flex justify-center")}>
           <Header />
           <main className="flex min-h-screen w-full max-w-[1200px] flex-col space-y-5 px-6 py-[84px]">
@@ -32,7 +32,7 @@ export default function RootLayout({
           </main>
           <Toaster />
         </body>
-      </NextAuthProvider>
+      </ContextProvider>
     </html>
   );
 }

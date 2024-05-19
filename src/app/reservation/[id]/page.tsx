@@ -17,7 +17,7 @@ export default async function ReservationPage({
   params: { id },
 }: ReservationPageProps) {
   const dish = await db.query.postDishes.findFirst({
-    where: eq(postDishes.postId, id),
+    where: eq(postDishes.id, id),
   });
 
   if (!dish) {

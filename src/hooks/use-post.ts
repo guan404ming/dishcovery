@@ -53,7 +53,13 @@ export default function usePost() {
     dishDescription,
     quantity,
     image,
-  }: InsertPost & InsertPostDish & { dishDescription: string }) => {
+    lat,
+    lng,
+  }: InsertPost &
+    InsertPostDish & { dishDescription: string } & {
+      lat: number;
+      lng: number;
+    }) => {
     setLoading(true);
 
     const body = await handleFetch({
@@ -64,6 +70,8 @@ export default function usePost() {
         name,
         quantity,
         userId: session?.user?.id,
+        lat,
+        lng,
       },
       method: "POST",
       url: "/api/posts",

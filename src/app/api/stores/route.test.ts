@@ -13,6 +13,8 @@ handleUnitTest({
     phone: `09${Math.random()}`,
     userId: 1,
     image: `https://www.google.com.tw/${Math.random()}`,
+    lat: 10.0,
+    lng: 10.0,
   },
   updatedObj: {
     name: `${Math.random()}`,
@@ -20,5 +22,7 @@ handleUnitTest({
     address: `台南市${Math.random()}路`,
     userId: 1,
     image: `https://www.google.com.tw/${Math.random()}`,
+    lat: 11.0,
+    lng: 12.0,
   },
 });

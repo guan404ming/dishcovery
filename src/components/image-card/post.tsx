@@ -40,11 +40,11 @@ export function Post({
     >
       <h1 className="line-clamp-2 font-semibold">{post.title}</h1>
 
-      <div className="text-sm font-light text-muted-foreground">
+      <div className="line-clamp-1 text-sm font-light text-muted-foreground">
         <TimeText date={post.createTime} format="YYYY-MM-DD" />
       </div>
 
-      <div className="mt-1 line-clamp-3 w-full text-xs text-muted-foreground">
+      <div className="mt-1 line-clamp-2 w-full text-xs text-muted-foreground">
         {post.description}
       </div>
     </ImageCardPrimitive>
