@@ -4,11 +4,10 @@ import { useState } from "react";
 
 import { MinusCircle } from "lucide-react";
 
+import ResStateDialog from "@/components/dialog/resstate-dialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import type { SelectStoreReservation } from "@/lib/type";
-
-import ResStateDialog from "@/components/dialog/resstate-dialog";
 
 export function StoreReservationCard({
   status,

@@ -15,7 +15,7 @@ import type { SelectStoreDish } from "@/lib/type";
 export default function StoreDish({
   storeDish,
   isAuthor,
-  isCounter
+  isCounter,
 }: {
   storeDish: SelectStoreDish;
   isAuthor?: boolean;
@@ -28,12 +28,16 @@ export default function StoreDish({
   return (
     <ImageCardPrimitive
       image={storeDish.image}
-      counter={(isCounter) ? {
-        amount: storeDish.quantity,
-        setAmount: async (number: number) => {
-          await updateStoreDish({ ...storeDish, quantity: number });
-        },
-      } : undefined}
+      counter={
+        isCounter
+          ? {
+              amount: storeDish.quantity,
+              setAmount: async (number: number) => {
+                await updateStoreDish({ ...storeDish, quantity: number });
+              },
+            }
+          : undefined
+      }
       className="relative"
     >
       {isAuthor ? (

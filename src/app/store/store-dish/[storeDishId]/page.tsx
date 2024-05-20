@@ -1,11 +1,10 @@
 import { StoreReservationCard } from "../_components/store-reservation-card";
 import { eq } from "drizzle-orm";
 
-
 import GridContainer from "@/components/grid-container";
+import StoreDish from "@/components/image-card/store-dish";
 import { db } from "@/db";
 import { storeDishes, storeReservations, users } from "@/db/schema";
-import StoreDish from "@/components/image-card/store-dish";
 
 export default async function StoreDishPage({
   params: { storeDishId },
@@ -32,7 +31,6 @@ export default async function StoreDishPage({
     .where(eq(storeReservations.storeDishId, storeDishId))
     .innerJoin(users, eq(users.id, storeReservations.userId))
     .innerJoin(storeDishes, eq(storeDishes.id, storeReservations.storeDishId));
-
 
   return (
     <>

@@ -4,16 +4,16 @@ import { useState } from "react";
 
 import { MinusCircle } from "lucide-react";
 
+import ResStateDialog from "@/components/dialog/resstate-dialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import ResStateDialog from "@/components/dialog/resstate-dialog";
 import type { SelectPostReservation } from "@/lib/type";
 
 export function PostReservationCard({
   id,
   name,
   quantity,
-  status
+  status,
 }: SelectPostReservation & { name: string }) {
   const [finishDialogOpen, setFinishDialogOpen] = useState(false);
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);

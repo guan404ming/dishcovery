@@ -4,7 +4,7 @@ import AddDialog from "../_components/add-dialog";
 import { eq } from "drizzle-orm";
 
 import GridContainer from "@/components/grid-container";
-import { Post } from "@/components/image-card/post";
+import PostDish from "@/components/image-card/post-dish";
 import { db } from "@/db";
 import { posts } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
@@ -31,7 +31,7 @@ export default async function MyReservationsPage() {
 
       <GridContainer>
         {postList.map((post, index) => (
-          <Post post={post} key={index} isCounter />
+          <PostDish key={index} postDish={post.postDishes} isAuthor isCounter />
         ))}
       </GridContainer>
     </>

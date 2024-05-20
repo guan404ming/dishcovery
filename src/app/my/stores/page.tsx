@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth/next";
 
-import StoreDish from "@/components/image-card/store-dish";
 import { eq } from "drizzle-orm";
 
 import GridContainer from "@/components/grid-container";
+import StoreDish from "@/components/image-card/store-dish";
 import { db } from "@/db";
 import { stores } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";

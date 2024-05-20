@@ -8,10 +8,10 @@ import ReservationDialog from "../reservation-dialog";
 import { Button } from "../ui/button";
 import { Plus, Pen } from "lucide-react";
 
+import usePost from "@/hooks/use-post";
 import type { SelectPostDish } from "@/lib/type";
 
 import ImageCardPrimitive from "./image-card-primitive";
-import usePost from "@/hooks/use-post";
 
 export default function PostDish({
   postDish,
@@ -68,21 +68,20 @@ export default function PostDish({
           />
         </>
       )}
+      <h1 className="line-clamp-1 font-semibold md:line-clamp-2">
+        {postDish.name}
+      </h1>
 
-      <div className="flex flex-col">
-        <h1 className="line-clamp-2 font-semibold">{postDish.name}</h1>
-
-        <div className="flex items-center space-x-2 text-sm">
-          <span>
-            {postDish.price !== 0 ? `$${postDish.price}` : "free"} · Remaining:{" "}
-            {postDish.quantity}
-          </span>
-        </div>
-
-        <span className="my-1 line-clamp-2 text-sm text-muted-foreground">
-          {postDish.description}
+      <div className="flex items-center space-x-2 text-sm">
+        <span>
+          {postDish.price !== 0 ? `$${postDish.price}` : "free"}
+          {!isAuthor && <span> · Remaining: {postDish.quantity}</span>}
         </span>
       </div>
+
+      <span className="my-1 line-clamp-1 text-sm text-muted-foreground md:line-clamp-2">
+        {postDish.description}
+      </span>
     </ImageCardPrimitive>
   );
 }
