@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 
-import { Marker, Map, type MapMouseEvent } from "@vis.gl/react-google-maps";
+import {
+  AdvancedMarker,
+  Map,
+  type MapMouseEvent,
+} from "@vis.gl/react-google-maps";
 
 const center = { lat: 25.0129, lng: 121.5371 };
 interface LocationPickerProps {
@@ -26,11 +30,11 @@ function LocationPicker({ setLocation }: LocationPickerProps) {
     <div className="h-[350px] w-full">
       <Map
         defaultCenter={markerPosition}
-        defaultZoom={10}
+        defaultZoom={15}
         onClick={(e) => handleMapClick(e)}
         mapId={process.env.NEXT_PUBLIC_MAP_ID}
       >
-        <Marker position={markerPosition} />
+        <AdvancedMarker position={markerPosition} />
       </Map>
     </div>
   );
