@@ -4,6 +4,7 @@ import { PostReservationCard } from "@/app/post/post-dish/_components/post-reser
 import PostDish from "@/components/image-card/post-dish";
 import { db } from "@/db";
 import { postDishes, postReservations, users } from "@/db/schema";
+import NotFoundPage from "@/app/not-found";
 
 type ReservationPageProps = {
   params: {
@@ -19,7 +20,7 @@ export default async function ReservationPage({
   });
 
   if (!dish) {
-    return <div>Page Not Found</div>;
+    return <NotFoundPage />;
   }
 
   const reservationList = await db

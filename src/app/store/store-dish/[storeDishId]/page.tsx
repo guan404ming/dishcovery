@@ -5,6 +5,7 @@ import GridContainer from "@/components/grid-container";
 import StoreDish from "@/components/image-card/store-dish";
 import { db } from "@/db";
 import { storeDishes, storeReservations, users } from "@/db/schema";
+import NotFoundPage from "@/app/not-found";
 
 export default async function StoreDishPage({
   params: { storeDishId },
@@ -18,7 +19,7 @@ export default async function StoreDishPage({
   });
 
   if (!dish) {
-    return <div>Page Not Found</div>;
+    return <NotFoundPage />;
   }
 
   const reservationList = await db
