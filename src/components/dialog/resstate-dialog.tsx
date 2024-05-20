@@ -7,7 +7,8 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
-import useReservation from "@/hooks/use-reservation";
+import usePost from "@/hooks/use-post";
+import useStore from "@/hooks/use-store";
 
 type ResStateDialogProps = {
   open: boolean;
@@ -23,14 +24,26 @@ export default function ResStateDialog({
   type,
   id,
   quantity,
-}: ResStateDialogProps) {
-  const { finishRservation, cancelRservation } = useReservation();
+  isStore = false,
+}: ResStateDialogProps & { isStore?: boolean }) {
+  const { finishPostReservation, deletePostReservation } = usePost();
+  const { finishStoreReservation, deleteStoreReservation } = useStore();
 
-  const handleCancel = () => {
-    cancelRservation(id);
-  };
-  const handleFinish = () => {
-    finishRservation(id, quantity);
+  const handleConfirm = () => {
+    onOpenChange(!open);
+    if (isStore) {
+      if (type === "cancel") {
+        deleteStoreReservation(id);
+      } else if (type === "finish") {
+        finishStoreReservation(id, quantity);
+      }
+    } else {
+      if (type === "cancel") {
+        deletePostReservation(id);
+      } else if (type === "finish") {
+        finishPostReservation(id, quantity);
+      }
+    }
   };
 
   return (
@@ -51,17 +64,7 @@ export default function ResStateDialog({
           </div>
         )}
         <DialogFooter className="gap-2">
-          <Button
-            className="block w-full"
-            onClick={() => {
-              onOpenChange(!open);
-              if (type === "cancel") {
-                handleCancel();
-              } else if (type === "finish") {
-                handleFinish();
-              }
-            }}
-          >
+          <Button className="block w-full" onClick={handleConfirm}>
             confirm
           </Button>
         </DialogFooter>

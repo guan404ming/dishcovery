@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { eq } from "drizzle-orm";
 
 import GridContainer from "@/components/grid-container";
-import Dish from "@/components/image-card/dish";
+import PostDish from "@/components/image-card/post-dish";
 import TimeText from "@/components/time-text";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
@@ -46,9 +46,9 @@ export default async function PostPage({
 
       <GridContainer>
         {dishes.map((dish) => (
-          <Dish
+          <PostDish
             key={dish.id}
-            dish={dish}
+            postDish={dish}
             isAuthor={session?.user.id === post.users.id}
           />
         ))}

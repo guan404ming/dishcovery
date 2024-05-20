@@ -1,22 +1,24 @@
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 
-import { eq } from "drizzle-orm";
-import { Bookmark } from "lucide-react";
+import { and, eq } from "drizzle-orm";
 
 import GridContainer from "@/components/grid-container";
-import Dish from "@/components/image-card/dish";
-import { Button } from "@/components/ui/button";
+import StoreDish from "@/components/image-card/store-dish";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import { storeDishes, stores, users } from "@/db/schema";
+import { storeCollections, storeDishes, stores, users } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
+
+import SaveButton from "./_components/save-button";
 
 export default async function StorePage({
   params,
 }: {
   params: { storeId: string };
 }) {
+  const session = await getServerSession(authOptions);
+
   const [store] = await db
     .select()
     .from(stores)
@@ -28,18 +30,20 @@ export default async function StorePage({
     where: eq(storeDishes.storeId, parseInt(params.storeId)),
   });
 
-  const session = await getServerSession(authOptions);
+  const storeCollection = await db.query.storeCollections.findFirst({
+    where: and(
+      eq(storeCollections.storeId, parseInt(params.storeId)),
+      eq(storeCollections.userId, session?.user.id as number),
+    ),
+  });
 
   return (
     <>
       <div className="relative w-full">
-        <Button
-          size={"icon"}
-          variant="outline"
-          className="absolute right-2 top-2 rounded-full border-none bg-black/30 backdrop-blur-sm "
-        >
-          <Bookmark className="stroke-white" />
-        </Button>
+        <SaveButton
+          storeId={store.stores.id}
+          storeCollection={storeCollection}
+        />
         <Image
           width={"600"}
           height={"600"}
@@ -64,9 +68,9 @@ export default async function StorePage({
 
       <GridContainer>
         {dishes.map((dish) => (
-          <Dish
+          <StoreDish
             key={dish.id}
-            dish={dish}
+            storeDish={dish}
             isAuthor={session?.user.id === store.users.id}
           />
         ))}

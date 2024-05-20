@@ -22,6 +22,9 @@ export type SelectStoreReservation =
 export type InsertStoreReservation =
   typeof schema.storeReservations.$inferInsert;
 
+export type SelectStoreCollection = typeof schema.storeCollections.$inferSelect;
+export type InsertStoreCollection = typeof schema.storeCollections.$inferInsert;
+
 // post
 
 export type SelectPost = typeof schema.posts.$inferSelect;

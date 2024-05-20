@@ -45,7 +45,7 @@ export default function ImageCardPrimitive({
         <Image
           src={image}
           alt="image"
-          className="aspect-square rounded border object-cover"
+          className="aspect-square flex-shrink-0 rounded border object-cover"
           width={120}
           height={120}
         />
@@ -61,7 +61,7 @@ export default function ImageCardPrimitive({
           </div>
 
           {counter && (
-            <div className="mr-4 flex items-center justify-between space-x-2">
+            <div className="mr-4 flex flex-grow-0 items-center justify-between space-x-2">
               <MinusCircle
                 className="h-5 w-5 cursor-pointer"
                 onClick={(e) => {

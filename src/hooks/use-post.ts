@@ -45,6 +45,28 @@ export default function usePost() {
     router.refresh();
   };
 
+  const finishPostReservation = async (id: number, quantity: number) => {
+    await handleFetch({
+      data: { id, quantity, status: "finished" },
+      method: "PUT",
+      url: "/api/posts/post-reservations",
+      successMessage: "Reservation has been finished.",
+      setLoading,
+    });
+    router.refresh();
+  };
+
+  const deletePostReservation = async (id: number) => {
+    await handleFetch({
+      data: { id },
+      method: "DELETE",
+      url: "/api/posts/post-reservations",
+      successMessage: "Reservation has been deleted.",
+      setLoading,
+    });
+    router.refresh();
+  };
+
   const createPost = async ({
     title,
     description,
@@ -120,10 +142,32 @@ export default function usePost() {
     router.refresh();
   };
 
+  const updatePostDish = async ({
+    id,
+    quantity,
+    postId,
+    name,
+    price,
+    description,
+    image,
+  }: InsertPostDish) => {
+    await handleFetch({
+      data: { id, quantity, postId, name, price, description, image },
+      method: "PUT",
+      url: "/api/posts/post-dishes",
+      successMessage: "Post dish has been updated.",
+      setLoading,
+    });
+    router.refresh();
+  };
+
   return {
     createPost,
     createPostReservation,
     updatePostReservation,
+    finishPostReservation,
+    deletePostReservation,
+    updatePostDish,
     updatePost,
     loading,
   };
