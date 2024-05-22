@@ -12,12 +12,12 @@ import { db } from "@/db";
 export default async function Home() {
   const bannerList = await db.query.banners.findMany();
   const postList = await db.query.posts.findMany({
-    limit: 10,
+    limit: 20,
     with: { postDishes: true },
     orderBy: (posts, { desc }) => [desc(posts.createTime)],
   });
   const storeList = await db.query.stores.findMany({
-    limit: 10,
+    limit: 20,
   });
 
   function SectionTitle({ title, url }: { title: string; url?: string }) {
@@ -44,7 +44,7 @@ export default async function Home() {
       <SectionTitle title={"Popular Stores"} url="/store/all" />
       <StoreScrollArea storeList={storeList} />
 
-      <SectionTitle title={"Post"} url="/post/all" />
+      <SectionTitle title={"Posts"} url="/post/all" />
 
       <GridContainer>
         {postList.map((post, index) => (
