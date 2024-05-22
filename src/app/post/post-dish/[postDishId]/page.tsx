@@ -1,10 +1,10 @@
 import { eq } from "drizzle-orm";
 
+import NotFoundPage from "@/app/not-found";
 import { PostReservationCard } from "@/app/post/post-dish/_components/post-reservation-card";
 import PostDish from "@/components/image-card/post-dish";
 import { db } from "@/db";
 import { postDishes, postReservations, users } from "@/db/schema";
-import NotFoundPage from "@/app/not-found";
 
 type ReservationPageProps = {
   params: {

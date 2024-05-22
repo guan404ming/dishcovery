@@ -24,7 +24,9 @@ export default async function handleFetch({
       body: JSON.stringify({ ...data }),
     });
 
-    toast(successMessage || "Success");
+    if (successMessage && res.ok) {
+      toast(successMessage);
+    }
 
     if (!res.ok) {
       const body = await res.json();

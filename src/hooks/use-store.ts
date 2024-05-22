@@ -44,13 +44,18 @@ export default function useStore() {
     quantity,
     status,
   }: InsertStoreReservation) => {
-    await handleFetch({
-      data: { id, quantity, status },
-      method: "PUT",
-      url: "/api/stores/store-reservations",
-      successMessage: "Store reservation has been updated.",
-      setLoading,
-    });
+    if (quantity === 0 && id) {
+      await deleteStoreReservation(id);
+    } else {
+      await handleFetch({
+        data: { id, quantity, status },
+        method: "PUT",
+        url: "/api/stores/store-reservations",
+        successMessage: "Store reservation has been updated.",
+        setLoading,
+      });
+    }
+
     router.refresh();
   };
 

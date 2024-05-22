@@ -1,14 +1,18 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import { handleParseRequest, handleError } from "../utils";
-import { eq } from "drizzle-orm";
-import { createInsertSchema } from "drizzle-zod";
+import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { db } from "@/db";
 import { carts } from "@/db/schema";
 
-const insertCartSchema = createInsertSchema(carts);
+const insertCartSchema = z.object({
+  quantity: z.number(),
+  userId: z.number(),
+  storeDishId: z.number(),
+});
+
 const updateCartSchema = z.object({
   id: z.number(),
   quantity: z.number(),
@@ -22,13 +26,29 @@ export async function POST(request: NextRequest) {
       request,
     })) as z.infer<typeof insertCartSchema>;
 
-    const [user] = await db
+    const [cartItem_] = await db
+      .select()
+      .from(carts)
+      .where(
+        and(
+          eq(carts.userId, data.userId),
+          eq(carts.storeDishId, data.storeDishId),
+        ),
+      );
+
+    const [cartItem] = await db
       .insert(carts)
       .values({ ...data })
+      .onConflictDoUpdate({
+        target: [carts.userId, carts.storeDishId],
+        set: {
+          quantity: data.quantity + cartItem_?.quantity || 0,
+        },
+      })
       .returning()
       .execute();
 
-    return NextResponse.json({ data: { ...user } }, { status: 200 });
+    return NextResponse.json({ data: { ...cartItem } }, { status: 200 });
   } catch (error) {
     return handleError({ error });
   }
