@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { CheckCircle, XCircle } from "lucide-react";
 
-import ResStateDialog from "@/components/dialog/resstate-dialog";
+import ReservationActionDialog from "@/components/dialog/reservation-action";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
@@ -60,7 +60,7 @@ export function ReservationActionCard({
         </div>
       </div>
 
-      <ResStateDialog
+      <ReservationActionDialog
         open={finishDialogOpen}
         onOpenChange={setFinishDialogOpen}
         type="finish"
@@ -68,7 +68,7 @@ export function ReservationActionCard({
         quantity={quantity}
         isStore={isStore}
       />
-      <ResStateDialog
+      <ReservationActionDialog
         open={cancelDialogOpen}
         onOpenChange={setCancelDialogOpen}
         type="cancel"

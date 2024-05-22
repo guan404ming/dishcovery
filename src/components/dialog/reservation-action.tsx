@@ -18,7 +18,7 @@ type ResStateDialogProps = {
   quantity: number;
 };
 
-export default function ResStateDialog({
+export default function ReservationActionDialog({
   open,
   onOpenChange,
   type,

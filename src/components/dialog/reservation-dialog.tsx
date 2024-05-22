@@ -1,22 +1,23 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useCart from "@/hooks/use-cart";
 import usePost from "@/hooks/use-post";
+import { cn } from "@/lib/utils";
 
 import LoginDialog from "./login-dialog";
 
@@ -38,6 +39,7 @@ export default function ReservationDialog({
   const { addToCart } = useCart();
   const pathname = usePathname();
   const { data: session } = useSession();
+  const [error, setError] = useState(false);
 
   if (!session) {
     return (
@@ -46,39 +48,44 @@ export default function ReservationDialog({
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[80%] max-w-[400px] rounded">
-        <DialogHeader>
-          <DialogTitle className="flex justify-start text-2xl">
+    <Drawer open={open} onOpenChange={onOpenChange}>
+      <DrawerContent className="mx-auto w-full max-w-md px-4">
+        <DrawerHeader>
+          <DrawerTitle className="flex justify-start text-2xl">
             {title}
-          </DialogTitle>
-        </DialogHeader>
+          </DrawerTitle>
+        </DrawerHeader>
 
-        <div className="grid max-w-sm items-center gap-2">
-          <Label htmlFor="number">預定數量</Label>
+        <div className="grid items-center gap-2 p-4">
+          <Label htmlFor="number">Quantity</Label>
           <Input
             placeholder="number"
             type="number"
-            className="rounded-md border border-gray-300 p-2"
-            required
+            className={cn(
+              "rounded-md border border-gray-300 p-2",
+              error && "text-red-500",
+            )}
             onChange={(e) => {
+              setError(false);
               numberRef.current = parseInt(e.target.value);
+              if (numberRef.current > 5) {
+                setError(true);
+              }
             }}
           />
+          {error && (
+            <p className="text-red-500">
+              {"The number cannot be greater than 5."}
+            </p>
+          )}
         </div>
 
-        <DialogFooter className="gap-2">
-          <Button
-            variant={"outline"}
-            className="block w-full"
-            onClick={() => onOpenChange(!open)}
-          >
-            cancel
-          </Button>
+        <DrawerFooter className="gap-2">
           <Button
             className="block w-full"
             onClick={() => {
               onOpenChange(!open);
+              setError(false);
               if (pathname.includes("post")) {
                 createPostReservation({
                   postDishId: dishId,
@@ -91,8 +98,18 @@ export default function ReservationDialog({
           >
             confirm
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          <Button
+            variant={"outline"}
+            className="block w-full"
+            onClick={() => {
+              onOpenChange(!open);
+              setError(false);
+            }}
+          >
+            cancel
+          </Button>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 }
