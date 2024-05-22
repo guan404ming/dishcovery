@@ -49,14 +49,14 @@ export default function ReservationDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="mx-auto w-full max-w-md px-4">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle className="flex justify-start text-2xl">
             {title}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="grid items-center gap-2 p-4">
+        <div className="grid items-center gap-2">
           <Label htmlFor="number">Quantity</Label>
           <Input
             placeholder="number"
@@ -82,6 +82,16 @@ export default function ReservationDialog({
 
         <DialogFooter className="gap-2">
           <Button
+            variant={"outline"}
+            className="block w-full"
+            onClick={() => {
+              onOpenChange(!open);
+              setError(false);
+            }}
+          >
+            cancel
+          </Button>
+          <Button
             className="block w-full"
             onClick={() => {
               onOpenChange(!open);
@@ -98,16 +108,6 @@ export default function ReservationDialog({
             disabled={error}
           >
             confirm
-          </Button>
-          <Button
-            variant={"outline"}
-            className="block w-full"
-            onClick={() => {
-              onOpenChange(!open);
-              setError(false);
-            }}
-          >
-            cancel
           </Button>
         </DialogFooter>
       </DialogContent>

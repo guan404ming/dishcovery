@@ -48,7 +48,7 @@ export default function ReservationActionDialog({
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className="rounded mx-auto w-full">
+      <DrawerContent className="mx-auto w-full rounded">
         {type === "cancel" && (
           <div className="flex flex-col items-center gap-y-4">
             <DrawerTitle className="text-lg lg:text-xl">
