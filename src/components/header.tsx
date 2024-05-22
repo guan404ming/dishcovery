@@ -43,7 +43,7 @@ export default function Header() {
             <DropdownMenuSeparator />
 
             <Link href="/my">
-              <DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
                 <User className="mr-2 h-4 w-4" />
                 Info
                 <DropdownMenuShortcut>⌘I</DropdownMenuShortcut>
@@ -51,7 +51,7 @@ export default function Header() {
             </Link>
 
             <Link href="/my/carts">
-              <DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
                 <ShoppingCart className="mr-2 h-4 w-4" />
                 Cart
                 <DropdownMenuShortcut>⌘C</DropdownMenuShortcut>
@@ -59,7 +59,7 @@ export default function Header() {
             </Link>
 
             <Link href="/my/collections">
-              <DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
                 <Bookmark className="mr-2 h-4 w-4" />
                 Collection
                 <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
@@ -69,6 +69,7 @@ export default function Header() {
             <Link href="#" className="text-red-600">
               <DropdownMenuItem
                 onClick={() => signOut({ redirect: true, callbackUrl: "/" })}
+                className="cursor-pointer focus:text-red-600"
               >
                 <LogOut className="mr-2 h-4 w-4 text-red-600" />
                 Logout

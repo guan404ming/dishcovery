@@ -12,6 +12,7 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: "Dishcovery",
   description: "a community-driven platform dedicated to reducing food waste",
