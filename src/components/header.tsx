@@ -60,7 +60,9 @@ export default function Header() {
               <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
             </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={() => signOut()}>
+            <DropdownMenuItem
+              onClick={() => signOut({ redirect: true, callbackUrl: "/" })}
+            >
               <LogOut className="mr-2 h-4 w-4 text-red-600" />
               <Link href="#" className="text-red-600">
                 Logout

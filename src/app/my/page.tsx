@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 
+import UnauthorizedPage from "../unauthorized";
 import {
   Receipt,
   FilePen,
@@ -39,7 +40,7 @@ function MyButton({
 
 export default async function MyPage() {
   const session = await getServerSession(authOptions);
-  if (!session) return <div>Unauthorized</div>;
+  if (!session) return <UnauthorizedPage />;
 
   return (
     <>

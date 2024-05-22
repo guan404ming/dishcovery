@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth/next";
 
 import { eq } from "drizzle-orm";
 
+import UnauthorizedPage from "@/app/unauthorized";
 import GridContainer from "@/components/grid-container";
 import StoreDish from "@/components/image-card/store-dish";
 import { db } from "@/db";
@@ -10,7 +11,7 @@ import { authOptions } from "@/lib/auth-options";
 
 export default async function MyStoresPage() {
   const session = await getServerSession(authOptions);
-  if (!session) return <div>Unauthorized</div>;
+  if (!session) return <UnauthorizedPage />;
 
   const store = await db.query.stores.findFirst({
     with: {

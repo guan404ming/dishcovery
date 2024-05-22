@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 
 import { eq } from "drizzle-orm";
 
+import NotFoundPage from "@/app/not-found";
 import GridContainer from "@/components/grid-container";
 import PostDish from "@/components/image-card/post-dish";
 import TimeText from "@/components/time-text";
@@ -28,7 +29,7 @@ export default async function PostPage({
   });
 
   if (!post) {
-    return <div>Post not found</div>;
+    return <NotFoundPage />;
   }
 
   return (
@@ -54,7 +55,7 @@ export default async function PostPage({
         ))}
       </GridContainer>
 
-      <p className="line-clamp-3 text-slate-600">{post.posts.description}</p>
+      <p className="text-slate-600">{post.posts.description}</p>
     </>
   );
 }

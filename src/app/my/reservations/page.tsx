@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth/next";
 
 import { eq, desc } from "drizzle-orm";
 
+import UnauthorizedPage from "@/app/unauthorized";
 import GridContainer from "@/components/grid-container";
 import Reservation from "@/components/image-card/reservation";
 import { db } from "@/db";
@@ -15,7 +16,7 @@ import { authOptions } from "@/lib/auth-options";
 
 export default async function MyReservationsPage() {
   const session = await getServerSession(authOptions);
-  if (!session) return <div>Unauthorized</div>;
+  if (!session) return <UnauthorizedPage />;
 
   const postReservationList = await db
     .select({
