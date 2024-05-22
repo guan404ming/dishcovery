@@ -1,5 +1,3 @@
-import React from "react";
-
 import { getServerSession } from "next-auth";
 
 import UnauthorizedPage from "../unauthorized";
@@ -14,5 +12,5 @@ export default async function MyLayout({
   const session = await getServerSession(authOptions);
   if (!session) return <UnauthorizedPage />;
 
-  return <div>{children}</div>;
+  return <>{children}</>;
 }

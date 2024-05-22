@@ -1,8 +1,8 @@
 import { eq } from "drizzle-orm";
 
 import NotFoundPage from "@/app/not-found";
-import { PostReservationCard } from "@/app/post/post-dish/_components/post-reservation-card";
 import PostDish from "@/components/image-card/post-dish";
+import { ReservationActionCard } from "@/components/reservation-action-card";
 import { db } from "@/db";
 import { postDishes, postReservations, users } from "@/db/schema";
 
@@ -44,10 +44,11 @@ export default async function ReservationPage({
 
       <div className="flex flex-col space-y-2">
         {reservationList.map((reservation, index) => (
-          <PostReservationCard
+          <ReservationActionCard
             key={index}
             name={reservation.users.name}
             {...reservation.postReservations}
+            isStore={false}
           />
         ))}
       </div>

@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 
 import { Pen, Plus } from "lucide-react";
 
+import ReservationDialog from "@/components/dialog/reservation-dialog";
 import ImageCardPrimitive from "@/components/image-card/image-card-primitive";
-import ReservationDialog from "@/components/reservation-dialog";
 import { Button } from "@/components/ui/button";
 import useStore from "@/hooks/use-store";
 import type { SelectStoreDish } from "@/lib/type";
@@ -55,7 +55,6 @@ export default function StoreDish({
             size={"icon"}
             variant="outline"
             className="absolute bottom-2 left-20 h-8 w-8 rounded-full border"
-            // onClick={() => setCart(!cart)}
             onClick={() => setCart(!cart)}
           >
             <Plus className="h-3 w-3" strokeWidth={3} />

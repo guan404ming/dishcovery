@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -12,11 +13,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import useCart from "@/hooks/use-cart";
 import usePost from "@/hooks/use-post";
 
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+import LoginDialog from "./login-dialog";
 
 type DialogProps = {
   dishId: number;
@@ -35,6 +37,13 @@ export default function ReservationDialog({
   const { createPostReservation } = usePost();
   const { addToCart } = useCart();
   const pathname = usePathname();
+  const { data: session } = useSession();
+
+  if (!session) {
+    return (
+      <LoginDialog title={title} open={open} onOpenChange={onOpenChange} />
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
