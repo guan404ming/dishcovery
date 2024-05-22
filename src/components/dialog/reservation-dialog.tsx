@@ -7,12 +7,12 @@ import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useCart from "@/hooks/use-cart";
@@ -48,13 +48,13 @@ export default function ReservationDialog({
   }
 
   return (
-    <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className="mx-auto w-full max-w-md px-4">
-        <DrawerHeader>
-          <DrawerTitle className="flex justify-start text-2xl">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="mx-auto w-full max-w-md px-4">
+        <DialogHeader>
+          <DialogTitle className="flex justify-start text-2xl">
             {title}
-          </DrawerTitle>
-        </DrawerHeader>
+          </DialogTitle>
+        </DialogHeader>
 
         <div className="grid items-center gap-2 p-4">
           <Label htmlFor="number">Quantity</Label>
@@ -68,19 +68,19 @@ export default function ReservationDialog({
             onChange={(e) => {
               setError(false);
               numberRef.current = parseInt(e.target.value);
-              if (numberRef.current > 5) {
+              if (numberRef.current > 5 || numberRef.current < 1) {
                 setError(true);
               }
             }}
           />
           {error && (
             <p className="text-red-500">
-              {"The number cannot be greater than 5."}
+              {"The number should be between 1 and 5."}
             </p>
           )}
         </div>
 
-        <DrawerFooter className="gap-2">
+        <DialogFooter className="gap-2">
           <Button
             className="block w-full"
             onClick={() => {
@@ -95,6 +95,7 @@ export default function ReservationDialog({
                 addToCart(dishId, numberRef.current);
               }
             }}
+            disabled={error}
           >
             confirm
           </Button>
@@ -108,8 +109,8 @@ export default function ReservationDialog({
           >
             cancel
           </Button>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

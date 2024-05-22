@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { CheckCircle, XCircle } from "lucide-react";
 
-import ReservationActionDialog from "@/components/dialog/reservation-action";
+import ReservationActionDialog from "@/components/dialog/reservation-action-dialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 

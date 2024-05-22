@@ -2,15 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import usePost from "@/hooks/use-post";
 import useStore from "@/hooks/use-store";
 
-type ResStateDialogProps = {
+type ResStateDrawerProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   type: string;
@@ -25,7 +25,7 @@ export default function ReservationActionDialog({
   id,
   quantity,
   isStore = false,
-}: ResStateDialogProps & { isStore?: boolean }) {
+}: ResStateDrawerProps & { isStore?: boolean }) {
   const { finishPostReservation, deletePostReservation } = usePost();
   const { finishStoreReservation, deleteStoreReservation } = useStore();
 
@@ -47,28 +47,28 @@ export default function ReservationActionDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[80%] max-w-[400px] rounded">
+    <Drawer open={open} onOpenChange={onOpenChange}>
+      <DrawerContent className="rounded mx-auto w-full">
         {type === "cancel" && (
           <div className="flex flex-col items-center gap-y-4">
-            <DialogTitle className="text-lg lg:text-xl">
+            <DrawerTitle className="text-lg lg:text-xl">
               Cancel Reservation?
-            </DialogTitle>
+            </DrawerTitle>
           </div>
         )}
         {type === "finish" && (
           <div className="flex flex-col items-center gap-y-4">
-            <DialogTitle className="text-center text-lg lg:text-xl">
+            <DrawerTitle className="text-center text-lg lg:text-xl">
               Finish reservation?
-            </DialogTitle>
+            </DrawerTitle>
           </div>
         )}
-        <DialogFooter className="gap-2">
+        <DrawerFooter className="gap-2">
           <Button className="block w-full" onClick={handleConfirm}>
             confirm
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 }
