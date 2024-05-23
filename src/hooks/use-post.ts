@@ -146,6 +146,17 @@ export default function usePost() {
     router.refresh();
   };
 
+  const deletePost = async ({ id }: { id: number }) => {
+    await handleFetch({
+      data: { id },
+      method: "DELETE",
+      url: "/api/posts",
+      successMessage: "Post has been deleted.",
+      setLoading,
+    });
+    router.refresh();
+  };
+
   const updatePostDish = async ({
     id,
     quantity,
@@ -167,6 +178,7 @@ export default function usePost() {
 
   return {
     createPost,
+    deletePost,
     createPostReservation,
     updatePostReservation,
     finishPostReservation,
