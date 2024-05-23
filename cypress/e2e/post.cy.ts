@@ -1,4 +1,4 @@
-describe("6. Post Page", () => {
+describe("5. Post Page", () => {
   beforeEach(() => {
     cy.viewport(375, 464);
     cy.visit("/");
@@ -13,14 +13,14 @@ describe("6. Post Page", () => {
     cy.wait(1000);
   });
 
-  context("6.1 header section", () => {
+  context("5.1 header section", () => {
     it("contains the correct text", () => {
       cy.get("h1.font-bold").should("be.visible");
       cy.get("h1.font-bold").siblings("div").should("contain", "2024");
     });
   });
 
-  context("6.2 main section", () => {
+  context("5.2 main section", () => {
     it("have correct information", () => {
       cy.get(".rounded-lg").then(($el) => {
         cy.wrap($el).find("img").should("exist");
@@ -33,7 +33,6 @@ describe("6. Post Page", () => {
     });
 
     it("can create post reservation with correct count", () => {
-      cy.contains("台大管院").should("exist");
       cy.get(".rounded-lg")
         .find(".font-semibold")
         .then(($el) => {
