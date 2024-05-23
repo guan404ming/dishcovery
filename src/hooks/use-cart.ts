@@ -11,13 +11,17 @@ export default function useCart() {
   const { data: session } = useSession();
 
   const updateCart = async (id: number, quantity: number) => {
-    await handleFetch({
-      data: { id, quantity },
-      method: "PUT",
-      url: `/api/carts`,
-      successMessage: "Cart item quantity has been updated.",
-      setLoading,
-    });
+    if (quantity === 0) {
+      removeFromCart(id);
+    } else {
+      await handleFetch({
+        data: { id, quantity },
+        method: "PUT",
+        url: `/api/carts`,
+        successMessage: "Cart item quantity has been updated.",
+        setLoading,
+      });
+    }
     router.refresh();
   };
 

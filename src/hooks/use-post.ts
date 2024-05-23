@@ -35,13 +35,17 @@ export default function usePost() {
     quantity,
     status,
   }: InsertPostReservation) => {
-    await handleFetch({
-      data: { id, quantity, status },
-      method: "PUT",
-      url: "/api/posts/post-reservations",
-      successMessage: "Post reservation has been updated.",
-      setLoading,
-    });
+    if (quantity === 0 && id) {
+      await deletePostReservation(id);
+    } else {
+      await handleFetch({
+        data: { id, quantity, status },
+        method: "PUT",
+        url: "/api/posts/post-reservations",
+        successMessage: "Post reservation has been updated.",
+        setLoading,
+      });
+    }
     router.refresh();
   };
 

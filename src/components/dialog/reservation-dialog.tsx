@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
+import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -12,11 +13,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import useCart from "@/hooks/use-cart";
 import usePost from "@/hooks/use-post";
+import { cn } from "@/lib/utils";
 
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+import LoginDialog from "./login-dialog";
 
 type DialogProps = {
   dishId: number;
@@ -35,34 +38,56 @@ export default function ReservationDialog({
   const { createPostReservation } = usePost();
   const { addToCart } = useCart();
   const pathname = usePathname();
+  const { data: session } = useSession();
+  const [error, setError] = useState(false);
+
+  if (!session) {
+    return (
+      <LoginDialog title={title} open={open} onOpenChange={onOpenChange} />
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[80%] max-w-[400px] rounded">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle className="flex justify-start text-2xl">
             {title}
           </DialogTitle>
         </DialogHeader>
 
-        <div className="grid max-w-sm items-center gap-2">
-          <Label htmlFor="number">預定數量</Label>
+        <div className="grid items-center gap-2">
+          <Label htmlFor="number">Quantity</Label>
           <Input
             placeholder="number"
             type="number"
-            className="rounded-md border border-gray-300 p-2"
-            required
+            className={cn(
+              "rounded-md border border-gray-300 p-2",
+              error && "text-red-500",
+            )}
             onChange={(e) => {
+              setError(false);
               numberRef.current = parseInt(e.target.value);
+              if (numberRef.current > 5 || numberRef.current < 1) {
+                setError(true);
+              }
             }}
           />
+          {error && (
+            <p className="text-red-500">
+              {"The number should be between 1 and 5."}
+            </p>
+          )}
         </div>
 
         <DialogFooter className="gap-2">
           <Button
             variant={"outline"}
             className="block w-full"
-            onClick={() => onOpenChange(!open)}
+            onClick={() => {
+              onOpenChange(!open);
+              setError(false);
+            }}
           >
             cancel
           </Button>
@@ -70,6 +95,7 @@ export default function ReservationDialog({
             className="block w-full"
             onClick={() => {
               onOpenChange(!open);
+              setError(false);
               if (pathname.includes("post")) {
                 createPostReservation({
                   postDishId: dishId,
@@ -79,6 +105,7 @@ export default function ReservationDialog({
                 addToCart(dishId, numberRef.current);
               }
             }}
+            disabled={error}
           >
             confirm
           </Button>

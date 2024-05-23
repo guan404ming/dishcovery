@@ -4,14 +4,13 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-import ReservationDialog from "../reservation-dialog";
-import { Button } from "../ui/button";
 import { Plus, Pen } from "lucide-react";
 
+import ReservationDialog from "@/components/dialog/reservation-dialog";
+import ImageCardPrimitive from "@/components/image-card/image-card-primitive";
+import { Button } from "@/components/ui/button";
 import usePost from "@/hooks/use-post";
 import type { SelectPostDish } from "@/lib/type";
-
-import ImageCardPrimitive from "./image-card-primitive";
 
 export default function PostDish({
   postDish,

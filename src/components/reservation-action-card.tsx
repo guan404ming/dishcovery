@@ -2,27 +2,30 @@
 
 import { useState } from "react";
 
-import { MinusCircle } from "lucide-react";
+import { CheckCircle, XCircle } from "lucide-react";
 
-import ResStateDialog from "@/components/dialog/resstate-dialog";
+import ReservationActionDialog from "@/components/dialog/reservation-action-dialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import type { SelectStoreReservation } from "@/lib/type";
 
-export function StoreReservationCard({
+export function ReservationActionCard({
   status,
   id,
   quantity,
   name,
-}: SelectStoreReservation & { name: string }) {
+  isStore,
+}: {
+  name: string;
+  isStore: boolean;
+  status: string;
+  id: number;
+  quantity: number;
+}) {
   const [finishDialogOpen, setFinishDialogOpen] = useState(false);
   const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
 
   return (
-    <Card
-      className="w-full cursor-pointer p-4"
-      onClick={() => setFinishDialogOpen(!finishDialogOpen)}
-    >
+    <Card className="w-full cursor-pointer p-4">
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-x-4">
           <div className="flex items-center gap-x-2 lg:gap-x-8">
@@ -32,33 +35,46 @@ export function StoreReservationCard({
             {status}
           </div>
         </div>
-        <div className="flex flex-row items-center gap-x-4">
+
+        <div className="flex flex-row items-center gap-x-2">
           <p className="text-md font-semibold lg:text-lg">{quantity} 個</p>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="flex flex-col items-center justify-center"
-            onClick={() => setCancelDialogOpen(!cancelDialogOpen)}
-          >
-            <MinusCircle />
-          </Button>
+
+          <div className="flex">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="flex flex-col items-center justify-center"
+              onClick={() => setFinishDialogOpen(!finishDialogOpen)}
+            >
+              <CheckCircle />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="flex flex-col items-center justify-center"
+              onClick={() => setCancelDialogOpen(!cancelDialogOpen)}
+            >
+              <XCircle />
+            </Button>
+          </div>
         </div>
       </div>
-      <ResStateDialog
+
+      <ReservationActionDialog
         open={finishDialogOpen}
         onOpenChange={setFinishDialogOpen}
         type="finish"
         id={id}
         quantity={quantity}
-        isStore
+        isStore={isStore}
       />
-      <ResStateDialog
+      <ReservationActionDialog
         open={cancelDialogOpen}
         onOpenChange={setCancelDialogOpen}
         type="cancel"
         id={id}
         quantity={quantity}
-        isStore
+        isStore={isStore}
       />
     </Card>
   );

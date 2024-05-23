@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { eq } from "drizzle-orm";
 import { ShoppingCart } from "lucide-react";
 
+import UnauthorizedPage from "@/app/unauthorized";
 import GridContainer from "@/components/grid-container";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
@@ -14,6 +15,7 @@ import ConfirmButton from "./_components/confirm-button";
 
 export default async function MyCartsPage() {
   const session = await getServerSession(authOptions);
+  if (!session) return <UnauthorizedPage />;
 
   if (!session?.user) {
     return <div>Not Authorized</div>;

@@ -1,5 +1,7 @@
 "use client";
 
+import { useSession } from "next-auth/react";
+
 import { Bookmark } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -15,11 +17,16 @@ export default function SaveButton({
   storeCollection?: SelectStoreCollection;
 }) {
   const { saveStore, unsaveStore } = useStore();
+  const session = useSession();
+
   return (
     <Button
       size={"icon"}
       variant="outline"
-      className="absolute right-2 top-2 rounded-full border-none bg-black/30 backdrop-blur-sm "
+      className={cn(
+        "absolute right-2 top-2 rounded-full border-none bg-black/30 backdrop-blur-sm ",
+        !session.data?.user && "hidden",
+      )}
     >
       <Bookmark
         className={cn("stroke-white", storeCollection && "fill-white")}

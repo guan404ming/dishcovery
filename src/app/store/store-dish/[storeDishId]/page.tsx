@@ -1,8 +1,9 @@
-import { StoreReservationCard } from "../_components/store-reservation-card";
-import { eq } from "drizzle-orm";
+import { eq, asc } from "drizzle-orm";
 
+import NotFoundPage from "@/app/not-found";
 import GridContainer from "@/components/grid-container";
 import StoreDish from "@/components/image-card/store-dish";
+import { ReservationActionCard } from "@/components/reservation-action-card";
 import { db } from "@/db";
 import { storeDishes, storeReservations, users } from "@/db/schema";
 
@@ -18,7 +19,7 @@ export default async function StoreDishPage({
   });
 
   if (!dish) {
-    return <div>Page Not Found</div>;
+    return <NotFoundPage />;
   }
 
   const reservationList = await db
@@ -30,7 +31,8 @@ export default async function StoreDishPage({
     .from(storeReservations)
     .where(eq(storeReservations.storeDishId, storeDishId))
     .innerJoin(users, eq(users.id, storeReservations.userId))
-    .innerJoin(storeDishes, eq(storeDishes.id, storeReservations.storeDishId));
+    .innerJoin(storeDishes, eq(storeDishes.id, storeReservations.storeDishId))
+    .orderBy(asc(storeReservations.status));
 
   return (
     <>
@@ -42,10 +44,11 @@ export default async function StoreDishPage({
 
       <GridContainer>
         {reservationList.map((reservation, index) => (
-          <StoreReservationCard
+          <ReservationActionCard
             key={index}
             {...reservation.storeReservations}
             name={reservation.users.name}
+            isStore={true}
           />
         ))}
       </GridContainer>
