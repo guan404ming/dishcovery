@@ -17,12 +17,24 @@ export default function useStore() {
   const createStoreReservation = async ({
     storeDishId,
     quantity,
-  }: InsertStoreReservation) => {
+    dishQuantity,
+  }: {
+    storeDishId: number;
+    quantity: number;
+    dishQuantity: number;
+  }) => {
     await handleFetch({
       data: { storeDishId, quantity, userId: session?.user?.id },
       method: "POST",
       url: "/api/stores/store-reservations",
       successMessage: "Store reservation has been created.",
+      setLoading,
+    });
+
+    await handleFetch({
+      data: { id: storeDishId, quantity: dishQuantity - quantity },
+      method: "PUT",
+      url: "/api/stores/store-dishes",
       setLoading,
     });
     router.refresh();

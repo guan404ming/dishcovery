@@ -20,7 +20,7 @@ function ConfirmButton({
   cartItem,
 }: {
   cartItem: {
-    storeDishes: { id: number };
+    storeDishes: { id: number; quantity: number };
     carts: { quantity: number; id: number };
   }[];
 }) {
@@ -33,6 +33,7 @@ function ConfirmButton({
       await createStoreReservation({
         storeDishId: cartItem.storeDishes.id,
         quantity: cartItem.carts.quantity,
+        dishQuantity: cartItem.storeDishes.quantity,
       });
       await removeFromCart(cartItem.carts.id, true);
     });
@@ -42,7 +43,7 @@ function ConfirmButton({
   return (
     <>
       <Drawer>
-        <DrawerTrigger>
+        <DrawerTrigger asChild>
           <Button>Confirm</Button>
         </DrawerTrigger>
         <DrawerContent>
@@ -52,7 +53,7 @@ function ConfirmButton({
           </DrawerHeader>
           <DrawerFooter>
             <Button onClick={() => handleConfirm()}>Submit</Button>
-            <DrawerClose>
+            <DrawerClose asChild>
               <Button variant="outline" className="block w-full">
                 Cancel
               </Button>

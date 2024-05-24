@@ -15,7 +15,7 @@ export default async function MyAllCartPage() {
   if (!session) return <UnauthorizedPage />;
 
   if (!session?.user) {
-    return <div>Not Authorized</div>;
+    return <UnauthorizedPage />;
   }
 
   const cartItem = await db

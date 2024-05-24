@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import LoginDialog from "./login-dialog";
 
 type DialogProps = {
+  dishQuantity: number;
   dishId: number;
   title: string;
   open: boolean;
@@ -30,6 +31,7 @@ type DialogProps = {
 
 export default function ReservationDialog({
   dishId,
+  dishQuantity,
   title,
   open,
   onOpenChange,
@@ -39,7 +41,7 @@ export default function ReservationDialog({
   const { addToCart } = useCart();
   const pathname = usePathname();
   const { data: session } = useSession();
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
 
   if (!session) {
     return (
@@ -66,18 +68,17 @@ export default function ReservationDialog({
               error && "text-red-500",
             )}
             onChange={(e) => {
-              setError(false);
+              setError("");
               numberRef.current = parseInt(e.target.value);
               if (numberRef.current > 5 || numberRef.current < 1) {
-                setError(true);
+                setError("The number should be between 1 and 5.");
+              }
+              if (numberRef.current > dishQuantity) {
+                setError(`The number should be less than ${dishQuantity}`);
               }
             }}
           />
-          {error && (
-            <p className="text-red-500">
-              {"The number should be between 1 and 5."}
-            </p>
-          )}
+          {error && <p className="text-red-500">{error}</p>}
         </div>
 
         <DialogFooter className="gap-2">
@@ -86,7 +87,7 @@ export default function ReservationDialog({
             className="block w-full"
             onClick={() => {
               onOpenChange(!open);
-              setError(false);
+              setError("");
             }}
           >
             cancel
@@ -95,17 +96,18 @@ export default function ReservationDialog({
             className="block w-full"
             onClick={() => {
               onOpenChange(!open);
-              setError(false);
+              setError("");
               if (pathname.includes("post")) {
                 createPostReservation({
                   postDishId: dishId,
                   quantity: numberRef.current,
+                  dishQuantity,
                 });
               } else {
                 addToCart(dishId, numberRef.current);
               }
             }}
-            disabled={error}
+            disabled={error !== ""}
           >
             confirm
           </Button>

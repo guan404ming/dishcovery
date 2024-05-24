@@ -2,19 +2,30 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { handleError, handleParseRequest } from "../../utils";
 import { eq } from "drizzle-orm";
-import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import { db } from "@/db";
 import { storeDishes } from "@/db/schema";
 
-const createStoreDishSchema = createInsertSchema(storeDishes).omit({
-  id: true,
+const createStoreDishSchema = z.object({
+  storeId: z.number(),
+  name: z.string(),
+  price: z.number(),
+  image: z.string(),
+  quantity: z.number(),
+  description: z.string(),
 });
 
-const updateStoreDishSchema = createStoreDishSchema
-  .omit({ storeId: true })
-  .extend({ id: z.number() });
+const updateStoreDishSchema = z.object({
+  id: z.number(),
+  storeId: z.number().optional(),
+  name: z.string().optional(),
+  price: z.number().optional(),
+  image: z.string().optional(),
+  quantity: z.number().optional(),
+  description: z.string().optional(),
+});
+
 const deleteStoreSchema = z.object({ id: z.number() });
 
 export async function POST(request: NextRequest) {
