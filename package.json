@@ -30,6 +30,7 @@
     "@vis.gl/react-google-maps": "^1.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cmdk": "^1.0.0",
     "drizzle-orm": "^0.30.9",
     "drizzle-zod": "^0.5.1",
     "embla-carousel-autoplay": "^8.0.2",

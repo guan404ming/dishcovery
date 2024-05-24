@@ -4,7 +4,17 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-import { Plus, Pen } from "lucide-react";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "../ui/drawer";
+import { Plus, Pen, Trash } from "lucide-react";
 
 import ReservationDialog from "@/components/dialog/reservation-dialog";
 import ImageCardPrimitive from "@/components/image-card/image-card-primitive";
@@ -16,12 +26,14 @@ export default function PostDish({
   postDish,
   isAuthor,
   isCounter,
+  isEdit,
 }: {
   postDish: SelectPostDish;
   isAuthor?: boolean;
   isCounter?: boolean;
+  isEdit?: boolean;
 }) {
-  const { updatePostDish } = usePost();
+  const { updatePostDish, deletePost } = usePost();
   const [reserve, setReserve] = useState(false);
   const router = useRouter();
 
@@ -41,14 +53,52 @@ export default function PostDish({
       className="relative"
     >
       {isAuthor ? (
-        <Button
-          size={"icon"}
-          variant="outline"
-          className="absolute bottom-2 left-20 h-8 w-8 rounded-full border"
-          onClick={() => router.push(`/post/post-dish/${postDish.id}`)}
-        >
-          <Pen className="h-3 w-3" strokeWidth={3} />
-        </Button>
+        isEdit ? (
+          <Drawer>
+            <DrawerTrigger asChild>
+              <Button
+                size={"icon"}
+                variant="outline"
+                className="absolute bottom-2 left-20 h-8 w-8 rounded-full border"
+              >
+                <Trash className="h-3 w-3" strokeWidth={3} />
+              </Button>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>Delete Post</DrawerTitle>
+                <DrawerDescription>
+                  This action cannot be undone.
+                </DrawerDescription>
+              </DrawerHeader>
+              <DrawerFooter>
+                <Button
+                  variant={"destructive"}
+                  onClick={() => {
+                    deletePost({ id: postDish.postId });
+                    router.push("/");
+                  }}
+                >
+                  Delete
+                </Button>
+                <DrawerClose asChild>
+                  <Button variant="outline" className="block w-full">
+                    Cancel
+                  </Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        ) : (
+          <Button
+            size={"icon"}
+            variant="outline"
+            className="absolute bottom-2 left-20 h-8 w-8 rounded-full border"
+            onClick={() => router.push(`/post/post-dish/${postDish.id}`)}
+          >
+            <Pen className="h-3 w-3" strokeWidth={3} />
+          </Button>
+        )
       ) : (
         <>
           <Button

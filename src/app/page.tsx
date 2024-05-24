@@ -9,6 +9,8 @@ import GridContainer from "@/components/grid-container";
 import { Post } from "@/components/image-card/post";
 import { db } from "@/db";
 
+import { SearchBar } from "./_components/search-bar";
+
 export default async function Home() {
   const bannerList = await db.query.banners.findMany();
   const postList = await db.query.posts.findMany({
@@ -36,6 +38,7 @@ export default async function Home() {
 
   return (
     <>
+      <SearchBar storeList={storeList} postList={postList}></SearchBar>
       <Banner bannerList={bannerList} />
 
       <SectionTitle title={"What are you looking for?"} url="" />

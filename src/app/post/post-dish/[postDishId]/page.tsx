@@ -36,7 +36,7 @@ export default async function ReservationPage({
 
   return (
     <>
-      <PostDish postDish={dish} isAuthor isCounter />
+      <PostDish postDish={dish} isAuthor isCounter isEdit />
 
       <h1 className="text-xl font-semibold">
         Reservation({reservationList.length})

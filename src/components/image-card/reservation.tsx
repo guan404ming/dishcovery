@@ -27,16 +27,24 @@ export default function Reservation({
   return (
     <ImageCardPrimitive
       image={image}
-      counter={{
-        amount: quantity,
-        setAmount: async (number: number) => {
-          if (isPost) {
-            await updatePostReservation({ id, quantity: number, status });
-          } else {
-            await updateStoreReservation({ id, quantity: number, status });
-          }
-        },
-      }}
+      counter={
+        status !== "finished"
+          ? {
+              amount: quantity,
+              setAmount: async (number: number) => {
+                if (isPost) {
+                  await updatePostReservation({ id, quantity: number, status });
+                } else {
+                  await updateStoreReservation({
+                    id,
+                    quantity: number,
+                    status,
+                  });
+                }
+              },
+            }
+          : undefined
+      }
     >
       <h1 className="line-clamp-2 w-full font-semibold">{name}</h1>
       <span className="text-sm text-muted-foreground">

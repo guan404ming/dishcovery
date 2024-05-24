@@ -48,7 +48,7 @@ export default function AddDialog({ type }: DialogProps) {
     location: z.string().min(1),
     dishName: z.string().min(1),
     dishDescription: z.string().min(1),
-    quantity: z.number(),
+    quantity: z.number().min(1).max(10000),
   });
 
   const { createPost } = usePost();
