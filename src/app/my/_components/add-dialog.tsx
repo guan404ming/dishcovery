@@ -26,11 +26,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import usePost from "@/hooks/use-post";
 import { UploadButton } from "@/lib/uploadthing";
-import { Separator } from "@/components/ui/separator"
+
 import LocationPicker from "./location-picker";
-import { Textarea } from "@/components/ui/textarea"
 
 type DialogProps = {
   type: string;
@@ -115,7 +116,10 @@ export default function AddDialog({ type }: DialogProps) {
                 <FormItem>
                   <FormLabel>Post Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Enter a brief description of your post" {...field} />
+                    <Textarea
+                      placeholder="Enter a brief description of your post"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -129,7 +133,10 @@ export default function AddDialog({ type }: DialogProps) {
                 <FormItem>
                   <FormLabel>Dish Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter the name of the dish" {...field} />
+                    <Input
+                      placeholder="Enter the name of the dish"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -143,13 +150,16 @@ export default function AddDialog({ type }: DialogProps) {
                 <FormItem>
                   <FormLabel>Dish Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Enter a brief description of your dish" {...field} />
+                    <Textarea
+                      placeholder="Enter a brief description of your dish"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-          
+
             <FormField
               control={form.control}
               name="quantity"
@@ -170,8 +180,8 @@ export default function AddDialog({ type }: DialogProps) {
                 </FormItem>
               )}
             />
-          
-          <div className="grid w-full max-w-sm items-center gap-2">
+
+            <div className="grid w-full max-w-sm items-center gap-2">
               <FormLabel htmlFor="description" className="mb-4">
                 Dish Image
               </FormLabel>
@@ -196,10 +206,10 @@ export default function AddDialog({ type }: DialogProps) {
                   className="aspect-auto w-full border object-cover"
                 />
               )}
-          </div>
-          <Separator orientation="horizontal" />
+            </div>
+            <Separator orientation="horizontal" />
 
-          <div className="grid w-full max-w-sm items-center gap-2">
+            <div className="grid w-full max-w-sm items-center gap-2">
               <FormLabel htmlFor="locationPicker" className="mb-4">
                 Select Location
               </FormLabel>
@@ -211,15 +221,17 @@ export default function AddDialog({ type }: DialogProps) {
               </div>
             </div>
 
-          
-          <FormField
+            <FormField
               control={form.control}
               name="location"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Location Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Enter a brief description of your location" {...field} />
+                    <Textarea
+                      placeholder="Enter a brief description of your location"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
