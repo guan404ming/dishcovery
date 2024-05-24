@@ -51,6 +51,7 @@ export default function PostDish({
           : undefined
       }
       className="relative"
+      isAuthor
     >
       {isAuthor ? (
         isEdit ? (

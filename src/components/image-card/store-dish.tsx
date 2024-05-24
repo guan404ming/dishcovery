@@ -39,6 +39,7 @@ export default function StoreDish({
           : undefined
       }
       className="relative"
+      isAuthor
     >
       {isAuthor ? (
         <Button
