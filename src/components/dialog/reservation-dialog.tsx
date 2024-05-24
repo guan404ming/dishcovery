@@ -67,6 +67,7 @@ export default function ReservationDialog({
               "rounded-md border border-gray-300 p-2",
               error && "text-red-500",
             )}
+            min={0}
             onChange={(e) => {
               setError("");
               numberRef.current = parseInt(e.target.value);
