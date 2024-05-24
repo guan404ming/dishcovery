@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 import { Card } from "../ui/card";
 import { Separator } from "../ui/separator";
 import { PlusCircle, MinusCircle } from "lucide-react";
+import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
 
 export default function ImageCardPrimitive({
   children,
@@ -68,7 +68,7 @@ export default function ImageCardPrimitive({
                 onClick={(e) => {
                   e.stopPropagation();
                   if (counter.amount - 1 < 0) {
-                    toast("The number should be between 1 and 5.")
+                    toast("The number should be between 1 and 5.");
                   } else {
                     counter.setAmount(counter.amount - 1);
                   }
@@ -80,7 +80,7 @@ export default function ImageCardPrimitive({
                 onClick={(e) => {
                   e.stopPropagation();
                   if (counter.amount + 1 > 5) {
-                    toast("The number should be between 1 and 5.")
+                    toast("The number should be between 1 and 5.");
                   } else {
                     counter.setAmount(counter.amount + 1);
                   }

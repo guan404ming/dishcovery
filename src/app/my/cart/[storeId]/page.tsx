@@ -1,19 +1,22 @@
 import { getServerSession } from "next-auth";
 
-import { eq } from "drizzle-orm";
+import CartConfirmButton from "../_components/cart-confirm-button";
+import CartItem from "../_components/cart-item";
+import { eq, and } from "drizzle-orm";
 import { ShoppingCart } from "lucide-react";
 
 import UnauthorizedPage from "@/app/unauthorized";
 import GridContainer from "@/components/grid-container";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import { carts } from "@/db/schema";
+import { carts, storeDishes } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 
-import CartItem from "./_components/cart-item";
-import ConfirmButton from "./_components/confirm-button";
-
-export default async function MyCartsPage() {
+export default async function MyCartPage({
+  params,
+}: {
+  params: { storeId: string };
+}) {
   const session = await getServerSession(authOptions);
   if (!session) return <UnauthorizedPage />;
 
@@ -21,16 +24,22 @@ export default async function MyCartsPage() {
     return <div>Not Authorized</div>;
   }
 
-  const cartItem = await db.query.carts.findMany({
-    where: eq(carts.userId, session?.user.id),
-    with: {
-      storeDish: true,
-    },
-    orderBy: (carts, { desc }) => [desc(carts.id)],
-  });
+  const cartItem = await db
+    .select({
+      storeDishes: storeDishes,
+      carts,
+    })
+    .from(carts)
+    .where(
+      and(
+        eq(carts.userId, session.user.id),
+        eq(storeDishes.storeId, parseInt(params.storeId)),
+      ),
+    )
+    .innerJoin(storeDishes, eq(storeDishes.id, carts.storeDishId));
 
   const totalPrice = cartItem.reduce((total, cartItem) => {
-    return total + cartItem.storeDish.price * cartItem.quantity;
+    return total + cartItem.storeDishes.price * cartItem.carts.quantity;
   }, 0);
 
   if (cartItem.length === 0) {
@@ -49,12 +58,12 @@ export default async function MyCartsPage() {
       <GridContainer>
         {cartItem.map((cartItem) => (
           <CartItem
-            key={cartItem.id}
-            id={cartItem.id}
-            name={cartItem.storeDish.name}
-            quantity={cartItem.quantity}
-            price={cartItem.storeDish.price}
-            image={cartItem.storeDish.image}
+            key={cartItem.carts.id}
+            id={cartItem.carts.id}
+            name={cartItem.storeDishes.name}
+            quantity={cartItem.carts.quantity}
+            price={cartItem.storeDishes.price}
+            image={cartItem.storeDishes.image}
           />
         ))}
       </GridContainer>
@@ -62,7 +71,7 @@ export default async function MyCartsPage() {
         <p className="text-xl font-semibold text-slate-600">
           Total{"  "}${totalPrice}
         </p>
-        <ConfirmButton cartItem={cartItem}></ConfirmButton>
+        <CartConfirmButton cartItem={cartItem}></CartConfirmButton>
       </div>
       <Separator />
     </>
