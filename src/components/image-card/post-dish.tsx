@@ -51,6 +51,7 @@ export default function PostDish({
           : undefined
       }
       className="relative"
+      isAuthor
     >
       {isAuthor ? (
         isEdit ? (
@@ -114,6 +115,7 @@ export default function PostDish({
             open={reserve}
             onOpenChange={setReserve}
             dishId={postDish.id}
+            dishQuantity={postDish.quantity}
           />
         </>
       )}
@@ -124,11 +126,11 @@ export default function PostDish({
       <div className="flex items-center space-x-2 text-sm">
         <span>
           {postDish.price !== 0 ? `$${postDish.price}` : "free"}
-          {!isAuthor && <span> · Remaining: {postDish.quantity}</span>}
+          <span> · Remaining: {postDish.quantity}</span>
         </span>
       </div>
 
-      <span className="my-1 line-clamp-1 text-sm text-muted-foreground md:line-clamp-2">
+      <span className="my-1 line-clamp-2 text-sm text-muted-foreground md:line-clamp-2">
         {postDish.description}
       </span>
     </ImageCardPrimitive>

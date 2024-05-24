@@ -16,6 +16,7 @@ export default function ImageCardPrimitive({
   counter,
   image,
   className,
+  isAuthor,
 }: {
   children: React.ReactNode;
   href?: string;
@@ -25,6 +26,7 @@ export default function ImageCardPrimitive({
   };
   image: string;
   className?: string;
+  isAuthor?: boolean;
 }) {
   const router = useRouter();
   const handleRouting = () => {
@@ -79,7 +81,7 @@ export default function ImageCardPrimitive({
                 className="h-5 w-5 cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (counter.amount + 1 > 5) {
+                  if (counter.amount + 1 > 5 && !isAuthor) {
                     toast("The number should be between 1 and 5.");
                   } else {
                     counter.setAmount(counter.amount + 1);

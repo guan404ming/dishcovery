@@ -39,6 +39,7 @@ export default function StoreDish({
           : undefined
       }
       className="relative"
+      isAuthor
     >
       {isAuthor ? (
         <Button
@@ -64,15 +65,22 @@ export default function StoreDish({
             open={cart}
             onOpenChange={setCart}
             dishId={storeDish.id}
+            dishQuantity={storeDish.quantity}
           />
         </>
       )}
 
-      <h1 className="line-clamp-2 font-semibold">{storeDish.name}</h1>
+      <h1 className="line-clamp-1 font-semibold md:line-clamp-2">
+        {storeDish.name}
+      </h1>
 
-      <div className="mt-1 line-clamp-3 w-full text-xs text-muted-foreground">
-        {storeDish.description}
+      <div className="flex items-center space-x-2 text-sm">
+        ${storeDish.price} · Remaining: {storeDish.quantity}
       </div>
+
+      <span className="my-1 line-clamp-2 text-sm text-muted-foreground md:line-clamp-2">
+        {storeDish.description}
+      </span>
     </ImageCardPrimitive>
   );
 }

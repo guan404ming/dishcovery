@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth/next";
 
 import { eq, desc } from "drizzle-orm";
+import { Receipt } from "lucide-react";
 
 import UnauthorizedPage from "@/app/unauthorized";
 import GridContainer from "@/components/grid-container";
@@ -37,6 +38,15 @@ export default async function MyReservationsPage() {
     .innerJoin(storeDishes, eq(storeReservations.storeDishId, storeDishes.id))
     .orderBy(desc(storeReservations.createTime))
     .where(eq(storeReservations.userId, session?.user.id));
+
+  if (postReservationList.length + storeReservationList.length === 0) {
+    return (
+      <div className="flex flex-grow flex-col items-center justify-center space-y-4 text-center text-xl font-semibold">
+        <Receipt size={40} />
+        <p>Reservations is empty</p>
+      </div>
+    );
+  }
 
   return (
     <>

@@ -17,7 +17,7 @@ type DialogProps = {
   onOpenChange: (open: boolean) => void;
 };
 
-export default function ReservationDialog({
+export default function LoginDialog({
   title,
   open,
   onOpenChange,
