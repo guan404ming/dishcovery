@@ -57,6 +57,8 @@ export default async function MyReservationsPage() {
             {postReservationList.map((reservation, index) => (
               <Reservation
                 key={index}
+                dishQuantity={reservation.postDishes.quantity}
+                dishId={reservation.postDishes.id}
                 {...reservation.postDishes}
                 {...reservation.postReservations}
                 isPost={true}
@@ -72,6 +74,8 @@ export default async function MyReservationsPage() {
           <GridContainer>
             {storeReservationList.map((reservation, index) => (
               <Reservation
+                dishQuantity={reservation.storeDishes.quantity}
+                dishId={reservation.storeDishes.id}
                 {...reservation.storeDishes}
                 {...reservation.storeReservations}
                 isPost={false}

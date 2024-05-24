@@ -64,6 +64,7 @@ export default async function MyCartPage({
             quantity={cartItem.carts.quantity}
             price={cartItem.storeDishes.price}
             image={cartItem.storeDishes.image}
+            dishQuantity={cartItem.storeDishes.quantity}
           />
         ))}
       </GridContainer>

@@ -55,7 +55,9 @@ export default function useStore() {
     id,
     quantity,
     status,
-  }: InsertStoreReservation) => {
+    storeDishId,
+    dishQuantity,
+  }: InsertStoreReservation & { dishQuantity: number }) => {
     if (quantity === 0 && id) {
       await deleteStoreReservation(id);
     } else {
@@ -67,6 +69,13 @@ export default function useStore() {
         setLoading,
       });
     }
+
+    await handleFetch({
+      data: { id: storeDishId, quantity: dishQuantity },
+      method: "PUT",
+      url: "/api/stores/store-dishes",
+      setLoading,
+    });
 
     router.refresh();
   };

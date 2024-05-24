@@ -22,7 +22,10 @@ export default function ImageCardPrimitive({
   href?: string;
   counter?: {
     amount: number;
-    setAmount: (number: number) => Promise<void>;
+    setAmount?: (number: number) => Promise<void>;
+    setAmountMinus?: (number: number) => Promise<void>;
+    setAmountPlus?: (number: number) => Promise<void>;
+    maxAmount?: number;
   };
   image: string;
   className?: string;
@@ -72,7 +75,11 @@ export default function ImageCardPrimitive({
                   if (counter.amount - 1 < 0) {
                     toast("The number should be between 1 and 5.");
                   } else {
-                    counter.setAmount(counter.amount - 1);
+                    if (counter.setAmount)
+                      counter.setAmount(counter.amount - 1);
+                    if (counter.setAmountMinus) {
+                      counter.setAmountMinus(counter.amount - 1);
+                    }
                   }
                 }}
               />
@@ -83,8 +90,17 @@ export default function ImageCardPrimitive({
                   e.stopPropagation();
                   if (counter.amount + 1 > 5 && !isAuthor) {
                     toast("The number should be between 1 and 5.");
+                  } else if (
+                    counter.maxAmount !== undefined &&
+                    counter.maxAmount === 0
+                  ) {
+                    toast(`The dish is sold out.`);
                   } else {
-                    counter.setAmount(counter.amount + 1);
+                    if (counter.setAmount)
+                      counter.setAmount(counter.amount + 1);
+                    if (counter.setAmountPlus) {
+                      counter.setAmountPlus(counter.amount + 1);
+                    }
                   }
                 }}
               />

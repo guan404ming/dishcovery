@@ -12,6 +12,8 @@ export default function Reservation({
   image,
   id,
   isPost,
+  dishQuantity,
+  dishId,
 }: {
   id: number;
   name: string;
@@ -20,6 +22,8 @@ export default function Reservation({
   image: string;
   status: "waiting" | "confirmed" | "finished" | "cancelled";
   isPost: boolean;
+  dishQuantity: number;
+  dishId: number;
 }) {
   const { updatePostReservation } = usePost();
   const { updateStoreReservation } = useStore();
@@ -31,14 +35,42 @@ export default function Reservation({
         status !== "finished"
           ? {
               amount: quantity,
-              setAmount: async (number: number) => {
+              maxAmount: dishQuantity,
+              setAmountMinus: async (number: number) => {
                 if (isPost) {
-                  await updatePostReservation({ id, quantity: number, status });
+                  await updatePostReservation({
+                    id,
+                    quantity: number,
+                    status,
+                    dishQuantity: dishQuantity + 1,
+                    postDishId: dishId,
+                  });
                 } else {
                   await updateStoreReservation({
                     id,
                     quantity: number,
                     status,
+                    dishQuantity: dishQuantity + 1,
+                    storeDishId: dishId,
+                  });
+                }
+              },
+              setAmountPlus: async (number: number) => {
+                if (isPost) {
+                  await updatePostReservation({
+                    id,
+                    quantity: number,
+                    status,
+                    dishQuantity: dishQuantity - 1 < 0 ? 0 : dishQuantity - 1,
+                    postDishId: dishId,
+                  });
+                } else {
+                  await updateStoreReservation({
+                    id,
+                    quantity: number,
+                    status,
+                    dishQuantity: dishQuantity - 1 < 0 ? 0 : dishQuantity - 1,
+                    storeDishId: dishId,
                   });
                 }
               },

@@ -9,12 +9,14 @@ export default function CartItem({
   quantity,
   price,
   image,
+  dishQuantity,
 }: {
   id: number;
   name: string;
   quantity: number;
   price: number;
   image: string;
+  dishQuantity: number;
 }) {
   const { updateCart } = useCart();
   const handleUpdateCart = async (number: number) => {
@@ -26,6 +28,7 @@ export default function CartItem({
       counter={{
         amount: quantity,
         setAmount: handleUpdateCart,
+        maxAmount: dishQuantity - quantity,
       }}
       image={image}
     >
