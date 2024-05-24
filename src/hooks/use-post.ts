@@ -47,7 +47,9 @@ export default function usePost() {
     id,
     quantity,
     status,
-  }: InsertPostReservation) => {
+    postDishId,
+    dishQuantity,
+  }: InsertPostReservation & { dishQuantity: number }) => {
     if (quantity === 0 && id) {
       await deletePostReservation(id);
     } else {
@@ -59,6 +61,14 @@ export default function usePost() {
         setLoading,
       });
     }
+
+    await handleFetch({
+      data: { id: postDishId, quantity: dishQuantity },
+      method: "PUT",
+      url: "/api/posts/post-dishes",
+      setLoading,
+    });
+
     router.refresh();
   };
 
