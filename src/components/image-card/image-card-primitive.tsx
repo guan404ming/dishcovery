@@ -8,6 +8,7 @@ import { Separator } from "../ui/separator";
 import { PlusCircle, MinusCircle } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export default function ImageCardPrimitive({
   children,
@@ -66,9 +67,11 @@ export default function ImageCardPrimitive({
                 className="h-5 w-5 cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
-                  counter.setAmount(
-                    counter.amount - 1 < 0 ? 0 : counter.amount - 1,
-                  );
+                  if (counter.amount - 1 < 0) {
+                    toast("The number should be between 1 and 5.")
+                  } else {
+                    counter.setAmount(counter.amount - 1);
+                  }
                 }}
               />
               <p className="min-w-4">{counter.amount}</p>
@@ -76,7 +79,11 @@ export default function ImageCardPrimitive({
                 className="h-5 w-5 cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
-                  counter.setAmount(counter.amount + 1);
+                  if (counter.amount + 1 > 5) {
+                    toast("The number should be between 1 and 5.")
+                  } else {
+                    counter.setAmount(counter.amount + 1);
+                  }
                 }}
               />
             </div>
