@@ -161,10 +161,8 @@ export default function AddDialog({ type }: DialogProps) {
                       placeholder="quantity"
                       type="number"
                       {...field}
-                      onChange={(value) => {
-                        if (value.target.valueAsNumber >= 0) {
-                          field.onChange(value.target.valueAsNumber)
-                        }}
+                      onChange={(value) =>
+                        field.onChange(value.target.valueAsNumber)
                       }
                     />
                   </FormControl>
