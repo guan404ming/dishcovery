@@ -118,3 +118,43 @@ export default function MapView({
     </div>
   );
 }
+
+export function StoreMapView({ store }: { store: SelectStore }) {
+  const defaultCenter = { lat: store.lat, lng: store.lng };
+  return (
+  <div className="h-[350px] w-full">
+  <Map
+    defaultZoom={15}
+    defaultCenter={defaultCenter}
+    mapId={process.env.NEXT_PUBLIC_MAP_ID}
+  >
+      <AdvancedMarker position={defaultCenter}>
+            <Pin
+              background={"#006769"}
+              borderColor={"#006769"}
+              glyphColor={"white"}
+            />
+      </AdvancedMarker>
+  </Map>
+  </div>);
+}
+
+export function PostMapView({ post }: { post: SelectPost }) {
+  const defaultCenter = { lat: post.lat, lng: post.lng };
+  return (
+  <div className="h-[350px] w-full">
+  <Map
+    defaultZoom={15}
+    defaultCenter={defaultCenter}
+    mapId={process.env.NEXT_PUBLIC_MAP_ID}
+  >
+      <AdvancedMarker position={defaultCenter}>
+            <Pin
+              background={"#40A578"}
+              borderColor={"#40A578"}
+              glyphColor={"white"}
+            />
+      </AdvancedMarker>
+  </Map>
+  </div>);
+}

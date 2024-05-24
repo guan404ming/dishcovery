@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { postDishes, posts, users } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
+import { PostMapView } from "@/app/_components/map";
 
 export default async function PostPage({
   params,
@@ -44,6 +45,8 @@ export default async function PostPage({
       </div>
 
       <Separator />
+      <PostMapView post={post.posts} />
+
 
       <GridContainer>
         {dishes.map((dish) => (
