@@ -7,7 +7,13 @@ import GridContainer from "@/components/grid-container";
 import StoreDish from "@/components/image-card/store-dish";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import { storeCollections, storeDishes, stores, users } from "@/db/schema";
+import {
+  carts,
+  storeCollections,
+  storeDishes,
+  stores,
+  users,
+} from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 
 import SaveButton from "./_components/save-button";
@@ -28,6 +34,11 @@ export default async function StorePage({
 
   const dishes = await db.query.storeDishes.findMany({
     where: eq(storeDishes.storeId, parseInt(params.storeId)),
+    with: {
+      cart: {
+        where: eq(carts.userId, session?.user.id as number),
+      },
+    },
   });
 
   const storeCollection = await db.query.storeCollections.findFirst({
@@ -68,11 +79,14 @@ export default async function StorePage({
 
       <GridContainer>
         {dishes.map((dish) => (
-          <StoreDish
-            key={dish.id}
-            storeDish={dish}
-            isAuthor={session?.user.id === store.users.id}
-          />
+          <>
+            <StoreDish
+              key={dish.id}
+              storeDish={dish}
+              isAuthor={session?.user.id === store.users.id}
+              originalQuantity={dish.cart[0]?.quantity || 0}
+            />
+          </>
         ))}
       </GridContainer>
     </>

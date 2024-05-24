@@ -26,6 +26,7 @@ type DialogProps = {
   dishId: number;
   title: string;
   open: boolean;
+  defaultQuantity?: number;
   onOpenChange: (open: boolean) => void;
 };
 
@@ -34,6 +35,7 @@ export default function ReservationDialog({
   dishQuantity,
   title,
   open,
+  defaultQuantity,
   onOpenChange,
 }: DialogProps) {
   const numberRef = useRef<number>(0);
@@ -53,7 +55,7 @@ export default function ReservationDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="flex justify-start text-2xl">
+          <DialogTitle className="flex items-center justify-start text-2xl">
             {title}
           </DialogTitle>
         </DialogHeader>
@@ -71,11 +73,16 @@ export default function ReservationDialog({
             onChange={(e) => {
               setError("");
               numberRef.current = parseInt(e.target.value);
-              if (numberRef.current > dishQuantity || numberRef.current < 1) {
+              if (
+                numberRef.current > dishQuantity - (defaultQuantity || 0) ||
+                numberRef.current < 1
+              ) {
                 if (dishQuantity === 0) {
                   setError("The dish is sold out");
                 } else {
-                  setError(`The number should be between 1 to ${dishQuantity}`);
+                  setError(
+                    `The number should be between 1 to ${dishQuantity - (defaultQuantity || 0)}`,
+                  );
                 }
               }
             }}

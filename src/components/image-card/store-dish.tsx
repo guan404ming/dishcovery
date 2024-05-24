@@ -16,10 +16,12 @@ export default function StoreDish({
   storeDish,
   isAuthor,
   isCounter,
+  originalQuantity,
 }: {
   storeDish: SelectStoreDish;
   isAuthor?: boolean;
   isCounter?: boolean;
+  originalQuantity?: number;
 }) {
   const { updateStoreDish } = useStore();
   const [cart, setCart] = useState(false);
@@ -57,14 +59,15 @@ export default function StoreDish({
             className="absolute bottom-2 left-20 h-8 w-8 rounded-full border"
             onClick={() => setCart(!cart)}
           >
-            <Plus className="h-3 w-3" strokeWidth={3} />
+            {originalQuantity || <Plus className="h-3 w-3" strokeWidth={3} />}
           </Button>
           <ReservationDialog
-            title="Cart"
+            title="Add to Cart"
             open={cart}
             onOpenChange={setCart}
             dishId={storeDish.id}
             dishQuantity={storeDish.quantity}
+            defaultQuantity={originalQuantity || 0}
           />
         </>
       )}

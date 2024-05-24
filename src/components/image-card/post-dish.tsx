@@ -27,11 +27,13 @@ export default function PostDish({
   isAuthor,
   isCounter,
   isEdit,
+  originalQuantity,
 }: {
   postDish: SelectPostDish;
   isAuthor?: boolean;
   isCounter?: boolean;
   isEdit?: boolean;
+  originalQuantity?: number;
 }) {
   const { updatePostDish, deletePost } = usePost();
   const [reserve, setReserve] = useState(false);
@@ -107,14 +109,14 @@ export default function PostDish({
             className="absolute bottom-2 left-20 h-8 w-8 rounded-full border"
             onClick={() => setReserve(!reserve)}
           >
-            <Plus className="h-3 w-3" strokeWidth={3} />
+            {originalQuantity || <Plus className="h-3 w-3" strokeWidth={3} />}
           </Button>
           <ReservationDialog
             title="Reservation"
             open={reserve}
             onOpenChange={setReserve}
             dishId={postDish.id}
-            dishQuantity={postDish.quantity}
+            dishQuantity={postDish.quantity - (originalQuantity || 0)}
           />
         </>
       )}
