@@ -70,8 +70,12 @@ export default function ReservationDialog({
             onChange={(e) => {
               setError("");
               numberRef.current = parseInt(e.target.value);
-              if (numberRef.current > dishQuantity) {
-                setError(`The number should be less than ${dishQuantity}`);
+              if (numberRef.current > dishQuantity || numberRef.current < 1) {
+                if (dishQuantity === 0) {
+                  setError("The dish is sold out");
+                } else {
+                  setError(`The number should be between 1 to ${dishQuantity}`);
+                }
               }
             }}
           />
