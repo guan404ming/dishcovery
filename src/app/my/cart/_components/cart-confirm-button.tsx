@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import {
   DrawerContent,
@@ -17,19 +19,24 @@ import useStore from "@/hooks/use-store";
 function ConfirmButton({
   cartItem,
 }: {
-  cartItem: { storeDish: { id: number }; quantity: number; id: number }[];
+  cartItem: {
+    storeDishes: { id: number };
+    carts: { quantity: number; id: number };
+  }[];
 }) {
   const { createStoreReservation } = useStore();
   const { removeFromCart } = useCart();
+  const router = useRouter();
 
   async function handleConfirm() {
     cartItem.forEach(async (cartItem) => {
       await createStoreReservation({
-        storeDishId: cartItem.storeDish.id,
-        quantity: cartItem.quantity,
+        storeDishId: cartItem.storeDishes.id,
+        quantity: cartItem.carts.quantity,
       });
-      await removeFromCart(cartItem.id);
+      await removeFromCart(cartItem.carts.id, true);
     });
+    router.push("/my/reservations");
   }
 
   return (

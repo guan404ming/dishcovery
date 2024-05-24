@@ -26,6 +26,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import usePost from "@/hooks/use-post";
 import { UploadButton } from "@/lib/uploadthing";
 
@@ -98,9 +100,9 @@ export default function AddDialog({ type }: DialogProps) {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>Post Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="title" {...field} />
+                    <Input placeholder="Enter title" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -112,29 +114,18 @@ export default function AddDialog({ type }: DialogProps) {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Post Description</FormLabel>
                   <FormControl>
-                    <Input placeholder="description" {...field} />
+                    <Textarea
+                      placeholder="Enter a brief description of your post"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Location</FormLabel>
-                  <FormControl>
-                    <Input placeholder="location" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
+            <Separator orientation="horizontal" />
             <FormField
               control={form.control}
               name="dishName"
@@ -142,27 +133,9 @@ export default function AddDialog({ type }: DialogProps) {
                 <FormItem>
                   <FormLabel>Dish Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="dishName" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="quantity"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Quantity</FormLabel>
-                  <FormControl>
                     <Input
-                      placeholder="quantity"
-                      type="number"
+                      placeholder="Enter the name of the dish"
                       {...field}
-                      onChange={(value) =>
-                        field.onChange(value.target.valueAsNumber)
-                      }
                     />
                   </FormControl>
                   <FormMessage />
@@ -177,7 +150,31 @@ export default function AddDialog({ type }: DialogProps) {
                 <FormItem>
                   <FormLabel>Dish Description</FormLabel>
                   <FormControl>
-                    <Input placeholder="dishDescription" {...field} />
+                    <Textarea
+                      placeholder="Enter a brief description of your dish"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Dish Quantity</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="quantity"
+                      type="number"
+                      {...field}
+                      onChange={(value) =>
+                        field.onChange(value.target.valueAsNumber)
+                      }
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -210,6 +207,7 @@ export default function AddDialog({ type }: DialogProps) {
                 />
               )}
             </div>
+            <Separator orientation="horizontal" />
 
             <div className="grid w-full max-w-sm items-center gap-2">
               <FormLabel htmlFor="locationPicker" className="mb-4">
@@ -222,6 +220,23 @@ export default function AddDialog({ type }: DialogProps) {
                   : "location not selected"}
               </div>
             </div>
+
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Location Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Enter a brief description of your location"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <Button type="submit" className="mt-4 w-full">
               Submit

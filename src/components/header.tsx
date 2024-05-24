@@ -50,7 +50,7 @@ export default function Header() {
               </DropdownMenuItem>
             </Link>
 
-            <Link href="/my/carts">
+            <Link href="/my/cart/all">
               <DropdownMenuItem className="cursor-pointer">
                 <ShoppingCart className="mr-2 h-4 w-4" />
                 Cart

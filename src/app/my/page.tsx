@@ -70,7 +70,7 @@ export default async function MyPage() {
         />
         <MyButton Icon={<FilePen />} href="/my/posts" text="Posts" />
         <MyButton Icon={<Store />} href="/my/stores" text="Stores" />
-        <MyButton Icon={<ShoppingCart />} href="/my/carts" text="Cart" />
+        <MyButton Icon={<ShoppingCart />} href="/my/cart/all" text="Cart" />
         <MyButton
           Icon={<Bookmark />}
           href="/my/collections"

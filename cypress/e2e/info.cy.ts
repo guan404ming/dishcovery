@@ -1,4 +1,4 @@
-describe("4. Info Page", () => {
+describe("6. Info Page", () => {
   beforeEach(() => {
     cy.viewport(375, 464);
     cy.visit("/");
@@ -7,16 +7,16 @@ describe("4. Info Page", () => {
     cy.session("login", () => {
       cy.login();
     });
-    cy.visit("/info");
+    cy.visit("/my");
   });
 
-  context("4.1 header section", () => {
+  context("6.1 header section", () => {
     it("contains the correct text", () => {
       cy.contains("Dishcovery").should("be.visible");
     });
   });
 
-  context("4.2 main section", () => {
+  context("6.2 main section", () => {
     it("display corrrect user info", () => {
       cy.get("main").find("img").should("be.visible");
       cy.get("main").find("p").should("have.class", "text-lg");
@@ -24,78 +24,52 @@ describe("4. Info Page", () => {
     });
 
     it("have correct button", () => {
-      cy.get("[role=tablist]")
-        .find("button")
-        .then(($bar) => {
-          cy.wrap($bar).eq(0).should("contain", "Reservation");
-          cy.wrap($bar).eq(1).should("contain", "Post");
-          cy.wrap($bar).eq(2).should("contain", "Store");
-        });
-    });
-  });
-
-  context("4.3 reservation section", () => {
-    it("contains the correct text", () => {
-      cy.contains("Post Reservations").should("be.visible");
-      cy.contains("Store Reservations").should("be.visible");
-    });
-
-    it("reservation display correct information", () => {
-      cy.get(".rounded-lg")
-        .eq(0)
-        .then(($el) => {
-          cy.wrap($el).find("img").should("exist");
-          cy.wrap($el).find(".font-semibold").should("exist");
-          cy.wrap($el).find(".font-light").should("contain", "$");
-          cy.wrap($el).find(".text-ellipsis").should("exist");
-        });
+      cy.get("button").contains("Account").should("exist");
+      cy.get("button").contains("Reservations").should("exist");
+      cy.get("button").contains("Posts").should("exist");
+      cy.get("button").contains("Stores").should("exist");
+      cy.get("button").contains("Cart").should("exist");
+      cy.get("button").contains("Collections").should("exist");
+      // cy.get("[role=tablist]")
+      //   .find("button")
+      //   .then(($bar) => {
+      //     cy.wrap($bar).eq(0).should("contain", "Account");
+      //     cy.wrap($bar).eq(1).should("contain", "Reservations");
+      //     cy.wrap($bar).eq(2).should("contain", "Posts");
+      //     cy.wrap($bar).eq(3).should("contain", "Stores");
+      //     cy.wrap($bar).eq(4).should("contain", "Cart");
+      //     cy.wrap($bar).eq(5).should("contain", "Collections");
+      //   });
     });
 
-    it("can modify reservation", () => {
-      cy.get(".rounded-lg").then(($el) => {
-        cy.wrap($el)
-          .its("length")
-          .then((len: number) => {
-            cy.wrap($el).eq(0).click();
-            cy.get("[role=dialog]")
-              .eq(len - 1)
-              .find("svg")
-              .click({ force: true });
-          });
-      });
-    });
-  });
-
-  context("4.4 post section", () => {
-    it("post display correct information", () => {
-      cy.get("button").contains("Post").click();
-      cy.get(".rounded-lg")
-        .eq(0)
-        .then(($el) => {
-          cy.wrap($el).find("img").should("exist");
-          cy.wrap($el).find(".font-semibold").should("exist");
-          cy.wrap($el).find(".font-light").should("exist");
-          cy.wrap($el).find(".text-ellipsis").should("exist");
-        });
+    it("Account button direct to correct page", () => {
+      cy.contains("Account").click({ force: true });
+      cy.location("pathname").should("eq", "/my/account");
     });
 
-    it("post direct to correct post page", () => {
-      cy.get("button").contains("Post").click();
-      cy.get(".rounded-lg")
-        .eq(0)
-        .find(".font-semibold")
-        .then(($post) => {
-          const text = $post.text();
-          cy.wrap($post).click();
-          cy.wait(500);
-          cy.get(".text-lg").should("have.text", text);
-        });
+    it("Reservations button direct to correct page", () => {
+      cy.contains("Reservations").click({ force: true });
+      cy.location("pathname").should("eq", "/my/reservations");
     });
 
-    it("can add new post", () => {
-      cy.get("button").contains("Post").click();
-      cy.get("svg").click();
-      cy.contains("Add post").should("exist");
+    it("Posts button direct to correct page", () => {
+      cy.contains("Posts").click({ force: true });
+      cy.location("pathname").should("eq", "/my/posts");
+    });
+
+    it("Stores button direct to correct page", () => {
+      cy.contains("Stores").click({ force: true });
+      cy.location("pathname").should("eq", "/my/stores");
+    });
+
+    it("Cart button direct to correct page", () => {
+      cy.contains("Cart").click({ force: true });
+      cy.location("pathname").should("eq", "/my/carts");
+    });
+
+    it("Collections button direct to correct page", () => {
+      cy.contains("Collections").click({ force: true });
+      cy.location("pathname").should("eq", "/my/collections");
     });
   });
 });

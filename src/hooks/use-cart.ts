@@ -36,12 +36,12 @@ export default function useCart() {
     router.refresh();
   };
 
-  const removeFromCart = async (id: number) => {
+  const removeFromCart = async (id: number, isClearCart?: boolean) => {
     await handleFetch({
       data: { id },
       method: "DELETE",
       url: `/api/carts`,
-      successMessage: "Cart item has been removed.",
+      successMessage: !isClearCart ? "Cart item has been removed." : undefined,
       setLoading,
     });
     router.refresh();
