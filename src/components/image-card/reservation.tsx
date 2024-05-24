@@ -14,6 +14,7 @@ export default function Reservation({
   isPost,
   dishQuantity,
   dishId,
+  sellerId,
 }: {
   id: number;
   name: string;
@@ -24,13 +25,14 @@ export default function Reservation({
   isPost: boolean;
   dishQuantity: number;
   dishId: number;
+  sellerId: number;
 }) {
   const { updatePostReservation } = usePost();
   const { updateStoreReservation } = useStore();
 
   return (
     <ImageCardPrimitive
-      href={(isPost ? "/post" : "/store") + `/${dishId}`}
+      href={(isPost ? "/post" : "/store") + `/${sellerId}`}
       image={image}
       counter={
         status !== "finished"

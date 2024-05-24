@@ -62,6 +62,7 @@ export default async function MyReservationsPage() {
                 {...reservation.postDishes}
                 {...reservation.postReservations}
                 isPost={true}
+                sellerId={reservation.postDishes.postId}
               />
             ))}
           </GridContainer>
@@ -80,6 +81,7 @@ export default async function MyReservationsPage() {
                 {...reservation.storeReservations}
                 isPost={false}
                 key={index}
+                sellerId={reservation.storeDishes.storeId}
               />
             ))}
           </GridContainer>
