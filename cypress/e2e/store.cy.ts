@@ -1,4 +1,4 @@
-describe("5. Store Page", () => {
+describe("4. Store Page", () => {
   beforeEach(() => {
     cy.viewport(375, 464);
     cy.visit("/");
@@ -13,7 +13,7 @@ describe("5. Store Page", () => {
     cy.wait(1000);
   });
 
-  context("5.1 header section", () => {
+  context("4.1 header section", () => {
     it("display the banner", () => {
       cy.get("img[alt=banner]").should("be.visible");
     });
@@ -63,7 +63,7 @@ describe("5. Store Page", () => {
     });
   });
 
-  context("5.2 dish section", () => {
+  context("4.2 dish section", () => {
     it("contains the correct text", () => {
       cy.contains("精選商品").should("be.visible");
     });
