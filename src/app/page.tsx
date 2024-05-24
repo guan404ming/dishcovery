@@ -6,16 +6,21 @@ import MapView from "@/app/_components/map";
 import { StoreScrollArea } from "@/app/_components/store-scroll-area";
 import { Banner } from "@/components/banner";
 import GridContainer from "@/components/grid-container";
-import { Post } from "@/components/supplier/post";
+import { Post } from "@/components/image-card/post";
 import { db } from "@/db";
+
+import { SearchBar } from "./_components/search-bar";
 
 export default async function Home() {
   const bannerList = await db.query.banners.findMany();
   const postList = await db.query.posts.findMany({
-    limit: 10,
+    limit: 20,
     with: { postDishes: true },
+    orderBy: (posts, { desc }) => [desc(posts.createTime)],
   });
-  const storeList = await db.query.stores.findMany({ limit: 10 });
+  const storeList = await db.query.stores.findMany({
+    limit: 20,
+  });
 
   function SectionTitle({ title, url }: { title: string; url?: string }) {
     return (
@@ -33,15 +38,16 @@ export default async function Home() {
 
   return (
     <>
+      <SearchBar storeList={storeList} postList={postList}></SearchBar>
       <Banner bannerList={bannerList} />
 
       <SectionTitle title={"What are you looking for?"} url="" />
-      <MapView storeList={storeList}/>
+      <MapView storeList={storeList} />
 
       <SectionTitle title={"Popular Stores"} url="/store/all" />
       <StoreScrollArea storeList={storeList} />
 
-      <SectionTitle title={"Post"} url="/post/all" />
+      <SectionTitle title={"Posts"} url="/post/all" />
 
       <GridContainer>
         {postList.map((post, index) => (

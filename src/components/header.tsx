@@ -42,31 +42,40 @@ export default function Header() {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem>
-              <User className="mr-2 h-4 w-4" />
-              <Link href="/info">Info</Link>
-              <DropdownMenuShortcut>⌘I</DropdownMenuShortcut>
-            </DropdownMenuItem>
+            <Link href="/my">
+              <DropdownMenuItem className="cursor-pointer">
+                <User className="mr-2 h-4 w-4" />
+                Info
+                <DropdownMenuShortcut>⌘I</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </Link>
 
-            <DropdownMenuItem>
-              <ShoppingCart className="mr-2 h-4 w-4" />
-              <Link href="/cart">Cart</Link>
-              <DropdownMenuShortcut>⌘C</DropdownMenuShortcut>
-            </DropdownMenuItem>
+            <Link href="/my/carts">
+              <DropdownMenuItem className="cursor-pointer">
+                <ShoppingCart className="mr-2 h-4 w-4" />
+                Cart
+                <DropdownMenuShortcut>⌘C</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </Link>
 
-            <DropdownMenuItem>
-              <Bookmark className="mr-2 h-4 w-4" />
-              <Link href="/collections">Collection</Link>
-              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-            </DropdownMenuItem>
+            <Link href="/my/collections">
+              <DropdownMenuItem className="cursor-pointer">
+                <Bookmark className="mr-2 h-4 w-4" />
+                Collection
+                <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </Link>
 
-            <DropdownMenuItem onClick={() => signOut()}>
-              <LogOut className="mr-2 h-4 w-4 text-red-600" />
-              <Link href="#" className="text-red-600">
+            <Link href="#" className="text-red-600">
+              <DropdownMenuItem
+                onClick={() => signOut({ redirect: true, callbackUrl: "/" })}
+                className="cursor-pointer focus:text-red-600"
+              >
+                <LogOut className="mr-2 h-4 w-4 text-red-600" />
                 Logout
-              </Link>
-              <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>
-            </DropdownMenuItem>
+                <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </Link>
           </DropdownMenuContent>
         </DropdownMenu>
       )}

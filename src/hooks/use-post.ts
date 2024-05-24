@@ -3,8 +3,6 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import { toast } from "sonner";
-
 import type {
   InsertPost,
   InsertPostDish,
@@ -22,16 +20,54 @@ export default function usePost() {
     postDishId,
     quantity,
   }: InsertPostReservation) => {
-    setLoading(true);
-
     await handleFetch({
       data: { postDishId, quantity, userId: session?.user?.id },
       method: "POST",
       url: "/api/posts/post-reservations",
+      successMessage: "Post reservation has been created.",
+      setLoading,
     });
+    router.refresh();
+  };
 
-    toast("Post reservation has been created.");
-    setLoading(false);
+  const updatePostReservation = async ({
+    id,
+    quantity,
+    status,
+  }: InsertPostReservation) => {
+    if (quantity === 0 && id) {
+      await deletePostReservation(id);
+    } else {
+      await handleFetch({
+        data: { id, quantity, status },
+        method: "PUT",
+        url: "/api/posts/post-reservations",
+        successMessage: "Post reservation has been updated.",
+        setLoading,
+      });
+    }
+    router.refresh();
+  };
+
+  const finishPostReservation = async (id: number, quantity: number) => {
+    await handleFetch({
+      data: { id, quantity, status: "finished" },
+      method: "PUT",
+      url: "/api/posts/post-reservations",
+      successMessage: "Reservation has been finished.",
+      setLoading,
+    });
+    router.refresh();
+  };
+
+  const deletePostReservation = async (id: number) => {
+    await handleFetch({
+      data: { id },
+      method: "DELETE",
+      url: "/api/posts/post-reservations",
+      successMessage: "Reservation has been deleted.",
+      setLoading,
+    });
     router.refresh();
   };
 
@@ -43,7 +79,13 @@ export default function usePost() {
     dishDescription,
     quantity,
     image,
-  }: InsertPost & InsertPostDish & { dishDescription: string }) => {
+    lat,
+    lng,
+  }: InsertPost &
+    InsertPostDish & { dishDescription: string } & {
+      lat: number;
+      lng: number;
+    }) => {
     setLoading(true);
 
     const body = await handleFetch({
@@ -54,9 +96,13 @@ export default function usePost() {
         name,
         quantity,
         userId: session?.user?.id,
+        lat,
+        lng,
       },
       method: "POST",
       url: "/api/posts",
+      successMessage: "Post has been created.",
+      setLoading,
     });
 
     await handleFetch({
@@ -69,16 +115,76 @@ export default function usePost() {
       },
       method: "POST",
       url: "/api/posts/post-dishes",
+      successMessage: "Post dish has been created.",
+      setLoading,
     });
-
-    toast("Post has been created.");
     router.refresh();
-    setLoading(false);
+  };
+
+  const updatePost = async (
+    id: number,
+    postId: number,
+    name: string,
+    quantity: number,
+    description: string,
+    image: string,
+  ) => {
+    await handleFetch({
+      data: {
+        id,
+        postId,
+        name,
+        quantity,
+        description,
+        image,
+      },
+      method: "PUT",
+      url: `/api/posts/post-dishes`,
+      successMessage: "Post dish has been updated.",
+      setLoading,
+    });
+    router.refresh();
+  };
+
+  const deletePost = async ({ id }: { id: number }) => {
+    await handleFetch({
+      data: { id },
+      method: "DELETE",
+      url: "/api/posts",
+      successMessage: "Post has been deleted.",
+      setLoading,
+    });
+    router.refresh();
+  };
+
+  const updatePostDish = async ({
+    id,
+    quantity,
+    postId,
+    name,
+    price,
+    description,
+    image,
+  }: InsertPostDish) => {
+    await handleFetch({
+      data: { id, quantity, postId, name, price, description, image },
+      method: "PUT",
+      url: "/api/posts/post-dishes",
+      successMessage: "Post dish has been updated.",
+      setLoading,
+    });
+    router.refresh();
   };
 
   return {
     createPost,
+    deletePost,
     createPostReservation,
+    updatePostReservation,
+    finishPostReservation,
+    deletePostReservation,
+    updatePostDish,
+    updatePost,
     loading,
   };
 }

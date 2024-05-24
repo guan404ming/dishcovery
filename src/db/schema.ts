@@ -8,6 +8,7 @@ import {
   timestamp,
   varchar,
   primaryKey,
+  doublePrecision,
 } from "drizzle-orm/pg-core";
 
 export const statusEnum = pgEnum("status", [
@@ -55,10 +56,14 @@ export const stores = pgTable("stores", {
   userId: serial("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
+  image: varchar("image").notNull(),
+  lat: doublePrecision("lat").notNull().default(10.0001),
+  lng: doublePrecision("lng").notNull().default(10.0001),
 });
 
 export const storesRelations = relations(stores, ({ many }) => ({
   storeCollections: many(storeCollections),
+  storeDishes: many(storeDishes),
 }));
 
 export const storeDishes = pgTable("store_dishes", {
@@ -73,8 +78,12 @@ export const storeDishes = pgTable("store_dishes", {
   image: varchar("image").notNull(),
 });
 
-export const storeDishesRelation = relations(storeDishes, ({ many }) => ({
+export const storeDishesRelation = relations(storeDishes, ({ many, one }) => ({
   cart: many(carts),
+  store: one(stores, {
+    fields: [storeDishes.storeId],
+    references: [stores.id],
+  }),
 }));
 
 export const storeReservations = pgTable("store_reservations", {
@@ -101,6 +110,8 @@ export const posts = pgTable("posts", {
   userId: serial("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
+  lat: doublePrecision("lat").notNull(),
+  lng: doublePrecision("lng").notNull(),
 });
 
 export const postsRelations = relations(posts, ({ one }) => {
@@ -118,8 +129,8 @@ export const postDishes = pgTable("post_dishes", {
     .notNull()
     .references(() => posts.id, { onDelete: "cascade" }),
   quantity: integer("quantity").notNull().default(1),
-  name: varchar("name", { length: 100 }).notNull(),
-  description: varchar("description", { length: 100 }).notNull(),
+  name: varchar("name", { length: 1000 }).notNull(),
+  description: varchar("description", { length: 1000 }).notNull(),
   price: integer("price").default(0).notNull(),
   image: varchar("image").notNull(),
 });

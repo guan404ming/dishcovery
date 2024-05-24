@@ -2,8 +2,6 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-import { toast } from "sonner";
-
 import handleFetch from "./utils";
 
 export default function useReservation() {
@@ -17,17 +15,14 @@ export default function useReservation() {
     url: string;
     userId: number;
   }) => {
-    setLoading(true);
-
     await handleFetch({
       data: { userId, url },
       method: "POST",
       url: "/api/banners",
+      successMessage: "Banner has been created.",
+      setLoading,
     });
-
-    toast("Banner has been created.");
     router.refresh();
-    setLoading(false);
   };
 
   return {

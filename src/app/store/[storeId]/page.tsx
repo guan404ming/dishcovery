@@ -1,18 +1,24 @@
-import { eq } from "drizzle-orm";
-import { ChevronLeft } from "lucide-react";
-import { BellPlus } from "lucide-react";
+import { getServerSession } from "next-auth";
+import Image from "next/image";
 
-import Dish from "@/components/dish";
+import { and, eq } from "drizzle-orm";
+
 import GridContainer from "@/components/grid-container";
+import StoreDish from "@/components/image-card/store-dish";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import { storeDishes, stores, users } from "@/db/schema";
+import { storeCollections, storeDishes, stores, users } from "@/db/schema";
+import { authOptions } from "@/lib/auth-options";
 
-export default async function Store({
+import SaveButton from "./_components/save-button";
+
+export default async function StorePage({
   params,
 }: {
   params: { storeId: string };
 }) {
+  const session = await getServerSession(authOptions);
+
   const [store] = await db
     .select()
     .from(stores)
@@ -24,21 +30,49 @@ export default async function Store({
     where: eq(storeDishes.storeId, parseInt(params.storeId)),
   });
 
+  const storeCollection = await db.query.storeCollections.findFirst({
+    where: and(
+      eq(storeCollections.storeId, parseInt(params.storeId)),
+      eq(storeCollections.userId, session?.user.id as number),
+    ),
+  });
+
   return (
     <>
-      <div className="flex w-full items-center justify-between text-center">
-        <ChevronLeft className="h-4 w-4 cursor-pointer" />
-        <h1 className="text-center text-xl font-semibold">
-          {store.stores.name}
-        </h1>
-        <BellPlus className="h-4 w-4 cursor-pointer" />
+      <div className="relative w-full">
+        <SaveButton
+          storeId={store.stores.id}
+          storeCollection={storeCollection}
+        />
+        <Image
+          width={"600"}
+          height={"600"}
+          src={store.stores.image}
+          alt="banner"
+          className="aspect-[4/1] w-full rounded object-cover"
+        />
+      </div>
+
+      <div className="grid gap-1 text-center">
+        <h1 className="text-2xl font-bold">{store.stores.name}</h1>
+
+        <div className="text-sm text-gray-500">
+          <span className="text-black">{store.users.name}</span> ·{" "}
+          {store.stores.phone}
+        </div>
       </div>
 
       <Separator />
 
+      <h1 className="text-xl font-bold">精選商品</h1>
+
       <GridContainer>
         {dishes.map((dish) => (
-          <Dish key={dish.id} dish={dish} />
+          <StoreDish
+            key={dish.id}
+            storeDish={dish}
+            isAuthor={session?.user.id === store.users.id}
+          />
         ))}
       </GridContainer>
     </>
