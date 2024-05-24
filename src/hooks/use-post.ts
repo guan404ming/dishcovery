@@ -124,7 +124,7 @@ export default function usePost() {
     lat,
     lng,
   }: InsertPost &
-    InsertPostDish & { dishDescription: string } & {
+    InsertPostDish & { dishDescription?: string } & {
       lat: number;
       lng: number;
     }) => {

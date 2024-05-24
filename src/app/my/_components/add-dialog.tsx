@@ -46,10 +46,10 @@ export default function AddDialog({ type }: DialogProps) {
 
   const formSchema = z.object({
     title: z.string().min(1),
-    description: z.string().min(1),
+    description: z.string().optional(),
     location: z.string().min(1),
     dishName: z.string().min(1),
-    dishDescription: z.string().min(1),
+    dishDescription: z.string().optional(),
     quantity: z.number().min(1).max(10000),
   });
 
@@ -100,7 +100,7 @@ export default function AddDialog({ type }: DialogProps) {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Post Title</FormLabel>
+                  <FormLabel>Post Title*</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter title" {...field} />
                   </FormControl>
@@ -131,7 +131,7 @@ export default function AddDialog({ type }: DialogProps) {
               name="dishName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Dish Name</FormLabel>
+                  <FormLabel>Dish Name*</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Enter the name of the dish"
@@ -165,7 +165,7 @@ export default function AddDialog({ type }: DialogProps) {
               name="quantity"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Dish Quantity</FormLabel>
+                  <FormLabel>Dish Quantity*</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="quantity"
@@ -174,6 +174,7 @@ export default function AddDialog({ type }: DialogProps) {
                       onChange={(value) =>
                         field.onChange(value.target.valueAsNumber)
                       }
+                      min={0}
                     />
                   </FormControl>
                   <FormMessage />
@@ -183,7 +184,7 @@ export default function AddDialog({ type }: DialogProps) {
 
             <div className="grid w-full max-w-sm items-center gap-2">
               <FormLabel htmlFor="description" className="mb-4">
-                Dish Image
+                Dish Image*
               </FormLabel>
               <UploadButton
                 className="w-full text-black"
@@ -211,7 +212,7 @@ export default function AddDialog({ type }: DialogProps) {
 
             <div className="grid w-full max-w-sm items-center gap-2">
               <FormLabel htmlFor="locationPicker" className="mb-4">
-                Select Location
+                Select Location*
               </FormLabel>
               <LocationPicker setLocation={setLocation} />
               <div className="w-full text-center text-sm">
@@ -226,7 +227,7 @@ export default function AddDialog({ type }: DialogProps) {
               name="location"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Location Description</FormLabel>
+                  <FormLabel>Location Description*</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Enter a brief description of your location"

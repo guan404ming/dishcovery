@@ -74,7 +74,7 @@ export const storeDishes = pgTable("store_dishes", {
     .references(() => stores.id, { onDelete: "cascade" }),
   name: varchar("name", { length: 100 }).notNull(),
   price: integer("price").notNull(),
-  description: varchar("description", { length: 100 }).notNull(),
+  description: varchar("description", { length: 100 }).default("").notNull(),
   image: varchar("image").notNull(),
 });
 
@@ -103,7 +103,7 @@ export const storeReservations = pgTable("store_reservations", {
 export const posts = pgTable("posts", {
   id: serial("id").primaryKey(),
   title: varchar("title", { length: 50 }).notNull(),
-  description: varchar("description", { length: 100 }).notNull(),
+  description: varchar("description", { length: 100 }).default("").notNull(),
   createTime: timestamp("create_time").defaultNow().notNull(),
   lastUpdateTime: timestamp("last_update_time").defaultNow().notNull(),
   location: varchar("location", { length: 50 }).notNull(),
@@ -130,7 +130,7 @@ export const postDishes = pgTable("post_dishes", {
     .references(() => posts.id, { onDelete: "cascade" }),
   quantity: integer("quantity").notNull().default(1),
   name: varchar("name", { length: 1000 }).notNull(),
-  description: varchar("description", { length: 1000 }).notNull(),
+  description: varchar("description", { length: 1000 }).default("").notNull(),
   price: integer("price").default(0).notNull(),
   image: varchar("image").notNull(),
 });
