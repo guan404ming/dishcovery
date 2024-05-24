@@ -42,7 +42,7 @@ export default async function Home() {
       <Banner bannerList={bannerList} />
 
       <SectionTitle title={"What are you looking for?"} url="" />
-      <MapView storeList={storeList} />
+      <MapView storeList={storeList} postList={postList} />
 
       <SectionTitle title={"Popular Stores"} url="/store/all" />
       <StoreScrollArea storeList={storeList} />
