@@ -7,6 +7,7 @@ import { CheckCircle, XCircle } from "lucide-react";
 import ReservationActionDialog from "@/components/dialog/reservation-action-dialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 export function ReservationActionCard({
   status,
@@ -39,7 +40,7 @@ export function ReservationActionCard({
         <div className="flex flex-row items-center gap-x-2">
           <p className="text-md font-semibold lg:text-lg">{quantity} 個</p>
 
-          <div className="flex">
+          <div className={cn("flex", status === "finished" && "hidden")}>
             <Button
               variant="ghost"
               size="icon"
