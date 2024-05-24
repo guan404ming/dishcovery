@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 import CartConfirmButton from "../_components/cart-confirm-button";
 import CartItem from "../_components/cart-item";
@@ -43,6 +44,7 @@ export default async function MyCartPage({
   }, 0);
 
   if (cartItem.length === 0) {
+    redirect("/my/cart/all");
     return (
       <div className="flex flex-grow flex-col items-center justify-center space-y-4 text-center text-xl font-semibold">
         <ShoppingCart size={40} />

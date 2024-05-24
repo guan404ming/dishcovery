@@ -67,14 +67,16 @@ export default function ReservationDialog({
               "rounded-md border border-gray-300 p-2",
               error && "text-red-500",
             )}
+            min={0}
             onChange={(e) => {
               setError("");
               numberRef.current = parseInt(e.target.value);
-              if (numberRef.current > 5 || numberRef.current < 1) {
-                setError("The number should be between 1 and 5.");
-              }
-              if (numberRef.current > dishQuantity) {
-                setError(`The number should be less than ${dishQuantity}`);
+              if (numberRef.current > dishQuantity || numberRef.current < 1) {
+                if (dishQuantity === 0) {
+                  setError("The dish is sold out");
+                } else {
+                  setError(`The number should be between 1 to ${dishQuantity}`);
+                }
               }
             }}
           />

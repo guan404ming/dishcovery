@@ -30,6 +30,7 @@ export default function Reservation({
 
   return (
     <ImageCardPrimitive
+      href={(isPost ? "/post" : "/store") + `/${dishId}`}
       image={image}
       counter={
         status !== "finished"

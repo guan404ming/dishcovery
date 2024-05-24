@@ -44,7 +44,7 @@ export function SearchBar({
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <Command className={cn("rounded-lg border shadow-md")}>
-          <CommandInput placeholder="Type for dish 🔥" />
+          <CommandInput placeholder="Search 🔥" />
 
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
