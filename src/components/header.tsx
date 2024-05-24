@@ -3,7 +3,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
-import { User, ShoppingCart, Bookmark, LogOut } from "lucide-react";
+import { User, ShoppingCart, Bookmark, LogOut, Receipt } from "lucide-react";
 
 import { AvatarFallback, Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -55,6 +55,14 @@ export default function Header() {
                 <ShoppingCart className="mr-2 h-4 w-4" />
                 Cart
                 <DropdownMenuShortcut>⌘C</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </Link>
+
+            <Link href="/my/reservations">
+              <DropdownMenuItem className="cursor-pointer">
+                <Receipt className="mr-2 h-4 w-4" />
+                Reservation
+                <DropdownMenuShortcut>⌘R</DropdownMenuShortcut>
               </DropdownMenuItem>
             </Link>
 
