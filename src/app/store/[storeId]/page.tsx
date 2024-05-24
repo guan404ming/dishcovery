@@ -11,6 +11,7 @@ import { storeCollections, storeDishes, stores, users } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 
 import SaveButton from "./_components/save-button";
+import { StoreMapView } from "@/app/_components/map";
 
 export default async function StorePage({
   params,
@@ -61,6 +62,7 @@ export default async function StorePage({
           {store.stores.phone}
         </div>
       </div>
+      <StoreMapView store={store.stores} />
 
       <Separator />
 
