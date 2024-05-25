@@ -31,7 +31,12 @@ export default function Reservation({
     >
       <h1 className="line-clamp-2 w-full font-semibold">{name}</h1>
       <span className="text-sm text-muted-foreground">
-        ${price * quantity} · {status}
+        ${price * quantity} ·{" "}
+        <span
+          className={`rounded-full px-2 ${status === "finished" ? "bg-green-100 text-green-500" : status === "waiting" ? "bg-orange-100 text-orange-500" : status === "cancelled" ? "bg-red-100 text-red-500" : "bg-purple-100 text-purple-500"}`}
+        >
+          {status}
+        </span>
       </span>
 
       <Badge className="mx-2 shadow-sm" variant={"outline"}>
