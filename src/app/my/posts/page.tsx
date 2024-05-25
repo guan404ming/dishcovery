@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth/next";
 
-import AddDialog from "../_components/add-dialog";
+import AddPostDialog from "../_components/add-post-dialog";
 import { eq } from "drizzle-orm";
 
 import UnauthorizedPage from "@/app/unauthorized";
@@ -27,7 +27,7 @@ export default async function MyReservationsPage() {
     <>
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">My Posts</h1>
-        <AddDialog type="Post"></AddDialog>
+        <AddPostDialog />
       </div>
 
       <GridContainer>

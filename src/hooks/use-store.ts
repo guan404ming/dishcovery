@@ -91,6 +91,24 @@ export default function useStore() {
     router.refresh();
   };
 
+  const createStoreDish = async ({
+    quantity,
+    storeId,
+    name,
+    price,
+    description,
+    image,
+  }: InsertStoreDish) => {
+    await handleFetch({
+      data: { quantity, storeId, name, price, description, image },
+      method: "POST",
+      url: "/api/stores/store-dishes",
+      successMessage: "Store dish has been created.",
+      setLoading,
+    });
+    router.refresh();
+  };
+
   const updateStoreDish = async ({
     id,
     quantity,
@@ -137,6 +155,7 @@ export default function useStore() {
     finishStoreReservation,
     deleteStoreReservation,
     createStoreReservation,
+    createStoreDish,
     updateStoreDish,
     saveStore,
     unsaveStore,

@@ -33,11 +33,7 @@ import { UploadButton } from "@/lib/uploadthing";
 
 import LocationPicker from "./location-picker";
 
-type DialogProps = {
-  type: string;
-};
-
-export default function AddDialog({ type }: DialogProps) {
+export default function AddPostDialog() {
   const [open, setOpen] = useState<boolean>(false);
   const [url, setUrl] = useState<string>("");
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
@@ -89,7 +85,7 @@ export default function AddDialog({ type }: DialogProps) {
       <DialogContent className="h-[80%] w-[80%] max-w-[400px] overflow-scroll rounded">
         <DialogHeader>
           <DialogTitle className="flex justify-start text-lg lg:text-xl">
-            Add {type}
+            Add Post
           </DialogTitle>
         </DialogHeader>
 

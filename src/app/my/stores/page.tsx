@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth/next";
 
+import AddStoreDishDialog from "../_components/add-store-dish";
 import { eq } from "drizzle-orm";
 
 import UnauthorizedPage from "@/app/unauthorized";
@@ -26,7 +27,11 @@ export default async function MyStoresPage() {
 
   return (
     <>
-      <h1 className="text-xl font-semibold">My Store Dishes</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-semibold">My Store Dishes</h1>
+        <AddStoreDishDialog storeId={store.id} />
+      </div>
+
       <GridContainer>
         {store.storeDishes.map((storeDish, index) => (
           <StoreDish storeDish={storeDish} key={index} isAuthor isCounter />
