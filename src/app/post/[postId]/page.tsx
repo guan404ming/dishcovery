@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 import { PostMapView } from "@/app/_components/map";
 import NotFoundPage from "@/app/not-found";
@@ -27,6 +27,7 @@ export default async function PostPage({
 
   const dishes = await db.query.postDishes.findMany({
     where: eq(postDishes.postId, parseInt(params.postId)),
+    orderBy: desc(postDishes.id),
   });
 
   if (!post) {
