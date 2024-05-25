@@ -32,7 +32,9 @@ export function ReservationActionCard({
           <div className="flex items-center gap-x-2 lg:gap-x-8">
             <p className="text-lg font-bold lg:text-2xl">{name}</p>
           </div>
-          <div className="text-md pt-2 font-normal text-muted-foreground lg:pt-4 lg:text-lg">
+          <div
+            className={`text-md rounded-full px-2 font-normal text-muted-foreground lg:text-lg ${status === "finished" ? "bg-green-100 text-green-500" : status === "waiting" ? "bg-orange-100 text-orange-500" : status === "cancelled" ? "bg-red-100 text-red-500" : "bg-purple-100 text-purple-500"}`}
+          >
             {status}
           </div>
         </div>
