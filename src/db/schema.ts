@@ -132,7 +132,8 @@ export const postDishes = pgTable("post_dishes", {
   image: varchar("image").notNull(),
 });
 
-export const postDishesRelations = relations(postDishes, ({ one }) => ({
+export const postDishesRelations = relations(postDishes, ({ one, many }) => ({
+  postCart: many(postCarts),
   post: one(posts, {
     fields: [postDishes.postId],
     references: [posts.id],
@@ -269,9 +270,9 @@ export const postCarts = pgTable(
 );
 
 export const postCartsRelations = relations(postCarts, ({ one }) => ({
-  postDish: one(storeDishes, {
+  postDish: one(postDishes, {
     fields: [postCarts.postDishId],
-    references: [storeDishes.id],
+    references: [postDishes.id],
   }),
   user: one(users, {
     fields: [postCarts.userId],

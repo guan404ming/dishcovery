@@ -9,7 +9,7 @@ import PostDish from "@/components/image-card/post-dish";
 import TimeText from "@/components/time-text";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
-import { postDishes, posts, users } from "@/db/schema";
+import { postCarts, postDishes, posts, users } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 
 export default async function PostPage({
@@ -28,6 +28,11 @@ export default async function PostPage({
   const dishes = await db.query.postDishes.findMany({
     where: eq(postDishes.postId, parseInt(params.postId)),
     orderBy: desc(postDishes.id),
+    with: {
+      postCart: {
+        where: eq(postCarts.userId, session?.user.id as number),
+      },
+    },
   });
 
   if (!post) {
@@ -54,6 +59,7 @@ export default async function PostPage({
             key={dish.id}
             postDish={dish}
             isAuthor={session?.user.id === post.users.id}
+            originalQuantity={dish.postCart[0]?.quantity}
           />
         ))}
       </GridContainer>
