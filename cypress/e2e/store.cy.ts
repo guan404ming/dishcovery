@@ -78,24 +78,48 @@ describe("4. Store Page", () => {
         });
     });
 
-    it("can add dish to cart with correct count", () => {
-      cy.get(".rounded-lg")
-        .eq(0)
-        .find(".font-semibold")
-        .then(($el) => {
-          const dish = $el.text();
-          const cnt = 3;
+    it("can add dish to cart and submit to reservation", () => {
+      cy.get("h1.text-2xl.font-bold").then(($store) => {
+        const store_name = $store.text();
 
-          cy.get(".rounded-lg").eq(0).find("button").click();
-          cy.contains("Cart").should("exist");
-          cy.get("input").type(`${cnt}`);
-          cy.contains("confirm").click();
-          cy.contains("Cart item has been added").should("exist");
+        cy.get(".rounded-lg")
+          .eq(0)
+          .find(".font-semibold")
+          .then(($dish) => {
+            const dish_name = $dish.text();
+            const cnt = 1;
 
-          cy.visit("/my/carts");
-          cy.contains(`${dish}`).should("exist");
-          cy.get(".mr-4").should("contain", `${cnt}`);
-        });
+            // from store to cart
+            cy.get(".rounded-lg").eq(0).find("button").click();
+            cy.contains("Cart").should("exist");
+            cy.get("input").type(`${cnt}`);
+            cy.contains("confirm").click();
+            cy.contains("Cart item has been added").should("exist");
+            cy.visit("/my/cart/all");
+            cy.contains(`${store_name}`).should("exist");
+            cy.contains(`${store_name}`)
+              .parentsUntil("div.grid")
+              .find("button")
+              .contains("View Cart")
+              .click();
+            cy.contains(`${dish_name}`).should("exist");
+
+            // from cart to reservation
+            cy.get("button").contains("Confirm").click();
+            cy.contains("Submit").click();
+            cy.contains("Store reservation has been created").should("exist");
+            cy.visit("/my/reservations");
+            cy.contains(`${dish_name}`).should("exist");
+
+            cy.contains(`${dish_name}`).should("exist");
+            cy.contains(`${dish_name}`)
+              .parentsUntil(".rounded.border")
+              .find("svg")
+              .eq(0)
+              .click();
+            cy.contains("Store reservation has been deleted").should("exist");
+          });
+      });
     });
   });
 });

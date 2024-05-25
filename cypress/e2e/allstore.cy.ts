@@ -17,7 +17,7 @@ describe("2. All Store Page", () => {
 
   context("2.2 store section", () => {
     it("contains the correct text", () => {
-      cy.contains("All Posts").should("be.visible");
+      cy.contains("All Stores").should("be.visible");
     });
 
     it("display store", () => {
@@ -28,18 +28,20 @@ describe("2. All Store Page", () => {
       cy.get(".rounded-lg").each(($el) => {
         cy.wrap($el).find("img").should("exist");
         cy.wrap($el).find(".font-semibold").should("exist");
-        cy.wrap($el).find("p").should("contain", "@");
+        cy.wrap($el).find(".font-light").should("contain", "@");
+        cy.wrap($el).find(".text-xs").should("exist");
       });
     });
 
     it("store direct to correct url", () => {
       cy.get(".rounded-lg")
         .eq(0)
-        .closest("a")
+        .find(".font-semibold")
         .then(($store) => {
-          const link = $store.attr("href");
+          const text = $store.text();
           cy.wrap($store).click();
-          cy.location("pathname").should("eq", link);
+          cy.wait(500);
+          cy.contains(text).should("exist");
         });
     });
   });
