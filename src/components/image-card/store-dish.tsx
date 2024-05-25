@@ -68,7 +68,8 @@ export default function StoreDish({
         </h1>
 
         <div className="flex items-center space-x-2 text-sm">
-          ${storeDish.price} · Remaining: {storeDish.quantity}
+          {!isAuthor &&
+            `$${storeDish.price} · Remaining: ${storeDish.quantity}`}
         </div>
 
         <span className="my-1 line-clamp-2 text-sm text-muted-foreground md:line-clamp-2">

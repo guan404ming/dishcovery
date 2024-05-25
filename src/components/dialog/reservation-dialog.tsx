@@ -75,7 +75,10 @@ export default function ReservationDialog({
                 numberRef.current > dishQuantity - (defaultQuantity || 0) ||
                 numberRef.current < 1
               ) {
-                if (dishQuantity === 0) {
+                if (
+                  dishQuantity === 0 ||
+                  dishQuantity - (defaultQuantity || 0)
+                ) {
                   setError("The dish is sold out");
                 } else {
                   setError(

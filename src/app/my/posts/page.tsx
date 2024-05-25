@@ -37,7 +37,7 @@ export default async function MyPostsPage() {
           <Separator className="md:hidden" />
           <GridContainer>
             {post.postDishes.map((postDish, index) => (
-              <PostDish key={index} postDish={postDish} isAuthor isCounter />
+              <PostDish key={index} postDish={postDish} isAuthor />
             ))}
           </GridContainer>
         </div>
