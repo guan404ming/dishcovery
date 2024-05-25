@@ -117,17 +117,17 @@ export default function usePost() {
     title,
     description,
     location,
-    name,
-    dishDescription,
-    quantity,
-    image,
+    dishes,
     lat,
     lng,
-  }: InsertPost &
-    InsertPostDish & { dishDescription?: string } & {
-      lat: number;
-      lng: number;
-    }) => {
+  }: InsertPost & {
+    dishes: {
+      dishName: string;
+      dishDescription?: string;
+      quantity: number;
+      url: string;
+    }[];
+  }) => {
     setLoading(true);
 
     const body = await handleFetch({
@@ -135,8 +135,6 @@ export default function usePost() {
         title,
         description,
         location,
-        name,
-        quantity,
         userId: session?.user?.id,
         lat,
         lng,
@@ -147,19 +145,21 @@ export default function usePost() {
       setLoading,
     });
 
-    await handleFetch({
-      data: {
-        postId: body.data.id,
-        name,
-        quantity,
-        description: dishDescription,
-        image,
-      },
-      method: "POST",
-      url: "/api/posts/post-dishes",
-      successMessage: "Post dish has been created.",
-      setLoading,
-    });
+    for (const dish of dishes) {
+      await handleFetch({
+        data: {
+          postId: body.data.id,
+          name: dish.dishName,
+          quantity: dish.quantity,
+          description: dish.dishDescription,
+          image: dish.url,
+        },
+        method: "POST",
+        url: "/api/posts/post-dishes",
+        successMessage: "Post dish has been created.",
+        setLoading,
+      });
+    }
     router.refresh();
   };
 
