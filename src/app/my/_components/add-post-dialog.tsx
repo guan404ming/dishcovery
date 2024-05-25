@@ -36,9 +36,10 @@ import LocationPicker from "./location-picker";
 
 export default function AddPostDialog() {
   const [open, setOpen] = useState<boolean>(false);
-  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
-    null,
-  );
+  const [location, setLocation] = useState<{ lat: number; lng: number }>({
+    lat: 25.0129,
+    lng: 121.5371,
+  });
 
   const formSchema = z.object({
     title: z.string().min(1),
