@@ -1,5 +1,7 @@
 "use client";
 
+import type { Dispatch, SetStateAction } from "react";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -16,6 +18,7 @@ export default function ImageCardPrimitive({
   counter,
   image,
   className,
+  setOpen,
 }: {
   children: React.ReactNode;
   href?: string;
@@ -28,22 +31,28 @@ export default function ImageCardPrimitive({
   };
   image: string;
   className?: string;
+  setOpen?: Dispatch<SetStateAction<boolean>>;
 }) {
   const router = useRouter();
-  const handleRouting = () => {
+  const handleClick = () => {
     if (href) {
       router.push(href);
     }
+
+    if (setOpen) {
+      setOpen((prev) => !prev);
+    }
+    console.log("clicked");
   };
 
   return (
     <>
       <Card
-        onClick={() => handleRouting()}
+        onClick={() => handleClick()}
         className={cn(
           className,
           "z-0 flex h-[120px] flex-nowrap text-center shadow-none max-md:border-none",
-          href && "cursor-pointer",
+          (href || setOpen) && "cursor-pointer",
         )}
       >
         <Image
