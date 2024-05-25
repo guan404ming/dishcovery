@@ -42,7 +42,6 @@ export default function ImageCardPrimitive({
     if (setOpen) {
       setOpen((prev) => !prev);
     }
-    console.log("clicked");
   };
 
   return (

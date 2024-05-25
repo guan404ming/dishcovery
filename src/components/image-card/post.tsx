@@ -9,12 +9,12 @@ import ImageCardPrimitive from "./image-card-primitive";
 export function Post({
   post,
 }: {
-  post: SelectPost & { postDishes: SelectPostDish };
+  post: SelectPost & { postDishes: SelectPostDish[] };
 }) {
   return (
     <ImageCardPrimitive
       href={`/post/${post.id}`}
-      image={post.postDishes?.image}
+      image={post.postDishes[0]?.image}
     >
       <h1 className="line-clamp-2 font-semibold">{post.title}</h1>
 

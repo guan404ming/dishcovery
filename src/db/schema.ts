@@ -114,12 +114,9 @@ export const posts = pgTable("posts", {
   lng: doublePrecision("lng").notNull(),
 });
 
-export const postsRelations = relations(posts, ({ one }) => {
+export const postsRelations = relations(posts, ({ many }) => {
   return {
-    postDishes: one(postDishes, {
-      fields: [posts.id],
-      references: [postDishes.postId],
-    }),
+    postDishes: many(postDishes),
   };
 });
 
@@ -134,6 +131,13 @@ export const postDishes = pgTable("post_dishes", {
   price: integer("price").default(0).notNull(),
   image: varchar("image").notNull(),
 });
+
+export const postDishesRelations = relations(postDishes, ({ one }) => ({
+  post: one(posts, {
+    fields: [postDishes.postId],
+    references: [posts.id],
+  }),
+}));
 
 export const postReservations = pgTable("post_reservations", {
   id: serial("id").primaryKey(),

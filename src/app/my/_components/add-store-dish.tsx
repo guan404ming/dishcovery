@@ -57,7 +57,6 @@ export default function AddStoreDishDialog({ storeId }: DialogProps) {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values, storeId, url);
     if (!url) return;
     createStoreDish({
       ...values,

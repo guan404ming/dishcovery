@@ -22,7 +22,6 @@ function LocationPicker({ setLocation }: LocationPickerProps) {
       };
       setMarkerPosition(newPosition);
       setLocation(newPosition);
-      console.log(newPosition);
     }
   };
 

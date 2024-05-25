@@ -38,7 +38,6 @@ export default function PostDish({
   const { updatePostDish, deletePost } = usePost();
   const [reserve, setReserve] = useState(false);
   const router = useRouter();
-  console.log(reserve);
 
   return (
     <>
@@ -120,7 +119,7 @@ export default function PostDish({
         <div className="flex items-center space-x-2 text-sm">
           <span>
             {postDish.price !== 0 ? `$${postDish.price}` : "free"}
-            <span> · Remaining: {postDish.quantity}</span>
+            {!isAuthor && <span> · Remaining: {postDish.quantity}</span>}
           </span>
         </div>
 

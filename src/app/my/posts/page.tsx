@@ -6,11 +6,12 @@ import { eq } from "drizzle-orm";
 import UnauthorizedPage from "@/app/unauthorized";
 import GridContainer from "@/components/grid-container";
 import PostDish from "@/components/image-card/post-dish";
+import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { posts } from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 
-export default async function MyReservationsPage() {
+export default async function MyPostsPage() {
   const session = await getServerSession(authOptions);
   if (!session) return <UnauthorizedPage />;
 
@@ -30,11 +31,17 @@ export default async function MyReservationsPage() {
         <AddPostDialog />
       </div>
 
-      <GridContainer>
-        {postList.map((post, index) => (
-          <PostDish key={index} postDish={post.postDishes} isAuthor isCounter />
-        ))}
-      </GridContainer>
+      {postList.map((post) => (
+        <div key={post.id} className="space-y-4 rounded border p-5 shadow">
+          <div className="text-lg font-semibold">{post.title}</div>
+          <Separator className="md:hidden" />
+          <GridContainer>
+            {post.postDishes.map((postDish, index) => (
+              <PostDish key={index} postDish={postDish} isAuthor isCounter />
+            ))}
+          </GridContainer>
+        </div>
+      ))}
     </>
   );
 }

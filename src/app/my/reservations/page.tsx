@@ -79,7 +79,10 @@ export default async function MyReservationsPage() {
         <>
           <h1 className="text-xl font-semibold">Post Reservations</h1>
           {uniquePosts.map((post) => (
-            <div key={post.id} className="space-y-4 rounded border p-6">
+            <div
+              key={post.id}
+              className="space-y-4 rounded border p-5 shadow-sm"
+            >
               <div className="text-lg font-semibold">{post.title}</div>
               <Separator />
               <GridContainer>
@@ -107,7 +110,10 @@ export default async function MyReservationsPage() {
         <>
           <h1 className="text-xl font-semibold">Store Reservations</h1>
           {uniqueStores.map((store) => (
-            <div key={store.id} className="space-y-4 rounded border p-6">
+            <div
+              key={store.id}
+              className="space-y-4 rounded border p-5 shadow-sm"
+            >
               <div className="text-lg font-semibold">{store.name}</div>
               <Separator />
               <GridContainer>
