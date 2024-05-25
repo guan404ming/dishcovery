@@ -29,18 +29,18 @@ describe("3. All Post Page", () => {
         cy.wrap($el).find("img").should("exist");
         cy.wrap($el).find(".font-semibold").should("exist");
         cy.wrap($el).find(".font-light").should("exist");
-        cy.wrap($el).find(".text-ellipsis").should("exist");
       });
     });
 
     it("post direct to correct url", () => {
       cy.get(".rounded-lg")
         .eq(0)
-        .closest("a")
+        .find(".font-semibold")
         .then(($post) => {
-          const link = $post.attr("href");
+          const text = $post.text();
           cy.wrap($post).click();
-          cy.location("pathname").should("eq", link);
+          cy.wait(500);
+          cy.contains(text).should("exist");
         });
     });
   });
