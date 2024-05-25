@@ -1,6 +1,11 @@
-xdescribe("1. Home Page", () => {
+describe("1. Home Page", () => {
   beforeEach(() => {
     cy.viewport(375, 464);
+    cy.visit("/");
+
+    cy.session("login", () => {
+      cy.login();
+    });
     cy.visit("/");
   });
 
@@ -21,8 +26,9 @@ xdescribe("1. Home Page", () => {
       cy.contains("My Account").should("be.visible");
       cy.get("[role=menuitem]").eq(0).should("contain", "Info");
       cy.get("[role=menuitem]").eq(1).should("contain", "Cart");
-      cy.get("[role=menuitem]").eq(2).should("contain", "Collection");
-      cy.get("[role=menuitem]").eq(3).should("contain", "Logout");
+      cy.get("[role=menuitem]").eq(2).should("contain", "Reservation");
+      cy.get("[role=menuitem]").eq(3).should("contain", "Collection");
+      cy.get("[role=menuitem]").eq(4).should("contain", "Logout");
     });
 
     it("menu bar can be closed", () => {
@@ -46,69 +52,86 @@ xdescribe("1. Home Page", () => {
   });
 
   context("1.3 search section", () => {
+    it("can search for stores and posts", () => {
+      cy.contains("Search in Dishcovery").click();
+      cy.get("[role=dialog]").should("have.attr", "data-state", "open");
+      cy.get("input").type("pizza");
+      cy.get(".cursor-pointer.items-center").should("have.length", 2);
+    });
+  });
+
+  context("1.4 map section", () => {
     it("contains the correct text", () => {
       cy.contains("What are you looking for?").should("be.visible");
     });
 
-    it("See All button contains text and icon", () => {
-      cy.contains("What are you looking for?").next().as("btn");
-
-      cy.get("@btn").should("contain", "See All");
-      cy.get("@btn").find("svg").should("exist");
-    });
-
     it("display map", () => {
-      cy.get(".aspect-square").should("be.visible");
+      cy.get("div[aria-label=地圖]").should("be.visible");
     });
   });
 
-  context("1.4 popular section", () => {
+  context("1.5 store section", () => {
     it("contains the correct text", () => {
-      cy.contains("Popular").should("be.visible");
+      cy.contains("Popular Stores").should("be.visible");
     });
 
     it("See All button contains text and icon", () => {
-      cy.contains("Popular").next().as("btn");
+      cy.contains("Popular Stores").next().as("btn");
 
       cy.get("@btn").should("contain", "See All");
       cy.get("@btn").find("svg").should("exist");
     });
 
-    it("display dish", () => {
-      cy.get(".cursor-pointer.flex-col").should("have.length.gte", 5);
+    it("See All button direct to correct url", () => {
+      cy.contains("Popular Stores").next().as("btn");
 
-      cy.get(".cursor-pointer.flex-col").each(($el) => {
-        cy.wrap($el).find("img").should("exist");
-        cy.wrap($el).find(".font-semibold").should("exist");
-        cy.wrap($el)
-          .find(".font-normal")
-          .should("contain", "$")
-          .and("contain", "left");
-      });
+      cy.get("@btn").click();
+      cy.location("pathname").should("eq", "/store/all");
+    });
+
+    it("display stores", () => {
+      cy.get(".cursor-pointer.flex-col").should("have.length.gte", 1);
+
+      cy.get(".cursor-pointer.flex-col")
+        .eq(0)
+        .then(($el) => {
+          cy.wrap($el).find("img").should("exist");
+          cy.wrap($el).find(".font-medium").should("exist");
+          cy.wrap($el).find(".font-light").should("exist");
+        });
     });
   });
 
-  context("1.5 post section", () => {
+  context("1.6 post section", () => {
     it("contains the correct text", () => {
-      cy.contains("Post").should("be.visible");
+      cy.contains("Posts").should("be.visible");
     });
 
     it("See All button contains text and icon", () => {
-      cy.contains("Post").next().as("btn");
+      cy.contains("Posts").next().as("btn");
 
       cy.get("@btn").should("contain", "See All");
       cy.get("@btn").find("svg").should("exist");
     });
 
-    it("display dish", () => {
-      cy.get(".cursor-pointer.flex-row").should("have.length.gte", 5);
+    it("See All button direct to correct url", () => {
+      cy.contains("Posts").next().as("btn");
 
-      cy.get(".cursor-pointer.flex-row").each(($el) => {
-        cy.wrap($el).find("img").should("exist");
-        cy.wrap($el).find(".mb-1").should("exist");
-        cy.wrap($el).find(".font-light").should("contain", "Remaining");
-        cy.wrap($el).find(".font-normal").should("exist");
-      });
+      cy.get("@btn").click();
+      cy.location("pathname").should("eq", "/post/all");
+    });
+
+    it("display post", () => {
+      cy.get(".cursor-pointer.text-center").should("have.length.gte", 1);
+
+      cy.get(".cursor-pointer.text-center")
+        .eq(0)
+        .then(($el) => {
+          cy.wrap($el).find("img").should("exist");
+          cy.wrap($el).find(".font-semibold").should("exist");
+          cy.wrap($el).find(".font-light").should("exist");
+          cy.wrap($el).find(".text-xs").should("exist");
+        });
     });
   });
 });
