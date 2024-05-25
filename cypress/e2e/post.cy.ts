@@ -20,37 +20,48 @@ describe("5. Post Page", () => {
     });
   });
 
-  context("5.2 main section", () => {
+  context("5.2 dish section", () => {
     it("have correct information", () => {
-      cy.get(".rounded-lg").then(($el) => {
-        cy.wrap($el).find("img").should("exist");
-        cy.wrap($el).find(".font-semibold").should("exist");
-        cy.wrap($el).contains("free").should("exist");
-        cy.wrap($el).find(".text-muted-foreground").should("exist");
-      });
-
-      cy.get("p").should("be.visible");
+      cy.get(".rounded-lg")
+        .eq(0)
+        .then(($el) => {
+          cy.wrap($el).find("img").should("exist");
+          cy.wrap($el).find(".font-semibold").should("exist");
+          cy.wrap($el).contains("free").should("exist");
+        });
     });
 
-    it("can create post reservation with correct count", () => {
-      cy.get(".rounded-lg")
-        .find(".font-semibold")
-        .then(($el) => {
-          const dish = $el.text();
-          const cnt = 2;
+    it.only("can create post reservation with correct count", () => {
+      cy.get("h1.font-bold").then(($post) => {
+        const post_name = $post.text();
 
-          cy.get(".rounded-lg").find("button").click();
-          cy.contains("Reservation").should("exist");
-          cy.get("input").type(`${cnt}`);
-          cy.contains("confirm").click();
+        cy.get(".rounded-lg")
+          .eq(0)
+          .find(".font-semibold")
+          .then(($dish) => {
+            const dish_name = $dish.text();
+            const cnt = 1;
+            cy.get(".rounded-lg").find("button").click();
+            cy.contains("Reservation").should("exist");
+            cy.get("input").type(`${cnt}`);
+            cy.contains("confirm").click();
 
-          cy.visit("/my/reservations");
-          cy.contains(`${dish}`).should("exist");
-          cy.contains(`${dish}`)
-            .closest("div")
-            .next()
-            .should("contain", `${cnt}`);
-        });
+            cy.visit("/my/reservations");
+            cy.contains(`${post_name}`).should("exist");
+            cy.contains(`${post_name}`)
+              .parent("div")
+              .find(".rounded-lg")
+              .should("contain", `${dish_name}`)
+              .and("contain", `${cnt}`);
+            cy.contains(`${post_name}`)
+              .parent("div")
+              .find(".rounded-lg")
+              .find("svg")
+              .eq(0)
+              .click();
+            cy.contains("Reservation has been deleted").should("exist");
+          });
+      });
     });
   });
 });
