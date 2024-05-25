@@ -16,7 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useCart from "@/hooks/use-cart";
-import usePost from "@/hooks/use-post";
 import { cn } from "@/lib/utils";
 
 import LoginDialog from "./login-dialog";
@@ -39,7 +38,6 @@ export default function ReservationDialog({
   onOpenChange,
 }: DialogProps) {
   const numberRef = useRef<number>(0);
-  const { createPostReservation } = usePost();
   const { addToCart } = useCart();
   const pathname = usePathname();
   const { data: session } = useSession();
@@ -107,11 +105,7 @@ export default function ReservationDialog({
               onOpenChange(!open);
               setError("");
               if (pathname.includes("post")) {
-                createPostReservation({
-                  postDishId: dishId,
-                  quantity: numberRef.current,
-                  dishQuantity,
-                });
+                addToCart(dishId, numberRef.current, true);
               } else {
                 addToCart(dishId, numberRef.current);
               }

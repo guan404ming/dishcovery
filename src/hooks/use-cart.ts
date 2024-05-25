@@ -29,7 +29,7 @@ export default function useCart() {
     await handleFetch({
       data: {
         storeDishId: id,
-        postId: id,
+        postDishId: id,
         quantity,
         userId: session?.user?.id,
       },
