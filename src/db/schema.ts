@@ -250,3 +250,31 @@ export const cartsRelations = relations(carts, ({ one }) => ({
     references: [users.id],
   }),
 }));
+
+export const postCarts = pgTable(
+  "post_carts",
+  {
+    id: serial("id"),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id),
+    postDishId: integer("post_dish_id")
+      .notNull()
+      .references(() => postDishes.id),
+    quantity: integer("quantity").notNull().default(1),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.userId, t.postDishId] }),
+  }),
+);
+
+export const postCartsRelations = relations(postCarts, ({ one }) => ({
+  postDish: one(storeDishes, {
+    fields: [postCarts.postDishId],
+    references: [storeDishes.id],
+  }),
+  user: one(users, {
+    fields: [postCarts.userId],
+    references: [users.id],
+  }),
+}));

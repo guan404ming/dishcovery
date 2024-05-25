@@ -10,14 +10,14 @@ export default function useCart() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const updateCart = async (id: number, quantity: number) => {
+  const updateCart = async (id: number, quantity: number, isPost?: boolean) => {
     if (quantity === 0) {
       removeFromCart(id);
     } else {
       await handleFetch({
         data: { id, quantity },
         method: "PUT",
-        url: `/api/carts`,
+        url: isPost ? `/api/posts/post-carts` : `/api/carts`,
         successMessage: "Cart item quantity has been updated.",
         setLoading,
       });
@@ -25,22 +25,31 @@ export default function useCart() {
     router.refresh();
   };
 
-  const addToCart = async (storeDishId: number, quantity: number) => {
+  const addToCart = async (id: number, quantity: number, isPost?: boolean) => {
     await handleFetch({
-      data: { storeDishId, quantity, userId: session?.user?.id },
+      data: {
+        storeDishId: id,
+        postId: id,
+        quantity,
+        userId: session?.user?.id,
+      },
       method: "POST",
-      url: `/api/carts`,
+      url: isPost ? `/api/posts/post-carts` : `/api/carts`,
       successMessage: "Cart item has been added.",
       setLoading,
     });
     router.refresh();
   };
 
-  const removeFromCart = async (id: number, isClearCart?: boolean) => {
+  const removeFromCart = async (
+    id: number,
+    isClearCart?: boolean,
+    isPost?: boolean,
+  ) => {
     await handleFetch({
       data: { id },
       method: "DELETE",
-      url: `/api/carts`,
+      url: isPost ? `/api/posts/post-carts` : `/api/carts`,
       successMessage: !isClearCart ? "Cart item has been removed." : undefined,
       setLoading,
     });

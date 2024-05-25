@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth";
 
+import CartPostItem from "../_components/cart-post-item";
 import CartStoreItem from "../_components/cart-store-item";
 import { eq } from "drizzle-orm";
 import { ShoppingCart } from "lucide-react";
@@ -7,7 +8,14 @@ import { ShoppingCart } from "lucide-react";
 import UnauthorizedPage from "@/app/unauthorized";
 import GridContainer from "@/components/grid-container";
 import { db } from "@/db";
-import { carts, storeDishes, stores } from "@/db/schema";
+import {
+  carts,
+  postCarts,
+  postDishes,
+  posts,
+  storeDishes,
+  stores,
+} from "@/db/schema";
 import { authOptions } from "@/lib/auth-options";
 
 export default async function MyAllCartPage() {
@@ -18,7 +26,7 @@ export default async function MyAllCartPage() {
     return <UnauthorizedPage />;
   }
 
-  const cartItem = await db
+  const storeList = await db
     .selectDistinct({
       stores,
     })
@@ -27,7 +35,16 @@ export default async function MyAllCartPage() {
     .innerJoin(storeDishes, eq(storeDishes.id, carts.storeDishId))
     .innerJoin(stores, eq(stores.id, storeDishes.storeId));
 
-  if (cartItem.length === 0) {
+  const postList = await db
+    .selectDistinct({
+      posts,
+    })
+    .from(postCarts)
+    .where(eq(postCarts.userId, session.user.id))
+    .innerJoin(postDishes, eq(postDishes.id, postCarts.postDishId))
+    .innerJoin(posts, eq(posts.id, postDishes.postId));
+
+  if (storeList.length + postList.length === 0) {
     return (
       <div className="flex flex-grow flex-col items-center justify-center space-y-4 text-center text-xl font-semibold">
         <ShoppingCart size={40} />
@@ -41,8 +58,11 @@ export default async function MyAllCartPage() {
       <p className="text-xl font-bold">Cart</p>
 
       <GridContainer>
-        {cartItem.map((cartItem) => (
-          <CartStoreItem key={cartItem.stores.id} store={cartItem.stores} />
+        {storeList.map((store) => (
+          <CartStoreItem key={store.stores.id} store={store.stores} />
+        ))}
+        {postList.map((post) => (
+          <CartPostItem key={post.posts.id} post={post.posts} />
         ))}
       </GridContainer>
     </>

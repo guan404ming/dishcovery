@@ -23,6 +23,7 @@ export default function CartItem({
   price,
   image,
   dishQuantity,
+  isPost,
 }: {
   id: number;
   name: string;
@@ -30,17 +31,16 @@ export default function CartItem({
   price: number;
   image: string;
   dishQuantity: number;
+  isPost?: boolean;
 }) {
   const { updateCart, removeFromCart } = useCart();
-  const handleUpdateCart = async (number: number) => {
-    await updateCart(id, number);
-  };
 
   return (
     <ImageCardPrimitive
       counter={{
         amount: quantity,
-        setAmount: handleUpdateCart,
+        setAmount: async (number: number) =>
+          await updateCart(id, number, isPost),
         maxAmount: dishQuantity - quantity,
       }}
       image={image}
@@ -70,7 +70,7 @@ export default function CartItem({
             <Button
               variant={"destructive"}
               onClick={() => {
-                removeFromCart(id);
+                removeFromCart(id, false, isPost);
               }}
             >
               Delete

@@ -14,28 +14,40 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import useCart from "@/hooks/use-cart";
+import usePost from "@/hooks/use-post";
 import useStore from "@/hooks/use-store";
 
 function ConfirmButton({
   cartItem,
+  isPost,
 }: {
   cartItem: {
     storeDishes: { id: number; quantity: number };
     carts: { quantity: number; id: number };
   }[];
+  isPost?: boolean;
 }) {
   const { createStoreReservation } = useStore();
+  const { createPostReservation } = usePost();
   const { removeFromCart } = useCart();
   const router = useRouter();
 
   async function handleConfirm() {
     cartItem.forEach(async (cartItem) => {
-      await createStoreReservation({
-        storeDishId: cartItem.storeDishes.id,
-        quantity: cartItem.carts.quantity,
-        dishQuantity: cartItem.storeDishes.quantity,
-      });
-      await removeFromCart(cartItem.carts.id, true);
+      if (isPost) {
+        await createPostReservation({
+          postDishId: cartItem.storeDishes.id,
+          quantity: cartItem.carts.quantity,
+          dishQuantity: cartItem.storeDishes.quantity,
+        });
+      } else {
+        await createStoreReservation({
+          storeDishId: cartItem.storeDishes.id,
+          quantity: cartItem.carts.quantity,
+          dishQuantity: cartItem.storeDishes.quantity,
+        });
+      }
+      await removeFromCart(cartItem.carts.id, true, isPost);
     });
     router.push("/my/reservations");
   }
