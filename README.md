@@ -1,4 +1,7 @@
 # Dishcovery 🍽️
+<p align="center">
+  <img width="375" alt="Screen Shot 2024-08-06 at 4 08 34 PM" src="https://github.com/user-attachments/assets/4d0e882a-5178-4680-86a2-7f53d9f1e0fc">
+</p>
 
 - We have created a community-driven platform dedicated to reducing food waste. On this website, users can:
 
