@@ -1,4 +1,8 @@
 # Dishcovery 🍽️
+
+[![Lint Tests](https://github.com/guan404ming/dishcovery/actions/workflows/code-check.yml/badge.svg)](https://github.com/guan404ming/dishcovery/actions/workflows/code-check.yml)
+[![Lint Tests](https://github.com/guan404ming/dishcovery/actions/workflows/test.yml/badge.svg)](https://github.com/guan404ming/dishcovery/actions/workflows/test.yml)
+
 <p align="center">
   <img width="375" alt="Screen Shot 2024-08-06 at 4 08 34 PM" src="https://github.com/user-attachments/assets/4d0e882a-5178-4680-86a2-7f53d9f1e0fc">
 </p>
